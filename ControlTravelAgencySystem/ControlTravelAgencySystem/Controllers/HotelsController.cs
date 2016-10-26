@@ -11,6 +11,7 @@ namespace ControlTravelAgencySystem.Controllers
     public class HotelsController : Controller
     {
         private readonly TravelSystemEntities _dbContext;
+
         public HotelsController(TravelSystemEntities dbContext)
         {
             _dbContext = dbContext;
@@ -65,7 +66,7 @@ namespace ControlTravelAgencySystem.Controllers
             if (h != null)
                 tourName = h.name;
 
-            ViewBag.TourName = tourName;
+            viewModel.TourName = tourName;
 
             return View(viewModel);
         }
