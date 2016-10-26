@@ -1,0 +1,1965 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="travel_systemModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="airline">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="airport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="city_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="airseat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="flight_id" Type="int" Nullable="false" />
+          <Property Name="class" Type="enum" Nullable="false" />
+        </EntityType>
+        <EntityType Name="airticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="flight_id" Type="int" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="person_id" Type="int" />
+          <Property Name="departure_at" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
+          <Property Name="payment" Type="int" Nullable="false" />
+          <Property Name="is_baggage" Type="int" Nullable="false" />
+          <Property Name="is_baby" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="callout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
+          <Property Name="cancellation_at" Type="int" />
+          <Property Name="fullname" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+          <Property Name="phone" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="callout_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="person_id" Type="int" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
+          <Property Name="payment" Type="int" Nullable="false" />
+          <Property Name="payment_at" Type="int" />
+          <Property Name="is_discount" Type="int" Nullable="false" />
+          <Property Name="canceling_at" Type="int" />
+          <Property Name="status" Type="enum" Nullable="false" />
+        </EntityType>
+        <EntityType Name="callout_room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="room_id" Type="int" Nullable="false" />
+          <Property Name="start_living_at" Type="int" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="country_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="person_id" Type="int" Nullable="false" />
+          <Property Name="position" Type="enum" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
+          <Property Name="salary" Type="int" />
+        </EntityType>
+        <EntityType Name="excursion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="cost" Type="int" Nullable="false" />
+          <Property Name="description" Type="text" Nullable="false" />
+          <Property Name="starting_time" Type="time" Precision="0" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="city_id" Type="int" />
+        </EntityType>
+        <EntityType Name="excursion_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="excursion_id" Type="int" Nullable="false" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="payment" Type="int" Nullable="false" />
+          <Property Name="starting_address" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="starting_at" Type="int" Nullable="false" />
+          <Property Name="is_baby" Type="int" Nullable="false" />
+          <Property Name="is_privilege" Type="int" Nullable="false" />
+          <Property Name="is_custom" Type="int" Nullable="false" />
+          <Property Name="bus_place_number" Type="int" />
+        </EntityType>
+        <EntityType Name="flight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="airline_id" Type="int" />
+          <Property Name="code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="from_airport_id" Type="int" Nullable="false" />
+          <Property Name="to_airport_id" Type="int" Nullable="false" />
+          <Property Name="flight_at" Type="int" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="cost" Type="int" Nullable="false" />
+          <Property Name="total_seats" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="food">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="description" Type="text" Nullable="false" />
+          <Property Name="how_many_in_day" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hotel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tour_id" Type="int" />
+          <Property Name="city_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="stars_number" Type="int" Nullable="false" />
+          <Property Name="distance_to_beach" Type="int" />
+          <Property Name="food_id" Type="int" />
+        </EntityType>
+        <EntityType Name="hotel_service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hotel_id" Type="int" />
+          <Property Name="description" Type="text" Nullable="false" />
+          <Property Name="cost_per_min" Type="int" Nullable="false" />
+          <Property Name="starting_time" Type="time" Precision="0" />
+        </EntityType>
+        <EntityType Name="hotel_service_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hotel_service_id" Type="int" Nullable="false" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="room_id" Type="int" />
+          <Property Name="payment" Type="int" Nullable="false" />
+          <Property Name="provision_at" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="birthday_at" Type="int" Nullable="false" />
+          <Property Name="passport_code" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="hotel_id" Type="int" Nullable="false" />
+          <Property Name="cost_per_day" Type="int" Nullable="false" />
+          <Property Name="class" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="seats_number" Type="int" Nullable="false" />
+          <Property Name="room_size" Type="int" />
+          <Property Name="description" Type="text" />
+        </EntityType>
+        <EntityType Name="route">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="enum" Nullable="false" />
+          <Property Name="from_airport_id" Type="int" />
+          <Property Name="to_airport_id" Type="int" />
+          <Property Name="starting_address" Type="varchar" MaxLength="150" />
+          <Property Name="starting_time" Type="time" Precision="0" Nullable="false" />
+          <Property Name="final_address" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="total_seats" Type="int" Nullable="false" />
+          <Property Name="distance" Type="int" />
+          <Property Name="cost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tour">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="country_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transfer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="route_id" Type="int" />
+          <Property Name="callout_id" Type="int" Nullable="false" />
+          <Property Name="person_id" Type="int" />
+          <Property Name="starting_date" Type="date" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
+          <Property Name="payment" Type="int" Nullable="false" />
+          <Property Name="is_baggage" Type="int" Nullable="false" />
+          <Property Name="is_baby" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="airport_ibfk_1">
+          <End Role="city" Type="Self.city" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="airport" Type="Self.airport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airport">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airseat_ibfk_1">
+          <End Role="flight" Type="Self.flight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="airseat" Type="Self.airseat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airseat">
+              <PropertyRef Name="flight_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_1">
+          <End Role="flight" Type="Self.flight" Multiplicity="0..1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="flight_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_2">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_3">
+          <End Role="person" Type="Self.person" Multiplicity="0..1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_1">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_2">
+          <End Role="person" Type="Self.person" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_3">
+          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_room_ibfk_1">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="callout_room" Type="Self.callout_room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_room">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_room_ibfk_2">
+          <End Role="room" Type="Self.room" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="callout_room" Type="Self.callout_room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_room">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="city_ibfk_1">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="city" Type="Self.city" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="city">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="employee_ibfk_1">
+          <End Role="person" Type="Self.person" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_ibfk_1">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="excursion" Type="Self.excursion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_order_ibfk_1">
+          <End Role="excursion" Type="Self.excursion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="excursion_order" Type="Self.excursion_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="excursion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion_order">
+              <PropertyRef Name="excursion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_order_ibfk_3">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="excursion_order" Type="Self.excursion_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="flight_ibfk_1">
+          <End Role="airline" Type="Self.airline" Multiplicity="0..1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airline">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="airline_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="flight_ibfk_4">
+          <End Role="airport" Type="Self.airport" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="from_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="flight_ibfk_5">
+          <End Role="airport" Type="Self.airport" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="to_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_1">
+          <End Role="tour" Type="Self.tour" Multiplicity="0..1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tour">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="tour_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_2">
+          <End Role="food" Type="Self.food" Multiplicity="0..1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_3">
+          <End Role="city" Type="Self.city" Multiplicity="1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_ibfk_1">
+          <End Role="hotel" Type="Self.hotel" Multiplicity="0..1" />
+          <End Role="hotel_service" Type="Self.hotel_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service">
+              <PropertyRef Name="hotel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_1">
+          <End Role="hotel_service" Type="Self.hotel_service" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel_service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="hotel_service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_2">
+          <End Role="room" Type="Self.room" Multiplicity="0..1" />
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_3">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="room_ibfk_1">
+          <End Role="hotel" Type="Self.hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="room" Type="Self.room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room">
+              <PropertyRef Name="hotel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="route_ibfk_1">
+          <End Role="airport" Type="Self.airport" Multiplicity="0..1" />
+          <End Role="route" Type="Self.route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="route">
+              <PropertyRef Name="from_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="route_ibfk_2">
+          <End Role="airport" Type="Self.airport" Multiplicity="0..1" />
+          <End Role="route" Type="Self.route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="route">
+              <PropertyRef Name="to_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tour_ibfk_1">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="tour" Type="Self.tour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tour">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_1">
+          <End Role="route" Type="Self.route" Multiplicity="0..1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="route">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="route_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_2">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_3">
+          <End Role="person" Type="Self.person" Multiplicity="0..1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="travel_systemModelStoreContainer">
+          <EntitySet Name="airline" EntityType="Self.airline" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="airport" EntityType="Self.airport" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="airseat" EntityType="Self.airseat" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="airticket" EntityType="Self.airticket" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="callout" EntityType="Self.callout" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="callout_order" EntityType="Self.callout_order" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="callout_room" EntityType="Self.callout_room" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="city" EntityType="Self.city" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="country" EntityType="Self.country" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="excursion" EntityType="Self.excursion" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="excursion_order" EntityType="Self.excursion_order" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="flight" EntityType="Self.flight" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="food" EntityType="Self.food" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="hotel" EntityType="Self.hotel" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="hotel_service" EntityType="Self.hotel_service" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="hotel_service_order" EntityType="Self.hotel_service_order" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="person" EntityType="Self.person" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="room" EntityType="Self.room" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="route" EntityType="Self.route" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="tour" EntityType="Self.tour" Schema="travel_system" store:Type="Tables" />
+          <EntitySet Name="transfer" EntityType="Self.transfer" Schema="travel_system" store:Type="Tables" />
+          <AssociationSet Name="airport_ibfk_1" Association="Self.airport_ibfk_1">
+            <End Role="city" EntitySet="city" />
+            <End Role="airport" EntitySet="airport" />
+          </AssociationSet>
+          <AssociationSet Name="airseat_ibfk_1" Association="Self.airseat_ibfk_1">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="airseat" EntitySet="airseat" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_1" Association="Self.airticket_ibfk_1">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="airticket" EntitySet="airticket" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_2" Association="Self.airticket_ibfk_2">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="airticket" EntitySet="airticket" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_3" Association="Self.airticket_ibfk_3">
+            <End Role="person" EntitySet="person" />
+            <End Role="airticket" EntitySet="airticket" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_1" Association="Self.callout_order_ibfk_1">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_2" Association="Self.callout_order_ibfk_2">
+            <End Role="person" EntitySet="person" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_3" Association="Self.callout_order_ibfk_3">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_room_ibfk_1" Association="Self.callout_room_ibfk_1">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="callout_room" EntitySet="callout_room" />
+          </AssociationSet>
+          <AssociationSet Name="callout_room_ibfk_2" Association="Self.callout_room_ibfk_2">
+            <End Role="room" EntitySet="room" />
+            <End Role="callout_room" EntitySet="callout_room" />
+          </AssociationSet>
+          <AssociationSet Name="city_ibfk_1" Association="Self.city_ibfk_1">
+            <End Role="country" EntitySet="country" />
+            <End Role="city" EntitySet="city" />
+          </AssociationSet>
+          <AssociationSet Name="employee_ibfk_1" Association="Self.employee_ibfk_1">
+            <End Role="person" EntitySet="person" />
+            <End Role="employee" EntitySet="employee" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_ibfk_1" Association="Self.excursion_ibfk_1">
+            <End Role="city" EntitySet="city" />
+            <End Role="excursion" EntitySet="excursion" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_order_ibfk_1" Association="Self.excursion_order_ibfk_1">
+            <End Role="excursion" EntitySet="excursion" />
+            <End Role="excursion_order" EntitySet="excursion_order" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_order_ibfk_3" Association="Self.excursion_order_ibfk_3">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="excursion_order" EntitySet="excursion_order" />
+          </AssociationSet>
+          <AssociationSet Name="flight_ibfk_1" Association="Self.flight_ibfk_1">
+            <End Role="airline" EntitySet="airline" />
+            <End Role="flight" EntitySet="flight" />
+          </AssociationSet>
+          <AssociationSet Name="flight_ibfk_4" Association="Self.flight_ibfk_4">
+            <End Role="airport" EntitySet="airport" />
+            <End Role="flight" EntitySet="flight" />
+          </AssociationSet>
+          <AssociationSet Name="flight_ibfk_5" Association="Self.flight_ibfk_5">
+            <End Role="airport" EntitySet="airport" />
+            <End Role="flight" EntitySet="flight" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_1" Association="Self.hotel_ibfk_1">
+            <End Role="tour" EntitySet="tour" />
+            <End Role="hotel" EntitySet="hotel" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_2" Association="Self.hotel_ibfk_2">
+            <End Role="food" EntitySet="food" />
+            <End Role="hotel" EntitySet="hotel" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_3" Association="Self.hotel_ibfk_3">
+            <End Role="city" EntitySet="city" />
+            <End Role="hotel" EntitySet="hotel" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_ibfk_1" Association="Self.hotel_service_ibfk_1">
+            <End Role="hotel" EntitySet="hotel" />
+            <End Role="hotel_service" EntitySet="hotel_service" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_1" Association="Self.hotel_service_order_ibfk_1">
+            <End Role="hotel_service" EntitySet="hotel_service" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_2" Association="Self.hotel_service_order_ibfk_2">
+            <End Role="room" EntitySet="room" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_3" Association="Self.hotel_service_order_ibfk_3">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="room_ibfk_1" Association="Self.room_ibfk_1">
+            <End Role="hotel" EntitySet="hotel" />
+            <End Role="room" EntitySet="room" />
+          </AssociationSet>
+          <AssociationSet Name="route_ibfk_1" Association="Self.route_ibfk_1">
+            <End Role="airport" EntitySet="airport" />
+            <End Role="route" EntitySet="route" />
+          </AssociationSet>
+          <AssociationSet Name="route_ibfk_2" Association="Self.route_ibfk_2">
+            <End Role="airport" EntitySet="airport" />
+            <End Role="route" EntitySet="route" />
+          </AssociationSet>
+          <AssociationSet Name="tour_ibfk_1" Association="Self.tour_ibfk_1">
+            <End Role="country" EntitySet="country" />
+            <End Role="tour" EntitySet="tour" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_1" Association="Self.transfer_ibfk_1">
+            <End Role="route" EntitySet="route" />
+            <End Role="transfer" EntitySet="transfer" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_2" Association="Self.transfer_ibfk_2">
+            <End Role="callout" EntitySet="callout" />
+            <End Role="transfer" EntitySet="transfer" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_3" Association="Self.transfer_ibfk_3">
+            <End Role="person" EntitySet="person" />
+            <End Role="transfer" EntitySet="transfer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="travel_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="airline">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="flights" Relationship="Self.flight_ibfk_1" FromRole="airline" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="airport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="city_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="city" Relationship="Self.airport_ibfk_1" FromRole="airport" ToRole="city" />
+          <NavigationProperty Name="flights" Relationship="Self.flight_ibfk_4" FromRole="airport" ToRole="flight" />
+          <NavigationProperty Name="flights1" Relationship="Self.flight_ibfk_5" FromRole="airport" ToRole="flight" />
+          <NavigationProperty Name="routes" Relationship="Self.route_ibfk_1" FromRole="airport" ToRole="route" />
+          <NavigationProperty Name="routes1" Relationship="Self.route_ibfk_2" FromRole="airport" ToRole="route" />
+        </EntityType>
+        <EntityType Name="airseat">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="flight_id" Type="Int32" Nullable="false" />
+          <Property Name="class" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="flight" Relationship="Self.airseat_ibfk_1" FromRole="airseat" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="airticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="flight_id" Type="Int32" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="person_id" Type="Int32" />
+          <Property Name="departure_at" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
+          <Property Name="payment" Type="Int32" Nullable="false" />
+          <Property Name="is_baggage" Type="Int32" Nullable="false" />
+          <Property Name="is_baby" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="flight" Relationship="Self.airticket_ibfk_1" FromRole="airticket" ToRole="flight" />
+          <NavigationProperty Name="callout" Relationship="Self.airticket_ibfk_2" FromRole="airticket" ToRole="callout" />
+          <NavigationProperty Name="person" Relationship="Self.airticket_ibfk_3" FromRole="airticket" ToRole="person" />
+        </EntityType>
+        <EntityType Name="callout">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
+          <Property Name="cancellation_at" Type="Int32" />
+          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="airtickets" Relationship="Self.airticket_ibfk_2" FromRole="callout" ToRole="airticket" />
+          <NavigationProperty Name="callout_order" Relationship="Self.callout_order_ibfk_1" FromRole="callout" ToRole="callout_order" />
+          <NavigationProperty Name="callout_room" Relationship="Self.callout_room_ibfk_1" FromRole="callout" ToRole="callout_room" />
+          <NavigationProperty Name="excursion_order" Relationship="Self.excursion_order_ibfk_3" FromRole="callout" ToRole="excursion_order" />
+          <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_3" FromRole="callout" ToRole="hotel_service_order" />
+          <NavigationProperty Name="transfers" Relationship="Self.transfer_ibfk_2" FromRole="callout" ToRole="transfer" />
+        </EntityType>
+        <EntityType Name="callout_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="person_id" Type="Int32" Nullable="false" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
+          <Property Name="payment" Type="Int32" Nullable="false" />
+          <Property Name="payment_at" Type="Int32" />
+          <Property Name="is_discount" Type="Int32" Nullable="false" />
+          <Property Name="canceling_at" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="callout" Relationship="Self.callout_order_ibfk_1" FromRole="callout_order" ToRole="callout" />
+          <NavigationProperty Name="person" Relationship="Self.callout_order_ibfk_2" FromRole="callout_order" ToRole="person" />
+          <NavigationProperty Name="employee" Relationship="Self.callout_order_ibfk_3" FromRole="callout_order" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="callout_room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="room_id" Type="Int32" Nullable="false" />
+          <Property Name="start_living_at" Type="Int32" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="callout" Relationship="Self.callout_room_ibfk_1" FromRole="callout_room" ToRole="callout" />
+          <NavigationProperty Name="room" Relationship="Self.callout_room_ibfk_2" FromRole="callout_room" ToRole="room" />
+        </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="country_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="airports" Relationship="Self.airport_ibfk_1" FromRole="city" ToRole="airport" />
+          <NavigationProperty Name="country" Relationship="Self.city_ibfk_1" FromRole="city" ToRole="country" />
+          <NavigationProperty Name="excursions" Relationship="Self.excursion_ibfk_1" FromRole="city" ToRole="excursion" />
+          <NavigationProperty Name="hotels" Relationship="Self.hotel_ibfk_3" FromRole="city" ToRole="hotel" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="cities" Relationship="Self.city_ibfk_1" FromRole="country" ToRole="city" />
+          <NavigationProperty Name="tours" Relationship="Self.tour_ibfk_1" FromRole="country" ToRole="tour" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="person_id" Type="Int32" Nullable="false" />
+          <Property Name="position" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
+          <Property Name="salary" Type="Int32" />
+          <NavigationProperty Name="callout_order" Relationship="Self.callout_order_ibfk_3" FromRole="employee" ToRole="callout_order" />
+          <NavigationProperty Name="person" Relationship="Self.employee_ibfk_1" FromRole="employee" ToRole="person" />
+        </EntityType>
+        <EntityType Name="excursion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cost" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="starting_time" Type="Time" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="city_id" Type="Int32" />
+          <NavigationProperty Name="city" Relationship="Self.excursion_ibfk_1" FromRole="excursion" ToRole="city" />
+          <NavigationProperty Name="excursion_order" Relationship="Self.excursion_order_ibfk_1" FromRole="excursion" ToRole="excursion_order" />
+        </EntityType>
+        <EntityType Name="excursion_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="excursion_id" Type="Int32" Nullable="false" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="payment" Type="Int32" Nullable="false" />
+          <Property Name="starting_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="starting_at" Type="Int32" Nullable="false" />
+          <Property Name="is_baby" Type="Int32" Nullable="false" />
+          <Property Name="is_privilege" Type="Int32" Nullable="false" />
+          <Property Name="is_custom" Type="Int32" Nullable="false" />
+          <Property Name="bus_place_number" Type="Int32" />
+          <NavigationProperty Name="callout" Relationship="Self.excursion_order_ibfk_3" FromRole="excursion_order" ToRole="callout" />
+          <NavigationProperty Name="excursion" Relationship="Self.excursion_order_ibfk_1" FromRole="excursion_order" ToRole="excursion" />
+        </EntityType>
+        <EntityType Name="flight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="airline_id" Type="Int32" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="from_airport_id" Type="Int32" Nullable="false" />
+          <Property Name="to_airport_id" Type="Int32" Nullable="false" />
+          <Property Name="flight_at" Type="Int32" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="cost" Type="Int32" Nullable="false" />
+          <Property Name="total_seats" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="airline" Relationship="Self.flight_ibfk_1" FromRole="flight" ToRole="airline" />
+          <NavigationProperty Name="airport" Relationship="Self.flight_ibfk_4" FromRole="flight" ToRole="airport" />
+          <NavigationProperty Name="airport1" Relationship="Self.flight_ibfk_5" FromRole="flight" ToRole="airport" />
+          <NavigationProperty Name="airseats" Relationship="Self.airseat_ibfk_1" FromRole="flight" ToRole="airseat" />
+          <NavigationProperty Name="airtickets" Relationship="Self.airticket_ibfk_1" FromRole="flight" ToRole="airticket" />
+        </EntityType>
+        <EntityType Name="food">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="how_many_in_day" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="hotels" Relationship="Self.hotel_ibfk_2" FromRole="food" ToRole="hotel" />
+        </EntityType>
+        <EntityType Name="hotel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tour_id" Type="Int32" />
+          <Property Name="city_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="stars_number" Type="Int32" Nullable="false" />
+          <Property Name="distance_to_beach" Type="Int32" />
+          <Property Name="food_id" Type="Int32" />
+          <NavigationProperty Name="city" Relationship="Self.hotel_ibfk_3" FromRole="hotel" ToRole="city" />
+          <NavigationProperty Name="food" Relationship="Self.hotel_ibfk_2" FromRole="hotel" ToRole="food" />
+          <NavigationProperty Name="tour" Relationship="Self.hotel_ibfk_1" FromRole="hotel" ToRole="tour" />
+          <NavigationProperty Name="hotel_service" Relationship="Self.hotel_service_ibfk_1" FromRole="hotel" ToRole="hotel_service" />
+          <NavigationProperty Name="rooms" Relationship="Self.room_ibfk_1" FromRole="hotel" ToRole="room" />
+        </EntityType>
+        <EntityType Name="hotel_service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hotel_id" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cost_per_min" Type="Int32" Nullable="false" />
+          <Property Name="starting_time" Type="Time" />
+          <NavigationProperty Name="hotel" Relationship="Self.hotel_service_ibfk_1" FromRole="hotel_service" ToRole="hotel" />
+          <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_1" FromRole="hotel_service" ToRole="hotel_service_order" />
+        </EntityType>
+        <EntityType Name="hotel_service_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hotel_service_id" Type="Int32" Nullable="false" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="payment" Type="Int32" Nullable="false" />
+          <Property Name="provision_at" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="callout" Relationship="Self.hotel_service_order_ibfk_3" FromRole="hotel_service_order" ToRole="callout" />
+          <NavigationProperty Name="hotel_service" Relationship="Self.hotel_service_order_ibfk_1" FromRole="hotel_service_order" ToRole="hotel_service" />
+          <NavigationProperty Name="room" Relationship="Self.hotel_service_order_ibfk_2" FromRole="hotel_service_order" ToRole="room" />
+        </EntityType>
+        <EntityType Name="person">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birthday_at" Type="Int32" Nullable="false" />
+          <Property Name="passport_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="airtickets" Relationship="Self.airticket_ibfk_3" FromRole="person" ToRole="airticket" />
+          <NavigationProperty Name="callout_order" Relationship="Self.callout_order_ibfk_2" FromRole="person" ToRole="callout_order" />
+          <NavigationProperty Name="employees" Relationship="Self.employee_ibfk_1" FromRole="person" ToRole="employee" />
+          <NavigationProperty Name="transfers" Relationship="Self.transfer_ibfk_3" FromRole="person" ToRole="transfer" />
+        </EntityType>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hotel_id" Type="Int32" Nullable="false" />
+          <Property Name="cost_per_day" Type="Int32" Nullable="false" />
+          <Property Name="class" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seats_number" Type="Int32" Nullable="false" />
+          <Property Name="room_size" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="callout_room" Relationship="Self.callout_room_ibfk_2" FromRole="room" ToRole="callout_room" />
+          <NavigationProperty Name="hotel" Relationship="Self.room_ibfk_1" FromRole="room" ToRole="hotel" />
+          <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_2" FromRole="room" ToRole="hotel_service_order" />
+        </EntityType>
+        <EntityType Name="route">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="from_airport_id" Type="Int32" />
+          <Property Name="to_airport_id" Type="Int32" />
+          <Property Name="starting_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="starting_time" Type="Time" Nullable="false" />
+          <Property Name="final_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="total_seats" Type="Int32" Nullable="false" />
+          <Property Name="distance" Type="Int32" />
+          <Property Name="cost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="airport" Relationship="Self.route_ibfk_1" FromRole="route" ToRole="airport" />
+          <NavigationProperty Name="airport1" Relationship="Self.route_ibfk_2" FromRole="route" ToRole="airport" />
+          <NavigationProperty Name="transfers" Relationship="Self.transfer_ibfk_1" FromRole="route" ToRole="transfer" />
+        </EntityType>
+        <EntityType Name="tour">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="country_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="country" Relationship="Self.tour_ibfk_1" FromRole="tour" ToRole="country" />
+          <NavigationProperty Name="hotels" Relationship="Self.hotel_ibfk_1" FromRole="tour" ToRole="hotel" />
+        </EntityType>
+        <EntityType Name="transfer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="route_id" Type="Int32" />
+          <Property Name="callout_id" Type="Int32" Nullable="false" />
+          <Property Name="person_id" Type="Int32" />
+          <Property Name="starting_date" Type="DateTime" Nullable="false" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
+          <Property Name="payment" Type="Int32" Nullable="false" />
+          <Property Name="is_baggage" Type="Int32" Nullable="false" />
+          <Property Name="is_baby" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="callout" Relationship="Self.transfer_ibfk_2" FromRole="transfer" ToRole="callout" />
+          <NavigationProperty Name="person" Relationship="Self.transfer_ibfk_3" FromRole="transfer" ToRole="person" />
+          <NavigationProperty Name="route" Relationship="Self.transfer_ibfk_1" FromRole="transfer" ToRole="route" />
+        </EntityType>
+        <Association Name="flight_ibfk_1">
+          <End Role="airline" Type="Self.airline" Multiplicity="0..1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airline">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="airline_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airport_ibfk_1">
+          <End Role="city" Type="Self.city" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="airport" Type="Self.airport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airport">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="flight_ibfk_4">
+          <End Role="airport" Type="Self.airport" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="from_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="flight_ibfk_5">
+          <End Role="airport" Type="Self.airport" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="to_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="route_ibfk_1">
+          <End Role="airport" Type="Self.airport" Multiplicity="0..1" />
+          <End Role="route" Type="Self.route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="route">
+              <PropertyRef Name="from_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="route_ibfk_2">
+          <End Role="airport" Type="Self.airport" Multiplicity="0..1" />
+          <End Role="route" Type="Self.route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="airport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="route">
+              <PropertyRef Name="to_airport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airseat_ibfk_1">
+          <End Role="flight" Type="Self.flight" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="airseat" Type="Self.airseat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airseat">
+              <PropertyRef Name="flight_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_1">
+          <End Role="flight" Type="Self.flight" Multiplicity="0..1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="flight_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_2">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="airticket_ibfk_3">
+          <End Role="person" Type="Self.person" Multiplicity="0..1" />
+          <End Role="airticket" Type="Self.airticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="airticket">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_1">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_room_ibfk_1">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="callout_room" Type="Self.callout_room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_room">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_order_ibfk_3">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="excursion_order" Type="Self.excursion_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_3">
+          <End Role="callout" Type="Self.callout" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_2">
+          <End Role="callout" Type="Self.callout" Multiplicity="1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="callout">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="callout_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_2">
+          <End Role="person" Type="Self.person" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_order_ibfk_3">
+          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_order">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="callout_room_ibfk_2">
+          <End Role="room" Type="Self.room" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="callout_room" Type="Self.callout_room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="callout_room">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="city_ibfk_1">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="city" Type="Self.city" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="city">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_ibfk_1">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="excursion" Type="Self.excursion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_3">
+          <End Role="city" Type="Self.city" Multiplicity="1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tour_ibfk_1">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="tour" Type="Self.tour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tour">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="employee_ibfk_1">
+          <End Role="person" Type="Self.person" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="excursion_order_ibfk_1">
+          <End Role="excursion" Type="Self.excursion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="excursion_order" Type="Self.excursion_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="excursion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="excursion_order">
+              <PropertyRef Name="excursion_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_2">
+          <End Role="food" Type="Self.food" Multiplicity="0..1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_ibfk_1">
+          <End Role="tour" Type="Self.tour" Multiplicity="0..1" />
+          <End Role="hotel" Type="Self.hotel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tour">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel">
+              <PropertyRef Name="tour_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_ibfk_1">
+          <End Role="hotel" Type="Self.hotel" Multiplicity="0..1" />
+          <End Role="hotel_service" Type="Self.hotel_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service">
+              <PropertyRef Name="hotel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="room_ibfk_1">
+          <End Role="hotel" Type="Self.hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="room" Type="Self.room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room">
+              <PropertyRef Name="hotel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_1">
+          <End Role="hotel_service" Type="Self.hotel_service" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hotel_service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="hotel_service_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="hotel_service_order_ibfk_2">
+          <End Role="room" Type="Self.room" Multiplicity="0..1" />
+          <End Role="hotel_service_order" Type="Self.hotel_service_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="hotel_service_order">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_3">
+          <End Role="person" Type="Self.person" Multiplicity="0..1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="person">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="transfer_ibfk_1">
+          <End Role="route" Type="Self.route" Multiplicity="0..1" />
+          <End Role="transfer" Type="Self.transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="route">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transfer">
+              <PropertyRef Name="route_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TravelSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="airlines" EntityType="Self.airline" />
+          <EntitySet Name="airports" EntityType="Self.airport" />
+          <EntitySet Name="airseats" EntityType="Self.airseat" />
+          <EntitySet Name="airtickets" EntityType="Self.airticket" />
+          <EntitySet Name="callouts" EntityType="Self.callout" />
+          <EntitySet Name="callout_order" EntityType="Self.callout_order" />
+          <EntitySet Name="callout_room" EntityType="Self.callout_room" />
+          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="countries" EntityType="Self.country" />
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="excursions" EntityType="Self.excursion" />
+          <EntitySet Name="excursion_order" EntityType="Self.excursion_order" />
+          <EntitySet Name="flights" EntityType="Self.flight" />
+          <EntitySet Name="foods" EntityType="Self.food" />
+          <EntitySet Name="hotels" EntityType="Self.hotel" />
+          <EntitySet Name="hotel_service" EntityType="Self.hotel_service" />
+          <EntitySet Name="hotel_service_order" EntityType="Self.hotel_service_order" />
+          <EntitySet Name="people" EntityType="Self.person" />
+          <EntitySet Name="rooms" EntityType="Self.room" />
+          <EntitySet Name="routes" EntityType="Self.route" />
+          <EntitySet Name="tours" EntityType="Self.tour" />
+          <EntitySet Name="transfers" EntityType="Self.transfer" />
+          <AssociationSet Name="flight_ibfk_1" Association="Self.flight_ibfk_1">
+            <End Role="airline" EntitySet="airlines" />
+            <End Role="flight" EntitySet="flights" />
+          </AssociationSet>
+          <AssociationSet Name="airport_ibfk_1" Association="Self.airport_ibfk_1">
+            <End Role="city" EntitySet="cities" />
+            <End Role="airport" EntitySet="airports" />
+          </AssociationSet>
+          <AssociationSet Name="flight_ibfk_4" Association="Self.flight_ibfk_4">
+            <End Role="airport" EntitySet="airports" />
+            <End Role="flight" EntitySet="flights" />
+          </AssociationSet>
+          <AssociationSet Name="flight_ibfk_5" Association="Self.flight_ibfk_5">
+            <End Role="airport" EntitySet="airports" />
+            <End Role="flight" EntitySet="flights" />
+          </AssociationSet>
+          <AssociationSet Name="route_ibfk_1" Association="Self.route_ibfk_1">
+            <End Role="airport" EntitySet="airports" />
+            <End Role="route" EntitySet="routes" />
+          </AssociationSet>
+          <AssociationSet Name="route_ibfk_2" Association="Self.route_ibfk_2">
+            <End Role="airport" EntitySet="airports" />
+            <End Role="route" EntitySet="routes" />
+          </AssociationSet>
+          <AssociationSet Name="airseat_ibfk_1" Association="Self.airseat_ibfk_1">
+            <End Role="flight" EntitySet="flights" />
+            <End Role="airseat" EntitySet="airseats" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_1" Association="Self.airticket_ibfk_1">
+            <End Role="flight" EntitySet="flights" />
+            <End Role="airticket" EntitySet="airtickets" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_2" Association="Self.airticket_ibfk_2">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="airticket" EntitySet="airtickets" />
+          </AssociationSet>
+          <AssociationSet Name="airticket_ibfk_3" Association="Self.airticket_ibfk_3">
+            <End Role="person" EntitySet="people" />
+            <End Role="airticket" EntitySet="airtickets" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_1" Association="Self.callout_order_ibfk_1">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_room_ibfk_1" Association="Self.callout_room_ibfk_1">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="callout_room" EntitySet="callout_room" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_order_ibfk_3" Association="Self.excursion_order_ibfk_3">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="excursion_order" EntitySet="excursion_order" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_3" Association="Self.hotel_service_order_ibfk_3">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_2" Association="Self.transfer_ibfk_2">
+            <End Role="callout" EntitySet="callouts" />
+            <End Role="transfer" EntitySet="transfers" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_2" Association="Self.callout_order_ibfk_2">
+            <End Role="person" EntitySet="people" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_order_ibfk_3" Association="Self.callout_order_ibfk_3">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="callout_order" EntitySet="callout_order" />
+          </AssociationSet>
+          <AssociationSet Name="callout_room_ibfk_2" Association="Self.callout_room_ibfk_2">
+            <End Role="room" EntitySet="rooms" />
+            <End Role="callout_room" EntitySet="callout_room" />
+          </AssociationSet>
+          <AssociationSet Name="city_ibfk_1" Association="Self.city_ibfk_1">
+            <End Role="country" EntitySet="countries" />
+            <End Role="city" EntitySet="cities" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_ibfk_1" Association="Self.excursion_ibfk_1">
+            <End Role="city" EntitySet="cities" />
+            <End Role="excursion" EntitySet="excursions" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_3" Association="Self.hotel_ibfk_3">
+            <End Role="city" EntitySet="cities" />
+            <End Role="hotel" EntitySet="hotels" />
+          </AssociationSet>
+          <AssociationSet Name="tour_ibfk_1" Association="Self.tour_ibfk_1">
+            <End Role="country" EntitySet="countries" />
+            <End Role="tour" EntitySet="tours" />
+          </AssociationSet>
+          <AssociationSet Name="employee_ibfk_1" Association="Self.employee_ibfk_1">
+            <End Role="person" EntitySet="people" />
+            <End Role="employee" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="excursion_order_ibfk_1" Association="Self.excursion_order_ibfk_1">
+            <End Role="excursion" EntitySet="excursions" />
+            <End Role="excursion_order" EntitySet="excursion_order" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_2" Association="Self.hotel_ibfk_2">
+            <End Role="food" EntitySet="foods" />
+            <End Role="hotel" EntitySet="hotels" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_ibfk_1" Association="Self.hotel_ibfk_1">
+            <End Role="tour" EntitySet="tours" />
+            <End Role="hotel" EntitySet="hotels" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_ibfk_1" Association="Self.hotel_service_ibfk_1">
+            <End Role="hotel" EntitySet="hotels" />
+            <End Role="hotel_service" EntitySet="hotel_service" />
+          </AssociationSet>
+          <AssociationSet Name="room_ibfk_1" Association="Self.room_ibfk_1">
+            <End Role="hotel" EntitySet="hotels" />
+            <End Role="room" EntitySet="rooms" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_1" Association="Self.hotel_service_order_ibfk_1">
+            <End Role="hotel_service" EntitySet="hotel_service" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="hotel_service_order_ibfk_2" Association="Self.hotel_service_order_ibfk_2">
+            <End Role="room" EntitySet="rooms" />
+            <End Role="hotel_service_order" EntitySet="hotel_service_order" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_3" Association="Self.transfer_ibfk_3">
+            <End Role="person" EntitySet="people" />
+            <End Role="transfer" EntitySet="transfers" />
+          </AssociationSet>
+          <AssociationSet Name="transfer_ibfk_1" Association="Self.transfer_ibfk_1">
+            <End Role="route" EntitySet="routes" />
+            <End Role="transfer" EntitySet="transfers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="travel_systemModelStoreContainer" CdmEntityContainer="TravelSystemEntities">
+          <EntitySetMapping Name="airlines">
+            <EntityTypeMapping TypeName="travel_systemModel.airline">
+              <MappingFragment StoreEntitySet="airline">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="airports">
+            <EntityTypeMapping TypeName="travel_systemModel.airport">
+              <MappingFragment StoreEntitySet="airport">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="airseats">
+            <EntityTypeMapping TypeName="travel_systemModel.airseat">
+              <MappingFragment StoreEntitySet="airseat">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="flight_id" ColumnName="flight_id" />
+                <ScalarProperty Name="class" ColumnName="class" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="airtickets">
+            <EntityTypeMapping TypeName="travel_systemModel.airticket">
+              <MappingFragment StoreEntitySet="airticket">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="flight_id" ColumnName="flight_id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="departure_at" ColumnName="departure_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="is_baggage" ColumnName="is_baggage" />
+                <ScalarProperty Name="is_baby" ColumnName="is_baby" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="callouts">
+            <EntityTypeMapping TypeName="travel_systemModel.callout">
+              <MappingFragment StoreEntitySet="callout">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="cancellation_at" ColumnName="cancellation_at" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="callout_order">
+            <EntityTypeMapping TypeName="travel_systemModel.callout_order">
+              <MappingFragment StoreEntitySet="callout_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="payment_at" ColumnName="payment_at" />
+                <ScalarProperty Name="is_discount" ColumnName="is_discount" />
+                <ScalarProperty Name="canceling_at" ColumnName="canceling_at" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="callout_room">
+            <EntityTypeMapping TypeName="travel_systemModel.callout_room">
+              <MappingFragment StoreEntitySet="callout_room">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="start_living_at" ColumnName="start_living_at" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cities">
+            <EntityTypeMapping TypeName="travel_systemModel.city">
+              <MappingFragment StoreEntitySet="city">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="countries">
+            <EntityTypeMapping TypeName="travel_systemModel.country">
+              <MappingFragment StoreEntitySet="country">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="travel_systemModel.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="excursions">
+            <EntityTypeMapping TypeName="travel_systemModel.excursion">
+              <MappingFragment StoreEntitySet="excursion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="starting_time" ColumnName="starting_time" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="excursion_order">
+            <EntityTypeMapping TypeName="travel_systemModel.excursion_order">
+              <MappingFragment StoreEntitySet="excursion_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="excursion_id" ColumnName="excursion_id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="starting_address" ColumnName="starting_address" />
+                <ScalarProperty Name="starting_at" ColumnName="starting_at" />
+                <ScalarProperty Name="is_baby" ColumnName="is_baby" />
+                <ScalarProperty Name="is_privilege" ColumnName="is_privilege" />
+                <ScalarProperty Name="is_custom" ColumnName="is_custom" />
+                <ScalarProperty Name="bus_place_number" ColumnName="bus_place_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="flights">
+            <EntityTypeMapping TypeName="travel_systemModel.flight">
+              <MappingFragment StoreEntitySet="flight">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="airline_id" ColumnName="airline_id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="from_airport_id" ColumnName="from_airport_id" />
+                <ScalarProperty Name="to_airport_id" ColumnName="to_airport_id" />
+                <ScalarProperty Name="flight_at" ColumnName="flight_at" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="total_seats" ColumnName="total_seats" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="foods">
+            <EntityTypeMapping TypeName="travel_systemModel.food">
+              <MappingFragment StoreEntitySet="food">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="how_many_in_day" ColumnName="how_many_in_day" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hotels">
+            <EntityTypeMapping TypeName="travel_systemModel.hotel">
+              <MappingFragment StoreEntitySet="hotel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tour_id" ColumnName="tour_id" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="stars_number" ColumnName="stars_number" />
+                <ScalarProperty Name="distance_to_beach" ColumnName="distance_to_beach" />
+                <ScalarProperty Name="food_id" ColumnName="food_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hotel_service">
+            <EntityTypeMapping TypeName="travel_systemModel.hotel_service">
+              <MappingFragment StoreEntitySet="hotel_service">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hotel_id" ColumnName="hotel_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="cost_per_min" ColumnName="cost_per_min" />
+                <ScalarProperty Name="starting_time" ColumnName="starting_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hotel_service_order">
+            <EntityTypeMapping TypeName="travel_systemModel.hotel_service_order">
+              <MappingFragment StoreEntitySet="hotel_service_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hotel_service_id" ColumnName="hotel_service_id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="provision_at" ColumnName="provision_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="people">
+            <EntityTypeMapping TypeName="travel_systemModel.person">
+              <MappingFragment StoreEntitySet="person">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="birthday_at" ColumnName="birthday_at" />
+                <ScalarProperty Name="passport_code" ColumnName="passport_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rooms">
+            <EntityTypeMapping TypeName="travel_systemModel.room">
+              <MappingFragment StoreEntitySet="room">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="hotel_id" ColumnName="hotel_id" />
+                <ScalarProperty Name="cost_per_day" ColumnName="cost_per_day" />
+                <ScalarProperty Name="class" ColumnName="class" />
+                <ScalarProperty Name="seats_number" ColumnName="seats_number" />
+                <ScalarProperty Name="room_size" ColumnName="room_size" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="routes">
+            <EntityTypeMapping TypeName="travel_systemModel.route">
+              <MappingFragment StoreEntitySet="route">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="from_airport_id" ColumnName="from_airport_id" />
+                <ScalarProperty Name="to_airport_id" ColumnName="to_airport_id" />
+                <ScalarProperty Name="starting_address" ColumnName="starting_address" />
+                <ScalarProperty Name="starting_time" ColumnName="starting_time" />
+                <ScalarProperty Name="final_address" ColumnName="final_address" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="total_seats" ColumnName="total_seats" />
+                <ScalarProperty Name="distance" ColumnName="distance" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tours">
+            <EntityTypeMapping TypeName="travel_systemModel.tour">
+              <MappingFragment StoreEntitySet="tour">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transfers">
+            <EntityTypeMapping TypeName="travel_systemModel.transfer">
+              <MappingFragment StoreEntitySet="transfer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="route_id" ColumnName="route_id" />
+                <ScalarProperty Name="callout_id" ColumnName="callout_id" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="starting_date" ColumnName="starting_date" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="is_baggage" ColumnName="is_baggage" />
+                <ScalarProperty Name="is_baby" ColumnName="is_baby" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

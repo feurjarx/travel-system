@@ -1,0 +1,22 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.ToursView
+@{
+    ViewBag.Title = "Домашняя страница";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Страна</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var viewItem in Model.TourViewItems)
+        {
+            <tr>
+                <td><a href="/hotels/list/@viewItem.TourId"><p class="tour-link" id="@viewItem.TourId">@viewItem.TourName</p></a></td>
+                <td>@viewItem.CountryName</td>
+            </tr>
+        }
+    </tbody>
+</table>

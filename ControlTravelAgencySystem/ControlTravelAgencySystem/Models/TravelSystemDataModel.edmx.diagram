@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3337d9d7e3564c10892c43142ad16702" Name="Diagram1">
+        <EntityTypeShape EntityType="travel_systemModel.airline" Width="1.5" PointX="1.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.airport" Width="1.5" PointX="1.5" PointY="42.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.airseat" Width="1.5" PointX="3" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.airticket" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.callout" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.callout_order" Width="1.5" PointX="6" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.callout_room" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.city" Width="1.5" PointX="1.5" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.country" Width="1.5" PointX="1.5" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.employee" Width="1.5" PointX="3.75" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.excursion" Width="1.5" PointX="0.75" PointY="45.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.excursion_order" Width="1.5" PointX="3" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.flight" Width="1.5" PointX="0.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.food" Width="1.5" PointX="1.5" PointY="36.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.hotel" Width="1.5" PointX="1.5" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.hotel_service" Width="1.5" PointX="3.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.hotel_service_order" Width="1.5" PointX="6" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.person" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.room" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.route" Width="1.5" PointX="3.75" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.tour" Width="1.5" PointX="1.5" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="travel_systemModel.transfer" Width="1.5" PointX="6" PointY="18.5" IsExpanded="true" />
+        <AssociationConnector Association="travel_systemModel.flight_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.airport_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.flight_ibfk_4" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.flight_ibfk_5" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.route_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.route_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.airseat_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.airticket_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.airticket_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.airticket_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.callout_order_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.callout_room_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.excursion_order_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_service_order_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.transfer_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.callout_order_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.callout_order_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.callout_room_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.city_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.excursion_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.tour_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.employee_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.excursion_order_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_service_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.room_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_service_order_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.hotel_service_order_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.transfer_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="travel_systemModel.transfer_ibfk_1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
