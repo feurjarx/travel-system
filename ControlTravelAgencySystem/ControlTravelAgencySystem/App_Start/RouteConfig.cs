@@ -26,6 +26,12 @@ namespace ControlTravelAgencySystem
             );
 
             routes.MapRoute(
+                name: "HotelRoomsList",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "HotelRooms", action = "List", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Admin",
                 url: "{controller}/{action}",
                 defaults: new { controller = "Admin", action = "Index" }
