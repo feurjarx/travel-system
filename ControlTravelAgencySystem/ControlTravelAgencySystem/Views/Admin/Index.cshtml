@@ -1,3 +1,29 @@
 ﻿@{
     ViewBag.Title = "Панель управления";
 }
+
+<style>
+    #auth-form-box {
+        height: 100%;
+        display: flex; 
+        justify-content: center;
+    }
+
+    #auth-form-box > form {
+        max-width: 300px;
+        align-self: center;
+    }
+
+    #auth-form-box > form input,
+    #auth-form-box > form button {
+        margin: 10px;
+    }
+</style>
+
+<div id="auth-form-box">
+    <form id="auth-form" action="/admin" method="post">
+        <input class="form-control" type="text" name="login" placeholder="Введите логин" />
+        <input class="form-control" type="password" name="pass" placeholder="Введите пароль" />
+        <button class="btn btn-primary btn-block" type="submit">Войти</button>
+    </form>
+</div>
