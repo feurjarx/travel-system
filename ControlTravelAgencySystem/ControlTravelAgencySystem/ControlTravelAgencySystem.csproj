@@ -200,7 +200,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HotelRoomsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -287,6 +286,8 @@
       <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\HotelRoomsView.cs" />
+    <Compile Include="Models\ViewModels\CalloutView.cs" />
+    <Compile Include="Models\ViewModels\AdminView.cs" />
     <Compile Include="Models\ViewModels\HotelsView.cs" />
     <Compile Include="Models\ViewModels\ToursView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -372,7 +373,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Hotels\List.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\HotelRooms\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
