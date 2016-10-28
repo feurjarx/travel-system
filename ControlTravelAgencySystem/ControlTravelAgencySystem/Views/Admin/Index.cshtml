@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ControlTravelAgencySystem.Models.employee
+
+@{
     ViewBag.Title = "Панель управления";
 }
 
@@ -16,14 +18,32 @@
 
     #auth-form-box > form input,
     #auth-form-box > form button {
-        margin: 10px;
+        margin: 10px 0;
     }
 </style>
 
-<div id="auth-form-box">
-    <form id="auth-form" action="/admin" method="post">
-        <input class="form-control" type="text" name="login" placeholder="Введите логин" />
-        <input class="form-control" type="password" name="pass" placeholder="Введите пароль" />
-        <button class="btn btn-primary btn-block" type="submit">Войти</button>
-    </form>
-</div>
+@if (ViewBag.access)
+{
+    <div class="alert alert-success">Успешно</div>
+}
+else
+{
+
+    <div id="auth-form-box">
+        <form action="/admin" method="post">
+
+            <input autofocus class="form-control" type="text" name="email" placeholder="Введите логин" value="@Model.email" />
+            <input class="form-control" type="password" name="password" placeholder="Введите пароль" value="@Model.password" />
+
+            <button class="btn btn-primary btn-block" type="submit">Войти</button>
+
+            @if (ViewBag.error != null)
+            {
+                <div class="alert alert-@ViewBag.error.type">
+                    <b>@ViewBag.error.message[0]</b> @ViewBag.error.message[1]
+                </div>
+            }
+        </form>
+    </div>
+
+}
