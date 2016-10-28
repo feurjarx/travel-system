@@ -25,6 +25,9 @@ namespace ControlTravelAgencySystem.Models
         public string position { get; set; }
         public int created_at { get; set; }
         public Nullable<int> salary { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string session { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<callout_order> callout_order { get; set; }

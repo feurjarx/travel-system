@@ -18,8 +18,15 @@ namespace ControlTravelAgencySystem.Controllers
         public ActionResult Index()
         {
             ViewBag.callouts = _dbContext.callouts.ToList();
-            
 
+            var e = _dbContext.employees.FirstOrDefault();
+
+            var email = e.email;
+            var pass = e.password;
+            var session = e.session;
+            e.session = "dsad";
+            _dbContext.SaveChanges();    
+            
             return View();
         }
     }
