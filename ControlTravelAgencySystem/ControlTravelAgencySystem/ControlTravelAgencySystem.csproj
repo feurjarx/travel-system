@@ -285,6 +285,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\HotelRoomsView.cs" />
     <Compile Include="Models\ViewModels\CalloutView.cs" />
     <Compile Include="Models\ViewModels\AdminView.cs" />
     <Compile Include="Models\ViewModels\HotelsView.cs" />
