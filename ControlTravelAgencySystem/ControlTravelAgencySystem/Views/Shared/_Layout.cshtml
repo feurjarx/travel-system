@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ru" style="height: 100%">
+<html lang="ru">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta charset="utf-8" />
@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Styles.Render("~/Styles/Spinner.css")
+        @Styles.Render("~/Styles/Common.css")
 
         @RenderSection("Styles", false)
 
@@ -19,13 +20,13 @@
 
     </head>
 
-    <body style="height: 100%">
+    <body>
         <header>
             <div class="content-wrapper">
             </div>
         </header>
-        <div id="body" style="height: 100%">
-            <section class="content-wrapper main-content clear-fix" style="height: 100%">
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
             </section>
         </div>

@@ -1,0 +1,24 @@
+﻿html {
+    height: 100%; 
+}
+
+body {
+    height: 100%; 
+    width: 100%;
+}
+
+#body {
+    height: 100%;
+}
+
+.content-wrapper {
+    height: 100%;
+}
+
+.margin-none {
+    margin: 0;
+}
+
+.flexbox {
+    display: flex;
+}
