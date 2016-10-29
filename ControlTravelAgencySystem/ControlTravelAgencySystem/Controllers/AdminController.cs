@@ -14,6 +14,8 @@ namespace ControlTravelAgencySystem.Controllers
      */ 
     public class AdminController : Controller
     {
+        public static int EXPIRE_COOKIE = 1; // время жизни cookie в часах 
+
         private readonly TravelSystemEntities _dbContext;
         public AdminController(TravelSystemEntities dbContext)
         {
@@ -23,11 +25,15 @@ namespace ControlTravelAgencySystem.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            AdminPanelPageView model = new AdminPanelPageView();
+
             // параметр доступа
             ViewBag.access = false;
             // параметр наличия ошибки
             ViewBag.error = null;
-            
+
+            model.user = new employee();
+
             if (HttpContext.Request.Cookies["session"] != null)
             {
                 string sessionFromCookie = HttpContext.Request.Cookies["session"].Value;
@@ -38,22 +44,24 @@ namespace ControlTravelAgencySystem.Controllers
                     {
                         // Аутентификация успешно пройдена
                         ViewBag.access = true;
-                        return View(user);
+
+                        model.user = user;
+                        model.callouts = _dbContext.callouts.DefaultIfEmpty();
                     }
                 }
             }
             
-            // Пользователь не авторизован
-            return View(new employee());
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(employee user)
+        public ActionResult Index(AdminPanelPageView model)
         {
             ViewBag.error = null;
             ViewBag.access = false;
 
             ErrorView error = new ErrorView();
+            employee user = model.user;
 
             if (user.email != null && user.password != null)
             {
@@ -73,8 +81,10 @@ namespace ControlTravelAgencySystem.Controllers
 
                     HttpCookie cookie = new HttpCookie("session");
                     cookie.Value = session;
-                    cookie.Expires = DateTime.Now.AddHours(1);
+                    cookie.Expires = DateTime.Now.AddHours(AdminController.EXPIRE_COOKIE);
                     HttpContext.Response.Cookies.Add(cookie);
+
+                    model.callouts = _dbContext.callouts.DefaultIfEmpty();
                 }
                 else
                 {
@@ -90,7 +100,27 @@ namespace ControlTravelAgencySystem.Controllers
 
 
             ViewBag.error = error;
-            return View(user);
+            return View(model);
+        }
+
+        public ActionResult Logout()
+        {
+            HttpCookie sessionFromCookie = HttpContext.Request.Cookies["session"];
+
+            employee currentUser = _dbContext.employees
+                .Where(e => e.session == sessionFromCookie.Value)
+                .FirstOrDefault();
+
+            if (currentUser != null)
+            {
+                currentUser.session = null;
+                _dbContext.SaveChangesAsync();
+
+                sessionFromCookie.Expires = DateTime.Now.AddHours(-1 * AdminController.EXPIRE_COOKIE);
+                HttpContext.Response.SetCookie(sessionFromCookie);
+            }
+            
+            return Redirect("/admin/");
         }
     }
 }

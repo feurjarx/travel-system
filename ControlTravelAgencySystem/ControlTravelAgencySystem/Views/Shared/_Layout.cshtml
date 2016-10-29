@@ -1,15 +1,20 @@
 ﻿<!DOCTYPE html>
 <html lang="ru" style="height: 100%">
     <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta charset="utf-8" />
         <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+
+        @RenderSection("Styles", false)
+
         @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/scripts/jquery-3.1.1.min.js")
+        @Scripts.Render("~/scripts/bootstrap.min.js")
     </head>
+
     <body style="height: 100%">
         <header>
             <div class="content-wrapper">
@@ -25,8 +30,6 @@
             </div>
         </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
     </body>
 </html>

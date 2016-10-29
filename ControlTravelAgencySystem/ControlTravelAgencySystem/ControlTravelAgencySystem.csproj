@@ -288,7 +288,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\ErrorView.cs" />
     <Compile Include="Models\ViewModels\HotelRoomsView.cs" />
-    <Compile Include="Models\ViewModels\CalloutView.cs" />
+    <Compile Include="Models\ViewModels\AdminPanelPageView.cs" />
     <Compile Include="Models\ViewModels\UserView.cs" />
     <Compile Include="Models\ViewModels\HotelsView.cs" />
     <Compile Include="Models\ViewModels\ToursView.cs" />
@@ -347,6 +347,8 @@
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Styles\Auth.css" />
+    <Content Include="Styles\ControlPanel.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -376,6 +378,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Hotels\List.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ControlPanel.cshtml" />
+    <Content Include="Views\Admin\CalloutsTab.cshtml" />
+    <Content Include="Views\Admin\EmployeesTab.cshtml" />
+    <Content Include="Views\Admin\Auth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

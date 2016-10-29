@@ -1,49 +1,22 @@
-﻿@model ControlTravelAgencySystem.Models.employee
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 
 @{
     ViewBag.Title = "Панель управления";
 }
 
-<style>
-    #auth-form-box {
-        height: 100%;
-        display: flex; 
-        justify-content: center;
-    }
-
-    #auth-form-box > form {
-        max-width: 300px;
-        align-self: center;
-    }
-
-    #auth-form-box > form input,
-    #auth-form-box > form button {
-        margin: 10px 0;
-    }
-</style>
-
 @if (ViewBag.access)
 {
-    <div class="alert alert-success">Успешно</div>
+    @section Styles {
+        <link href="@Href("~/Styles/ControlPanel.css")" rel="stylesheet" type="text/css" />
+    }
+
+    @RenderPage("~/views/admin/ControlPanel.cshtml")
 }
 else
 {
+    @section Styles {
+        <link href="@Href("~/Styles/Auth.css")" rel="stylesheet" type="text/css" />
+    }
 
-    <div id="auth-form-box">
-        <form action="/admin" method="post">
-
-            <input autofocus class="form-control" type="text" name="email" placeholder="Введите логин" value="@Model.email" />
-            <input class="form-control" type="password" name="password" placeholder="Введите пароль" value="@Model.password" />
-
-            <button class="btn btn-primary btn-block" type="submit">Войти</button>
-
-            @if (ViewBag.error != null)
-            {
-                <div class="alert alert-@ViewBag.error.type">
-                    <b>@ViewBag.error.message[0]</b> @ViewBag.error.message[1]
-                </div>
-            }
-        </form>
-    </div>
-
+    @RenderPage("~/views/admin/Auth.cshtml")
 }

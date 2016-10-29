@@ -1,0 +1,16 @@
+﻿<div id="auth-form-box">
+    <form action="/admin" method="post">
+
+        <input autofocus class="form-control" type="text" name="user.email" placeholder="Введите логин" value="@Model.user.email" />
+        <input class="form-control" type="password" name="user.password" placeholder="Введите пароль" value="@Model.user.password" />
+
+        <button class="btn btn-primary btn-block" type="submit">Войти</button>
+
+        @if (ViewBag.error != null)
+            {
+            <div class="alert alert-@ViewBag.error.type">
+                <b>@ViewBag.error.message[0]</b> @ViewBag.error.message[1]
+            </div>
+        }
+    </form>
+</div>
