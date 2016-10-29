@@ -10,6 +10,10 @@
         <link href="@Href("~/Styles/ControlPanel.css")" rel="stylesheet" type="text/css" />
     }
 
+    @section scripts {
+        <script src="@Href("~/Scripts/ControlPanel.js")"></script>
+    }
+
     @RenderPage("~/views/admin/ControlPanel.cshtml")
 }
 else

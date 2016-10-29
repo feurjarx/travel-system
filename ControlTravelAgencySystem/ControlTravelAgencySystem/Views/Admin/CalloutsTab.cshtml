@@ -10,7 +10,9 @@
 
 @if (Model.callouts.Count() > 0)
 {
-    <table class="table table-hover">
+    @RenderPage("SuggestionsHbs.cshtml")
+    
+    <table class="table table-hover" id="callouts-table">
         <thead>
             <tr>
                 <th>ФИО</th>
@@ -20,32 +22,32 @@
                 <th>телефон</th>
             </tr>
         </thead>
+
         <tbody>
 
+            @foreach (callout c in Model.callouts)
+            {
+                <tr data-id="@c.id">
+                    <td>@c.fullname</td>
+                    <td>@Utils.tsToDateTime(c.created_at).ToString("dd.MMM yyyy (H:mm:ss)")</td>
 
-        @foreach (callout c in Model.callouts)
-        {
-            <tr>
-                <td>@c.fullname</td>
-                <td>@Utils.tsToDateTime(c.created_at).ToString("dd.MMM yyyy (H:mm:ss)")</td>
+                    <td>
 
-                <td>
+                        @if (c.cancellation_at != null)
+                        {
 
-                    @if (c.cancellation_at != null)
-                {
+                            @Utils.tsToDateTime((double)c.cancellation_at).ToString("dd.MMM yyyy (H:mm:ss)")
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
 
-                        @Utils.tsToDateTime((double)c.cancellation_at).ToString("dd.MMM yyyy (H:mm:ss)")
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-
-                </td>
-                <td>@(c.email != null ? c.email : "-")</td>
-                <td>@(c.phone != null ? c.phone : "-")</td>
-            </tr>
-        }
+                    </td>
+                    <td>@(c.email != null ? c.email : "-")</td>
+                    <td>@(c.phone != null ? c.phone : "-")</td>
+                </tr>
+            }
 
         </tbody>
     </table>
@@ -54,6 +56,3 @@ else
 {
     <div class="alert alert-warning">Заявки не найдены</div>
 }
-
-
-

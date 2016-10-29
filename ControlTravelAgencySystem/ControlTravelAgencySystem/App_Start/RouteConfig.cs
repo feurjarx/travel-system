@@ -36,6 +36,12 @@ namespace ControlTravelAgencySystem
                 url: "{controller}/{action}",
                 defaults: new { controller = "Admin", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "Callout",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Callout", action = "Suggestions" }
+            );
         }
     }
 }

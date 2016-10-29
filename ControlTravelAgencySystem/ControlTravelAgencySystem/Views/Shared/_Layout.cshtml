@@ -7,12 +7,16 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Styles/Spinner.css")
 
         @RenderSection("Styles", false)
 
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/scripts/jquery-3.1.1.min.js")
         @Scripts.Render("~/scripts/bootstrap.min.js")
+        @Scripts.Render("~/scripts/handlebars.min.js")
+        @Scripts.Render("~/scripts/spinner.js")
+
     </head>
 
     <body style="height: 100%">
@@ -28,8 +32,9 @@
         <footer>
             <div class="content-wrapper">
             </div>
-        </footer>
-
-        @RenderSection("scripts", required: false)
+        </footer>    
     </body>
+    
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/scripts/global.js")
 </html>

@@ -1,0 +1,75 @@
+﻿<script id="suggestions-box" type="text/x-handlebars-template">
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        {{#each airtickets}}
+                {{debug this}}
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{@@index}}-airticket" aria-controls="collapseOne" aria-expanded="false">
+                            Авиабилет №{{@@index}}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-{{@@index}}-airticket" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <p>
+                            <b>Перевозчик:</b> {{ this.flight.airline_name }}
+                        </p>
+                        <p>
+                            <b>Номер рейса:</b> {{ this.flight.code }}
+                        </p>
+                        <p>
+                            <b>Продолжительность полета:</b> {{ this.flight.duration }} ч.
+                        </p>
+                        <p>
+                            <b>Всего мест:</b> {{ this.flight.total_seats }}
+                        </p>
+                        <p>
+                            <b>Детский:</b> 
+                            {{#if this.is_baby }}
+                                Да
+                            {{ else }}
+                                Нет
+                            {{/if}}
+                        </p>
+                        <p>
+                            <b>Наличие багажа:</b>
+                            {{#if this.is_baggage }}
+                                Есть
+                            {{ else }}
+                                Нет
+                            {{/if}}
+                        </p>
+                        <hr />
+                        <span>
+                            <b>Стоимость билета: </b>{{ this.payment }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        {{/each}}
+
+    </div>
+
+</script>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="suggestions-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Пожелания клиента</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

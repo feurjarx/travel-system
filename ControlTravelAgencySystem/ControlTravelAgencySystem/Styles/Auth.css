@@ -1,0 +1,15 @@
+﻿#auth-form-box {
+    height: 100%;
+    display: flex; 
+    justify-content: center;
+}
+
+#auth-form-box > form {
+    width: 300px;
+    align-self: center;
+}
+
+#auth-form-box > form input,
+#auth-form-box > form button {
+    margin: 10px 0;
+}
