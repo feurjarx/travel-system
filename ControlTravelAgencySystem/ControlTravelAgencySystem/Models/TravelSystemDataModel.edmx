@@ -134,6 +134,7 @@
           <Property Name="is_privilege" Type="int" Nullable="false" />
           <Property Name="is_custom" Type="int" Nullable="false" />
           <Property Name="bus_place_number" Type="int" />
+          <Property Name="created_at" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="flight">
           <Key>
@@ -973,6 +974,7 @@
           <Property Name="bus_place_number" Type="Int32" />
           <NavigationProperty Name="callout" Relationship="Self.excursion_order_ibfk_3" FromRole="excursion_order" ToRole="callout" />
           <NavigationProperty Name="excursion" Relationship="Self.excursion_order_ibfk_1" FromRole="excursion_order" ToRole="excursion" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="flight">
           <Key>
@@ -1812,6 +1814,7 @@
           <EntitySetMapping Name="excursion_order">
             <EntityTypeMapping TypeName="travel_systemModel.excursion_order">
               <MappingFragment StoreEntitySet="excursion_order">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="excursion_id" ColumnName="excursion_id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />

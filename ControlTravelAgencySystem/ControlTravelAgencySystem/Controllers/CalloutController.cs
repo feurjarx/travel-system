@@ -26,12 +26,13 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 flight flight = airticket.flight;
 
-                airticketsList.Add(new
-                {
+                airticketsList.Add(new {
+
                     id = airticket.id,
                     created_datetime = Utils.tsToDateTime(airticket.created_at).ToString(Constants.ddMMMyyyyHmmss),
-                    flight = new
-                    {
+
+                    flight = new {
+
                         id = flight.id,
                         airline_name = flight.airline.name,
                         code = flight.code,
@@ -39,6 +40,7 @@ namespace ControlTravelAgencySystem.Controllers
                         cost = flight.cost,
                         total_seats = flight.total_seats
                     },
+
                     payment = airticket.payment,
                     is_baggage = airticket.is_baggage,
                     is_baby = airticket.is_baby
@@ -53,18 +55,20 @@ namespace ControlTravelAgencySystem.Controllers
                 airport fromAirport = route.airport;
                 airport toAirport = route.airport1;
                 
-                transfersList.Add(new
-                {
+                transfersList.Add(new {
+
                     id = transfer.id,
                     starting_date = transfer.starting_date.ToString(Constants.ddMMMyyyy),
                     created_datetime = Utils.tsToDateTime(transfer.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     payment = transfer.payment,
                     is_baggage = transfer.is_baggage,
                     is_baby = transfer.is_baby,
-                    route = new
-                    {
+
+                    route = new {
+
                         id = route.id,
                         type = route.type,
+
                         from_airport = fromAirport != null ? new {
 
                             id = fromAirport.id,
@@ -72,6 +76,7 @@ namespace ControlTravelAgencySystem.Controllers
                             city_name = fromAirport.city.name
 
                         } : null,
+
                         to_airport = toAirport != null ? new {
 
                             id = toAirport.id,
@@ -79,6 +84,7 @@ namespace ControlTravelAgencySystem.Controllers
                             city_name = toAirport.city.name 
 
                         } : null,
+
                         starting_address = route.starting_address,
                         starting_time = route.starting_time.ToString(Constants.hhmmss),
                         final_address = route.final_address,
@@ -102,7 +108,7 @@ namespace ControlTravelAgencySystem.Controllers
                 roomsList.Add(new {
 
                     created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
-                    start_living_at = calloutRoom.start_living_at,
+                    start_living_datetime = Utils.tsToDateTime(calloutRoom.start_living_at).ToString(Constants.ddMMMyyyyHmmss),
                     duration = calloutRoom.duration,
                     payment = calloutRoom.payment,
 
@@ -115,21 +121,26 @@ namespace ControlTravelAgencySystem.Controllers
                         room_size =  room.room_size,
                         description = room.description,
                         hotel = new {
+
                             id = hotel.id,
                             name = hotel.name,
                             stars_number = hotel.stars_number,
                             distance_to_beach = hotel.distance_to_beach,
 
                             food = food != null ? new {
+
                                 id = food.id,
                                 type = food.type,
                                 description = food.description
+
                             } : null,
 
                             city = new {
+
                                 id = city.id,
                                 name = city.name,
                                 country = new {
+
                                     id = country.id,
                                     name = country.name
                                 }
@@ -138,12 +149,41 @@ namespace ControlTravelAgencySystem.Controllers
                     }
                 });
             }
-            
+
+            List<object> excursionOrdersList = new List<object>();
+            foreach (excursion_order excursionOrder in callout.excursion_order)
+            {
+                excursion excursion = excursionOrder.excursion;
+                excursionOrdersList.Add(new {
+
+                    id = excursionOrder.id,
+                    created_datetime = Utils.tsToDateTime(excursionOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
+                    payment = excursionOrder.payment,
+                    starting_address = excursionOrder.starting_address,
+                    starting_datetime = Utils.tsToDateTime(excursionOrder.starting_at).ToString(Constants.ddMMMyyyy),
+                    is_baby = excursionOrder.is_baby,
+                    is_privilege = excursionOrder.is_privilege,
+                    is_custom = excursionOrder.is_custom,
+                    bus_place_number = excursionOrder.bus_place_number,
+
+                    excursion = new {
+
+                        id = excursion.id,
+                        name = excursion.name,
+                        starting_time = excursion.starting_time != null ? ((TimeSpan)excursion.starting_time).ToString(Constants.hhmmss) : null,
+                        duration = excursion.duration,
+                        city_name = excursion.city != null ? excursion.city.name : null,
+                        description = excursion.description
+                    }
+                });
+            }
+
             return Json(new {
                 
                 airtickets = airticketsList,
                 transfers = transfersList,
                 rooms = roomsList,
+                excursions = excursionOrdersList,
 
                 is_services = 
                     airticketsList.Count() > 0
@@ -151,6 +191,8 @@ namespace ControlTravelAgencySystem.Controllers
                     transfersList.Count() > 0
                     ||
                     roomsList.Count() > 0
+                    ||
+                    excursionOrdersList.Count() > 0
 
             }, JsonRequestBehavior.DenyGet);
         }
