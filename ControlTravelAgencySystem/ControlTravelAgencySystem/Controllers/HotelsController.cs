@@ -1,24 +1,40 @@
 ﻿using ControlTravelAgencySystem.Models;
 using ControlTravelAgencySystem.Models.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ControlTravelAgencySystem.Controllers
 {
+    /// <summary>
+    /// Контроллер отелей
+    /// </summary>
     public class HotelsController : Controller
     {
+        // Хранилище данных БД
         private readonly TravelSystemEntities _dbContext;
 
+        /// <summary>
+        /// Инициализация
+        /// </summary>
         public HotelsController(TravelSystemEntities dbContext)
         {
             _dbContext = dbContext;
         }
 
-        // GET: Hotels
-        public ActionResult List(int id)
+        /// <summary>
+        /// Представление списка отелей выбранного тура
+        /// </summary>
+        /// <param name="id">ID тура</param>
+        public PartialViewResult GetHotelsList(int? id)
+        {
+            var viewModel = GetHotelsViewModel(id);
+            return PartialView(viewModel);
+        }
+
+        /// <summary>
+        /// Возвращает модель-представление списка отелей
+        /// </summary>
+        private HotelsView GetHotelsViewModel(int? id)
         {
             var viewModel = new HotelsView();
 
@@ -30,21 +46,6 @@ namespace ControlTravelAgencySystem.Controllers
 
             foreach (var hotel in hotels)
             {
-                var foodDescription = "";
-                var foodType = "";
-                var howManyInDay = 0;
-                var cityName = "";
-
-                if (hotel.food != null)
-                {
-                    foodDescription = hotel.food.description;
-                    howManyInDay = hotel.food.how_many_in_day;
-                    foodType = hotel.food.type;
-                }
-
-                if (hotel.city != null)
-                    cityName = hotel.city.name;
-
                 viewModel.HotelViewItems.Add(
                     new HotelsView.HotelViewItem
                     {
@@ -53,22 +54,14 @@ namespace ControlTravelAgencySystem.Controllers
                         HotelAddress = hotel.address,
                         StarsNumber = hotel.stars_number,
                         DistanceToBeach = hotel.distance_to_beach ?? 0,
-                        FoodType = foodType,
-                        FoodDescription = foodDescription,
-                        HowManyInDay = howManyInDay,
-                        CityName = cityName
+                        FoodType = hotel.food?.type,
+                        FoodDescription = hotel.food?.description,
+                        HowManyInDay = hotel.food?.how_many_in_day ?? 0,
+                        CityName = hotel.city?.name
                     });
             }
 
-            var tourName = "";
-            var h = hotels.FirstOrDefault();
-
-            if (h != null)
-                tourName = h.name;
-
-            viewModel.TourName = tourName;
-
-            return View(viewModel);
+            return viewModel;
         }
     }
 }

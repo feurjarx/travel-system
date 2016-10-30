@@ -1,23 +1,12 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.ToursView
 @{
-    ViewBag.Title = "Домашняя страница";
+    ViewBag.Title = "Туристическое бюро";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Наименование</th>
-            <th>Страна</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var viewItem in Model.TourViewItems)
-        {
-            <tr>
-                <td><a href="/hotels/list/@viewItem.TourId"><p class="tour-link" id="@viewItem.TourId">@viewItem.TourName</p></a></td>
-                <td>@viewItem.CountryName</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div id="tours-title">
+    <p>Добро пожаловать в туристичекое бюро!</p>
+    <p>Выберите заинтересовавший Вас тур</p>
+</div>
+<div id="tours-list">
+    @Html.Action("GetToursList", "Tours")
+</div>

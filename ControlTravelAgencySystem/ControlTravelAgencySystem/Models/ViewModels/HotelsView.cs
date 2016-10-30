@@ -20,7 +20,6 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public string CityName { get; set; }
         }
 
-        public string TourName { get; set; }
         public List<HotelViewItem> HotelViewItems { get; set; }
 
         public HotelsView()

@@ -1,45 +1,18 @@
-﻿using ControlTravelAgencySystem.Models;
-using ControlTravelAgencySystem.Models.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace ControlTravelAgencySystem.Controllers
 {
+    /// <summary>
+    /// Контроллер домашней страницы
+    /// </summary>
     public class HomeController : Controller
     {
-        private readonly TravelSystemEntities _dbContext;
-        public HomeController(TravelSystemEntities dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
+        /// <summary>
+        /// GET: /
+        /// </summary>
         public ActionResult Index()
         {
-            var viewModel = new ToursView();            
-            var tours = _dbContext.tours.Include("country");
-
-            foreach (var tour in tours)
-            {
-                var tourId = tour.id;
-                var tourName = tour.name;
-                var countryName = "";
-
-                if (tour.country != null)
-                    countryName = tour.country.name;
-
-                viewModel.TourViewItems.Add(
-                    new ToursView.TourViewItem
-                    {
-                        TourId = tourId,
-                        TourName = tourName,
-                        CountryName = countryName
-                    });
-            }
-
-             return View(viewModel);
+            return View();
         }
     }
 }

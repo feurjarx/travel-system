@@ -207,7 +207,8 @@
     <Compile Include="Controllers\CalloutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
-    <Compile Include="Controllers\HotelRoomsController.cs" />
+    <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\ToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -293,7 +294,7 @@
       <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ErrorView.cs" />
-    <Compile Include="Models\ViewModels\HotelRoomsView.cs" />
+    <Compile Include="Models\ViewModels\RoomsView.cs" />
     <Compile Include="Models\ViewModels\AdminPanelPageView.cs" />
     <Compile Include="Models\ViewModels\UserView.cs" />
     <Compile Include="Models\ViewModels\HotelsView.cs" />
@@ -396,13 +397,15 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Hotels\List.cshtml" />
+    <Content Include="Views\Hotels\GetHotelsList.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ControlPanel.cshtml" />
     <Content Include="Views\Admin\CalloutsTab.cshtml" />
     <Content Include="Views\Admin\EmployeesTab.cshtml" />
     <Content Include="Views\Admin\Auth.cshtml" />
     <Content Include="Views\Admin\SuggestionsHbs.cshtml" />
+    <Content Include="Views\Rooms\GetRoomsList.cshtml" />
+    <Content Include="Views\Tours\GetToursList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
