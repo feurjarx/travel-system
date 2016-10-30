@@ -17,7 +17,6 @@
         {
             <tr>
                 <td>
-                    @*<a href="/hotelrooms/list/@viewItem.HotelId"><p class="hotel-link" id="@viewItem.HotelId">@viewItem.HotelName</p></a>*@
                     @Ajax.ActionLink(
                         viewItem.HotelName,
                         "GetRoomsList",
@@ -29,8 +28,10 @@
                             Url = Url.Action(
                                 "GetRoomsList",
                                 "Rooms",
-                                new { id = viewItem.HotelId })
-                        })
+                                new { id = viewItem.HotelId }),
+                                OnBegin = "(function() { LoadAjaxSuccess2(" + viewItem.HotelId + "); })()"
+                        },
+                        new { @class = "rooms-item" })
                 </td>
                 <td>
                     @viewItem.HotelAddress
@@ -56,9 +57,16 @@
             </tr>
             <tr>
                 <td colspan="8">
-                    <span id="rooms-table-@viewItem.HotelId" />
+                    <div id="rooms-table-@viewItem.HotelId" class="rooms-table" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@*перенести в файл*@
+<script>
+    function LoadAjaxSuccess2(id) {
+        $("#rooms-table-" + id).fadeIn();
+        $(".rooms-table:not(#rooms-table-" + id + ")").fadeOut();
+    }
+</script>

@@ -17,18 +17,29 @@
             @foreach (var viewItem in Model.RoomViewItems)
             {
                 <tr>
-                    <td><input type="checkbox" value="@viewItem.RoomId" title="@viewItem.RoomNumber" /></td>
-                    <td>@viewItem.CostPerDay</td>
-                    <td>@viewItem.Class</td>
-                    <td>@viewItem.RoomNumber</td>
-                    <td>@viewItem.SeatsNumber</td>
-                    <td>@viewItem.RoomSize</td>
-                    <td>@viewItem.Description</td>                
+                    <td>
+                        <input type="checkbox" value="@viewItem.RoomId" title="@viewItem.RoomNumber" />
+                    </td>
+                    <td>
+                        @viewItem.CostPerDay
+                    </td>
+                    <td>
+                        @viewItem.Class
+                    </td>
+                    <td>
+                        @viewItem.RoomNumber
+                    </td>
+                    <td>
+                        @viewItem.SeatsNumber
+                    </td>
+                    <td>
+                        @viewItem.RoomSize
+                    </td>
+                    <td>
+                        @viewItem.Description
+                    </td>                
                 </tr>
             }
         </tbody>
     </table>
-    <div>
-        <input type="submit" value="Открыть список пожеланий" />
-    </div>
 }

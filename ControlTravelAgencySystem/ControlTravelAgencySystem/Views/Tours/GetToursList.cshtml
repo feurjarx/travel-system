@@ -22,8 +22,10 @@
                             Url = Url.Action(
                                 "GetHotelsList",
                                 "Hotels",
-                                new { id = viewItem.TourId })
-                        })
+                                new { id = viewItem.TourId }),                            
+                            OnBegin= "(function() { LoadAjaxSuccess1(" + viewItem.TourId + "); })()"
+                        },
+                        new { @class = "hotel-item" })
                 </td>
                 <td>
                     @viewItem.CountryName
@@ -31,9 +33,16 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div id="hotels-table-@viewItem.TourId" />
+                    <div id="hotels-table-@viewItem.TourId" class="hotels-table" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@*перенести в файл*@
+<script>
+    function LoadAjaxSuccess1(id) {
+        $("#hotels-table-" + id).fadeIn();
+        $(".hotels-table:not(#hotels-table-" + id +")").fadeOut();
+    }
+</script>
