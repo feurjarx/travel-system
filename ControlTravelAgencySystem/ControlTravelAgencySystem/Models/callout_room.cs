@@ -19,6 +19,7 @@ namespace ControlTravelAgencySystem.Models
         public int room_id { get; set; }
         public int start_living_at { get; set; }
         public int duration { get; set; }
+        public int created_at { get; set; }
     
         public virtual callout callout { get; set; }
         public virtual room room { get; set; }

@@ -77,6 +77,7 @@
           <Property Name="room_id" Type="int" Nullable="false" />
           <Property Name="start_living_at" Type="int" Nullable="false" />
           <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="city">
           <Key>
@@ -902,6 +903,7 @@
           <Property Name="duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="callout" Relationship="Self.callout_room_ibfk_1" FromRole="callout_room" ToRole="callout" />
           <NavigationProperty Name="room" Relationship="Self.callout_room_ibfk_2" FromRole="callout_room" ToRole="room" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="city">
           <Key>
@@ -1751,6 +1753,7 @@
           <EntitySetMapping Name="callout_room">
             <EntityTypeMapping TypeName="travel_systemModel.callout_room">
               <MappingFragment StoreEntitySet="callout_room">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />

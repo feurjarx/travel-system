@@ -19,13 +19,10 @@ namespace ControlTravelAgencySystem.Controllers
         [HttpPost]
         public JsonResult Suggestions(int id)
         {
+            callout callout =  _dbContext.callouts.Where(c => c.id == id).FirstOrDefault();
+            
             List<object> airticketsList = new List<object>();
-            IQueryable<airticket> airtickets = _dbContext.airtickets
-                .Include("flight.airline")
-                .Where(a => a.callout_id == id)
-                ;
-
-            foreach (airticket airticket in airtickets)
+            foreach (airticket airticket in callout.airtickets)
             {
                 flight flight = airticket.flight;
 
@@ -50,13 +47,7 @@ namespace ControlTravelAgencySystem.Controllers
 
 
             List<object> transfersList = new List<object>();
-            IQueryable<transfer> transfers = _dbContext.transfers
-                .Include("route.airport.city")
-                .Include("route.airport1.city")
-                .Where(t => t.callout_id == id)
-                ;
-        
-            foreach (transfer transfer in transfers)
+            foreach (transfer transfer in callout.transfers)
             {
                 route route = transfer.route;
                 airport fromAirport = route.airport;
@@ -98,16 +89,67 @@ namespace ControlTravelAgencySystem.Controllers
                     }
                 });
             }
+
+            List<object> roomsList = new List<object>();
+            foreach (callout_room calloutRoom in callout.callout_room)
+            {
+                room room = calloutRoom.room;
+                hotel hotel = room.hotel;
+                food food = hotel.food;
+                city city = hotel.city;
+                country country = city.country;
+
+                roomsList.Add(new {
+
+                    created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
+                    start_living_at = calloutRoom.start_living_at,
+                    duration = calloutRoom.duration,
+
+                    room = new {
+
+                        id = room.id,   
+                        number = room.number,
+                        @class = room.@class,
+                        seats_number = room.seats_number,
+                        room_size =  room.room_size,
+                        description = room.description,
+                        hotel = new {
+                            id = hotel.id,
+                            name = hotel.name,
+                            stars_number = hotel.stars_number,
+                            distance_to_beach = hotel.distance_to_beach,
+
+                            food = food != null ? new {
+                                id = food.id,
+                                type = food.type,
+                                description = food.description
+                            } : null,
+
+                            city = new {
+                                id = city.id,
+                                name = city.name,
+                                country = new {
+                                    id = country.id,
+                                    name = country.name
+                                }
+                            }
+                        }
+                    }
+                });
+            }
             
             return Json(new {
                 
                 airtickets = airticketsList,
                 transfers = transfersList,
+                rooms = roomsList,
 
                 is_services = 
                     airticketsList.Count() > 0
                     ||
                     transfersList.Count() > 0
+                    ||
+                    roomsList.Count() > 0
 
             }, JsonRequestBehavior.DenyGet);
         }

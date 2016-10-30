@@ -367,6 +367,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\spinner.js" />
     <Content Include="Styles\Auth.css" />
+    <Content Include="Styles\Common.css" />
     <Content Include="Styles\ControlPanel.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

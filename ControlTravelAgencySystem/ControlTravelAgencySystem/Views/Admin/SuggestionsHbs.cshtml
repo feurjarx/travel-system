@@ -8,13 +8,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
                                 Авиабилет №{{math @@index "+" 1}}
                             </a>
                             <span class="pull-right">от {{created_datetime}}</span>
                         </h4>
                     </div>
-                    <div id="collapse-{{math @@index "+" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
+                    <div id="collapse-{{math @@index " +" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
                             <p>
                                 <b>Перевозчик:</b> {{ this.flight.airline_name }}
@@ -116,6 +116,25 @@
                             <span>
                                 <b>Стоимость билета: </b>{{ this.payment }}
                             </span>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+
+            {{#each rooms}}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
+                                Номер {{ room.number }} в отеле {{ room.hotel.name }}
+                            </a>
+                            <span class="pull-right">от {{created_datetime}}</span>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{math @@index " +" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            test
                         </div>
                     </div>
                 </div>
