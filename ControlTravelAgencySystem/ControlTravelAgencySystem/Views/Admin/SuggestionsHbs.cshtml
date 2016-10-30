@@ -17,28 +17,28 @@
                     <div id="collapse-{{math @@index " +" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
                             <p>
-                                <b>Перевозчик:</b> {{ this.flight.airline_name }}
+                                <b>Перевозчик:</b> {{ flight.airline_name }}
                             </p>
                             <p>
-                                <b>Номер рейса:</b> {{ this.flight.code }}
+                                <b>Номер рейса:</b> {{ flight.code }}
                             </p>
                             <p>
-                                <b>Продолжительность полета:</b> {{ this.flight.duration }} ч.
+                                <b>Продолжительность полета:</b> {{ flight.duration }} ч.
                             </p>
                             <p>
-                                <b>Всего мест:</b> {{ this.flight.total_seats }}
+                                <b>Всего мест:</b> {{ flight.total_seats }}
                             </p>
                             <p>
                                 <b>Детский:</b>
-                                {{#if this.is_baby }}Да{{ else }}Нет{{/if}}
+                                {{#if is_baby }}Да{{ else }}Нет{{/if}}
                             </p>
                             <p>
                                 <b>Наличие багажа:</b>
-                                {{#if this.is_baggage }}Есть{{ else }}Нет{{/if}}
+                                {{#if is_baggage }}Есть{{ else }}Нет{{/if}}
                             </p>
                             <hr />
                             <span>
-                                <b>Стоимость билета: </b>{{ this.payment }}
+                                <b>Стоимость билета: </b>{{ payment }}
                             </span>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             {{/if}}
 
                             <p>
-                                <b>Дата отправления:</b> {{ this.starting_date }}
+                                <b>Дата отправления:</b> {{ starting_date }}
                             </p>
 
                             <p>
@@ -106,15 +106,15 @@
 
                             <p>
                                 <b>Детский:</b>
-                                {{#if this.is_baby }}Да{{ else }}Нет{{/if}}
+                                {{#if is_baby }}Да{{ else }}Нет{{/if}}
                             </p>
                             <p>
                                 <b>Наличие багажа:</b>
-                                {{#if this.is_baggage }}Есть{{ else }}Нет{{/if}}
+                                {{#if is_baggage }}Есть{{ else }}Нет{{/if}}
                             </p>
                             <hr />
                             <span>
-                                <b>Стоимость билета: </b>{{ this.payment }}
+                                <b>Стоимость билета: </b>{{ payment }}
                             </span>
                         </div>
                     </div>
@@ -126,15 +126,54 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-room" aria-controls="collapseOne" aria-expanded="false">
                                 Номер {{ room.number }} в отеле {{ room.hotel.name }}
                             </a>
-                            <span class="pull-right">от {{created_datetime}}</span>
+                            <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
                     </div>
-                    <div id="collapse-{{math @@index " +" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
+                    <div id="collapse-{{math @@index " +" 1}}-room" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
-                            test
+                            <p>
+                                <b>Класс: </b> {{ room.class }}
+                            </p>
+                            <p>
+                                <b>Количество мест: </b> {{ room.seats_number }}
+                            </p>
+
+                            {{#if room.room_size }}
+                                <p>
+                                    <b>Площадь комнаты: </b> {{ room.room_size }}
+                                </p>
+                            {{/if}}
+
+                            {{#if room.description }}
+                                <p>
+                                    <b>Описание: </b> {{ room.description }}
+                                </p>
+                            {{/if}}'
+
+                            <p>
+                                <b>Количество звезд отеля: </b> {{ room.hotel.stars_number }}
+                            </p>
+
+                            {{#if room.hotel.distance_to_beach }}
+                                <p>
+                                    <b>Расстояние до ближ. пляжа: </b> {{ room.hotel.distance_to_beach }}
+                                </p>
+                            {{/if}}
+
+                            {{#if room.hotel.food }}
+                                <p>
+                                    <b>Питание: </b> {{ room.hotel.food.description }} ({{ room.hotel.food.type }})
+                                </p>
+                            {{/if}}
+
+                            <hr />
+                            <span>
+                                <b>Стоимость проживания: </b>{{ payment }}
+                            </span>
+
                         </div>
                     </div>
                 </div>
