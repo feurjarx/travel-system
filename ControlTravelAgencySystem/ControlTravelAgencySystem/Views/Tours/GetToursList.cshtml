@@ -1,0 +1,39 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.ToursView
+<table id="tours-table" class="table">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Страна</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var viewItem in Model.TourViewItems)
+        {
+            <tr>
+                <td>
+                    @Ajax.ActionLink(
+                        viewItem.TourName,
+                        "GetHotelsList",
+                        "Hotels",
+                        new { id = viewItem.TourId },
+                        new AjaxOptions
+                        {
+                            UpdateTargetId = "hotels-table-" + viewItem.TourId,
+                            Url = Url.Action(
+                                "GetHotelsList",
+                                "Hotels",
+                                new { id = viewItem.TourId })
+                        })
+                </td>
+                <td>
+                    @viewItem.CountryName
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="hotels-table-@viewItem.TourId" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
