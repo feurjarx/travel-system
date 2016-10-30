@@ -1,34 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace ControlTravelAgencySystem
 {
     public class RouteConfig
     {
+        /// <summary>
+        /// Настройка URL маршрутизации
+        /// </summary>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // По умолчанию
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "",
+                defaults: new { controller = "Home", action = "Index" }
             );
 
+            // Домашняя страница
             routes.MapRoute(
-                name: "HotelsList",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Hotels", action = "List", id = UrlParameter.Optional }
+                name: "Home",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index" }
             );
 
+            // ajax: Список отелей тура
             routes.MapRoute(
-                name: "HotelRoomsList",
+                name: "GetHotelsList",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "HotelRooms", action = "List", id = UrlParameter.Optional }
+                defaults: new { controller = "Hotels", action = "GetHotelsList", id = UrlParameter.Optional }
+            );
+
+            // ajax: Список номеров
+            routes.MapRoute(
+                name: "GetRoomsList",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Rooms", action = "GetRoomsList", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
