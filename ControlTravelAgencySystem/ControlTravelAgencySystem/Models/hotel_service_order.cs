@@ -21,6 +21,7 @@ namespace ControlTravelAgencySystem.Models
         public Nullable<int> room_id { get; set; }
         public int payment { get; set; }
         public int provision_at { get; set; }
+        public int created_at { get; set; }
     
         public virtual callout callout { get; set; }
         public virtual hotel_service hotel_service { get; set; }

@@ -8,13 +8,13 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
                                 Авиабилет №{{math @@index "+" 1}}
                             </a>
                             <span class="pull-right">от {{created_datetime}}</span>
                         </h4>
                     </div>
-                    <div id="collapse-{{math @@index " +" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
+                    <div id="collapse-{{math @@index "+" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
                             <p>
                                 <b>Перевозчик:</b> {{ flight.airline_name }}
@@ -38,7 +38,7 @@
                             </p>
                             <hr />
                             <span>
-                                <b>Стоимость билета: </b>{{ payment }}
+                                <b>Стоимость билета:</b> {{ payment }}
                             </span>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             </p>
                             <hr />
                             <span>
-                                <b>Стоимость билета: </b>{{ payment }}
+                                <b>Стоимость билета:</b> {{ payment }}
                             </span>
                         </div>
                     </div>
@@ -122,58 +122,160 @@
             {{/each}}
 
             {{#each rooms}}
-
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-room" aria-controls="collapseOne" aria-expanded="false">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-room" aria-controls="collapseOne" aria-expanded="false">
                                 Номер {{ room.number }} в отеле {{ room.hotel.name }} ({{ room.hotel.city.name }}, {{ room.hotel.city.country.name }})
                             </a>
                             <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
                     </div>
-                    <div id="collapse-{{math @@index " +" 1}}-room" class="panel-collapse collapse" role="tabpanel">
+                    <div id="collapse-{{math @@index "+" 1}}-room" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
                             <p>
-                                <b>Класс: </b> {{ room.class }}
+                                <b>Класс:</b> {{ room.class }}
                             </p>
                             <p>
-                                <b>Количество мест: </b> {{ room.seats_number }}
+                                <b>Количество мест:</b> {{ room.seats_number }}
                             </p>
 
                             {{#if room.room_size }}
                                 <p>
-                                    <b>Площадь комнаты: </b> {{ room.room_size }} м<sup>2</sup>
+                                    <b>Площадь комнаты:</b> {{ room.room_size }} м<sup>2</sup>
                                 </p>
                             {{/if}}
 
                             {{#if room.description }}
                                 <p>
-                                    <b>Описание: </b> {{ room.description }}
+                                    <b>Описание:</b> {{ room.description }}
                                 </p>
                             {{/if}}
 
                             <p>
-                                <b>Количество звезд отеля: </b> {{ room.hotel.stars_number }}
+                                <b>Количество звезд отеля:</b> {{ room.hotel.stars_number }}
                             </p>
 
                             {{#if room.hotel.distance_to_beach }}
                                 <p>
-                                    <b>Расстояние до ближ. пляжа: </b> {{ room.hotel.distance_to_beach }} м
+                                    <b>Расстояние до ближ. пляжа:</b> {{ room.hotel.distance_to_beach }} м
                                 </p>
                             {{/if}}
 
                             {{#if room.hotel.food }}
                                 <p>
-                                    <b>Питание: </b> {{ room.hotel.food.description }} ({{ room.hotel.food.type }})
+                                    <b>Питание:</b> {{ room.hotel.food.description }} ({{ room.hotel.food.type }})
+                                </p>
+                            {{/if}}
+                            <p>
+                                <b>Дата и время заезда:</b> с {{ start_living_datetime }}
+                            </p>
+                            <p>
+                                <b>Продолжительность:</b> {{ duration }} часов
+                            </p>
+                            <hr />
+                            <span>
+                                <b>Стоимость проживания:</b> {{ payment }}
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+            
+            {{#each excursions }}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-excursion" aria-controls="collapseOne" aria-expanded="false">
+                                Билет №{{math @@index "+" 1}} на эксурсию {{ excursion.name }}{{#if excursion.city_name }} ({{ excursion.city_name }}){{/if}}
+                            </a>
+                            <span class="pull-right">от {{ created_datetime }}</span>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{math @@index "+" 1}}-excursion" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <p>
+                                <b>Сбор по адресу:</b> {{ starting_address }}
+                            </p>
+                            <p>
+                                <b>Время сбора:</b> {{ starting_datetime }}
+                            </p>
+                            <p>
+                                <b>Продолжительность:</b> {{ excursion.duration }} часов
+                            </p>
+                            <p>
+                                <b>Описание:</b> {{ excursion.description }}
+                            </p>
+
+                            {{#if bus_place_number}}
+                                <p>
+                                    <b>Место в автобусе:</b> {{ bus_place_number }}
+                                </p>
+                            {{/if}}
+
+                            <p>
+                                <b>Детский:</b>
+                                {{#if is_baby }}Да{{ else }}Нет{{/if}}
+                            </p>
+                            <p>
+                                <b>Льготы:</b>
+                                {{#if is_privilege }}Есть{{ else }}Нет{{/if}}
+                            </p>
+                            <p>
+                                <b>Экскурсия за границей:</b>
+                                {{#if is_custom }}Да{{ else }}Нет{{/if}}
+                            </p>
+
+
+                            <hr />
+                            <span>
+                                <b>Стоимость экскурсии:</b> {{ payment }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+
+            {{#each hotel_services }}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-hotel-service" aria-controls="collapseOne" aria-expanded="false">
+                                Заказ №{{math @@index "+" 1}} на платную услугу{{#if hotel_service.hotel_name}} от отеля {{ hotel_service.hotel_name }}{{/if}}
+                            </a>
+                            <span class="pull-right">от {{ created_datetime }}</span>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{math @@index "+" 1}}-hotel-service" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <p>
+                                <b>Дата и время оказания:</b> {{ provision_datetime }}
+                            </p>
+                            <p>
+                                <b>Продолжительность:</b> {{ duration }} мин
+                            </p>
+
+                            {{#if room }}
+                                <p>
+                                    <b>Для комнаты номер:</b> {{ room.number }}
+                                </p>
+                            {{/if}}
+
+                            <p>
+                                <b>Описание:</b> {{ hotel_service.description }}
+                            </p>
+
+                            {{#if hotel_service.starting_time }}
+                                <p>
+                                    <b>Время начала предоставления:</b> {{ hotel_service.starting_time }}
                                 </p>
                             {{/if}}
 
                             <hr />
                             <span>
-                                <b>Стоимость проживания: </b>{{ payment }}
+                                <b>Стоимость услуги:</b> {{ payment }}
                             </span>
-
                         </div>
                     </div>
                 </div>

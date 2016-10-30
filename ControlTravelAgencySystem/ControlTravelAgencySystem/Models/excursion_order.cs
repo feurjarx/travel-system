@@ -24,6 +24,7 @@ namespace ControlTravelAgencySystem.Models
         public int is_privilege { get; set; }
         public int is_custom { get; set; }
         public Nullable<int> bus_place_number { get; set; }
+        public int created_at { get; set; }
     
         public virtual callout callout { get; set; }
         public virtual excursion excursion { get; set; }
