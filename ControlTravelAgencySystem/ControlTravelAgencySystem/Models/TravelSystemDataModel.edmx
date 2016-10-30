@@ -193,6 +193,7 @@
           <Property Name="room_id" Type="int" />
           <Property Name="payment" Type="int" Nullable="false" />
           <Property Name="provision_at" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="person">
           <Key>
@@ -1049,6 +1050,7 @@
           <NavigationProperty Name="callout" Relationship="Self.hotel_service_order_ibfk_3" FromRole="hotel_service_order" ToRole="callout" />
           <NavigationProperty Name="hotel_service" Relationship="Self.hotel_service_order_ibfk_1" FromRole="hotel_service_order" ToRole="hotel_service" />
           <NavigationProperty Name="room" Relationship="Self.hotel_service_order_ibfk_2" FromRole="hotel_service_order" ToRole="room" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="person">
           <Key>
@@ -1881,6 +1883,7 @@
           <EntitySetMapping Name="hotel_service_order">
             <EntityTypeMapping TypeName="travel_systemModel.hotel_service_order">
               <MappingFragment StoreEntitySet="hotel_service_order">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="hotel_service_id" ColumnName="hotel_service_id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />

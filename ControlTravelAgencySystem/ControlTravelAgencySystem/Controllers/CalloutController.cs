@@ -178,13 +178,44 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
 
+            List<object> hotelServiceOrdersList = new List<object>();
+            foreach (hotel_service_order hotelServiceOrder in callout.hotel_service_order)
+            {
+                hotel_service service = hotelServiceOrder.hotel_service;
+                hotelServiceOrdersList.Add(new {
+
+                    id = hotelServiceOrder.id,
+                    created_datetime = Utils.tsToDateTime(hotelServiceOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
+                    provision_datetime = Utils.tsToDateTime(hotelServiceOrder.provision_at).ToString(Constants.ddMMMyyyyHmmss),
+                    payment = hotelServiceOrder.payment,
+                    duration = hotelServiceOrder.duration,
+
+                    room = hotelServiceOrder.room != null ? new {
+
+                        id = hotelServiceOrder.room.id,
+                        number = hotelServiceOrder.room.number
+
+                    } : null,
+
+                    hotel_service = new {
+
+                        id = service.id,
+                        hotel_name = service.hotel.name,
+                        description = service.description,
+                        starting_time = service.starting_time != null ? ((TimeSpan)service.starting_time).ToString(Constants.hhmmss) : null
+                    }
+                });
+            }
+            
             return Json(new {
                 
                 airtickets = airticketsList,
                 transfers = transfersList,
                 rooms = roomsList,
                 excursions = excursionOrdersList,
+                hotel_services = hotelServiceOrdersList,
 
+                // далее трубопровод =D P.S. веселые приключения программиста
                 is_services = 
                     airticketsList.Count() > 0
                     ||
@@ -193,6 +224,8 @@ namespace ControlTravelAgencySystem.Controllers
                     roomsList.Count() > 0
                     ||
                     excursionOrdersList.Count() > 0
+                    ||
+                    hotelServiceOrdersList.Count() > 0
 
             }, JsonRequestBehavior.DenyGet);
         }

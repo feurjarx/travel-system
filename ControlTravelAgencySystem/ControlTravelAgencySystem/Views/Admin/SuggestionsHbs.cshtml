@@ -235,7 +235,51 @@
                         </div>
                     </div>
                 </div>
-                {{/each}}
+            {{/each}}
+
+            {{#each hotel_services }}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-hotel-service" aria-controls="collapseOne" aria-expanded="false">
+                                Заказ №{{math @@index "+" 1}} на платную услугу{{#if hotel_service.hotel_name}} от отеля {{ hotel_service.hotel_name }}{{/if}}
+                            </a>
+                            <span class="pull-right">от {{ created_datetime }}</span>
+                        </h4>
+                    </div>
+                    <div id="collapse-{{math @@index "+" 1}}-hotel-service" class="panel-collapse collapse" role="tabpanel">
+                        <div class="panel-body">
+                            <p>
+                                <b>Дата и время оказания:</b> {{ provision_datetime }}
+                            </p>
+                            <p>
+                                <b>Продолжительность:</b> {{ duration }} мин
+                            </p>
+
+                            {{#if room }}
+                                <p>
+                                    <b>Для комнаты номер:</b> {{ room.number }}
+                                </p>
+                            {{/if}}
+
+                            <p>
+                                <b>Описание:</b> {{ hotel_service.description }}
+                            </p>
+
+                            {{#if hotel_service.starting_time }}
+                                <p>
+                                    <b>Время начала предоставления:</b> {{ hotel_service.starting_time }}
+                                </p>
+                            {{/if}}
+
+                            <hr />
+                            <span>
+                                <b>Стоимость услуги:</b> {{ payment }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
 
         {{else}}
 
