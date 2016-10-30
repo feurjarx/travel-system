@@ -104,6 +104,7 @@ namespace ControlTravelAgencySystem.Controllers
                     created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     start_living_at = calloutRoom.start_living_at,
                     duration = calloutRoom.duration,
+                    payment = calloutRoom.payment,
 
                     room = new {
 
