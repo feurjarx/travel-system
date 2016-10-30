@@ -56,4 +56,68 @@
             });
         }
     });
+
+    $('#employee-add-modal').submit(function (event) {
+        event.preventDefault();
+
+        var $form = $(this);
+
+        $form.find('.modal-title').mask();
+
+        $.ajax({
+            method: 'post',
+            url: '/employee/create',
+            data: $form.serializeArray(),
+            success: function (response) {
+
+                if (response.error) {
+
+                    console.error(response.error);
+
+                    $form.find('.error-label').text('Ошибка на сервере');
+
+                } else {
+
+                    $form.modal('hide').get(0).reset();
+                    location.reload();
+                }
+            },
+            error: function (err) {
+                console.error(err);
+            },
+            complete: function () {
+                $form.find('.modal-title').unmask();
+            }
+        });
+    });
+
+    $('.btn-employee-remove').on('click', function () {
+
+        var $item = $(this).closest('tr');
+        var employeeId = $item.data('id');
+
+        $item.find('td').first().mask();
+
+        $.ajax({
+            method: 'delete',
+            url: '/employee/delete/' + employeeId,
+            success: function (response) {
+
+                if (response.error) {
+
+                    console.error(response.error);
+
+                } else {
+
+                    $item.fadeOut();
+                }
+            },
+            error: function (err) {
+                console.error(err);
+            },
+            complete: function () {
+                $item.find('td').first().unmask();
+            }
+        });
+    });
 });

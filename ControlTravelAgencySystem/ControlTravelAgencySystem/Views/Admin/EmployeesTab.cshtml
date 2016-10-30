@@ -1,7 +1,70 @@
-﻿
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+@using ControlTravelAgencySystem.Common
+
 @{
-    ViewBag.Title = "EmployeesTab";
+    ViewBag.Title = "Сотрудники";
 }
 
-<h2>EmployeesTab</h2>
+@RenderPage("Modals/EmployeeAddModal.cshtml")
 
+<div id="employees-top-panel">
+    <h2>Ваши сотрудники</h2>
+
+    <div class="btn-group btn-group-sm" id="employee-add-btn"  data-toggle="modal" data-target="#employee-add-modal">
+        <button class="btn btn-success">Добавить</button>
+    </div>
+</div>
+
+@if (Model.employees.Count() > 0)
+{
+    
+    <table class="table table-hover" id="employees-table">
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Дата рождения</th>
+                <th>Должность</th>
+                <th>Дата и время вступления</th>
+                <th>Зарплата</th>
+                <th>Email</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (employee e in Model.employees)
+            {
+                <tr data-id="@e.id" data-fullname="@e.person.fullname">
+                    <td>@e.person.fullname</td>
+                    <td>@Utils.tsToDateTime(e.person.birthday_at).ToString(Constants.ddMMMyyyy)</td>
+                    <td>@e.position</td>
+                    <td>@Utils.tsToDateTime(e.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
+                    <td>@e.salary</td>
+                    <td>
+
+                        @if (e.email != null)
+                        {
+
+                            @e.email
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-xs center-block btn-employee-remove" style="padding: 0px 5px;">x</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">Сотрудники не найдены</div>
+}

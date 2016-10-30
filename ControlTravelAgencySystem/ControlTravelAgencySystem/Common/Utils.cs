@@ -38,5 +38,15 @@ namespace ControlTravelAgencySystem.Common
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }
+
+        /// <summary>
+        /// Конвертация datetime в таймштам (обратно)
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static int dtToTimestamp(DateTime dt)
+        {
+            return (int)(dt.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
     }
 }

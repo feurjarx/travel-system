@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+
+@{
     ViewBag.Title = "Панель управления";
 }
 
@@ -16,12 +18,17 @@
         </div>
 
         <ul class="nav navbar-nav navbar-collapse">
-            <li class="active">
+            <li class="active" >
                 <a href="#callouts-tab" data-toggle="tab">Заявки</a>
             </li>
-            <li>
-                <a href="#employees-tab" data-toggle="tab">Сотрудники</a>
-            </li>
+
+            @if (Model.user.position == "директор")
+            {
+                <li>
+                    <a href="#employees-tab" data-toggle="tab">Сотрудники</a>
+                </li>
+            }
+            
         </ul>
              
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -36,8 +43,12 @@
             @RenderPage("CalloutsTab.cshtml")
         </div>
 
-        <div class="tab-pane" id="employees-tab">
-            @RenderPage("EmployeesTab.cshtml")
-        </div>
+        @if (Model.user.position == "директор")
+        {
+            <div class="tab-pane" id="employees-tab">
+                @RenderPage("EmployeesTab.cshtml")
+            </div>
+        }
+        
     </div>
 </div>

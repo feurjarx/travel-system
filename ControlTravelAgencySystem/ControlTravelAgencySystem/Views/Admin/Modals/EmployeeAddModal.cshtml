@@ -1,0 +1,53 @@
+﻿<form class="modal fade" id="employee-add-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Добавление сотрудника
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="fullname-input" class="control-label">ФИО:</label>
+                    <input required type="text" class="form-control" id="fullname-input" name="fullname">
+                </div>
+                <div class="form-group">
+                    <label for="birthday-at-input" class="control-label">Дата рождения:</label>
+                    <input required id="birthday-at-input" type="date" name="birthday_at" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="passport-code-input" class="control-label">Номер и серия паспорта:</label>
+                    <input required maxlength="10" type="text" class="form-control" id="passport-code-input" name="passport_code">
+                </div>
+                <div class="form-group">
+                    <label for="position-input" class="control-label">Должность:</label>
+                    <select required class="form-control" id="position-input" name="position">
+                        <option value="менеджер">Менеджер</option>
+                        <option value="директор">Директор</option>
+                        <option value="пиар-менеджер">Пиар-менеджер</option>
+                        <option value="рекрутер">Рекрутер</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="salary-input" class="control-label">Зарплата:</label>
+                    <input type="number" class="form-control" id="salary-input" name="salary" min="5000" max="200000">
+                </div>
+                <div class="form-group">
+                    <label for="email-input" class="control-label">Электронная почта:</label>
+                    <input required type="text" class="form-control" id="email-input" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password-input" class="control-label">Пароль:</label>
+                    <input required type="password" class="form-control" id="password-input" name="password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

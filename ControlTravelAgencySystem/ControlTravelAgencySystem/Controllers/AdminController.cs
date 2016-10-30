@@ -31,7 +31,7 @@ namespace ControlTravelAgencySystem.Controllers
             ViewBag.access = false;
             // параметр наличия ошибки
             ViewBag.error = null;
-
+            
             model.user = new employee();
 
             if (HttpContext.Request.Cookies["session"] != null)
@@ -47,6 +47,9 @@ namespace ControlTravelAgencySystem.Controllers
 
                         model.user = user;
                         model.callouts = _dbContext.callouts.DefaultIfEmpty();
+                        model.employees = _dbContext.employees
+                            .Include("person")
+                            .DefaultIfEmpty();
                     }
                 }
             }
@@ -84,7 +87,11 @@ namespace ControlTravelAgencySystem.Controllers
                     cookie.Expires = DateTime.Now.AddHours(AdminController.EXPIRE_COOKIE);
                     HttpContext.Response.Cookies.Add(cookie);
 
+                    model.user = userDb;
                     model.callouts = _dbContext.callouts.DefaultIfEmpty();
+                    model.employees = _dbContext.employees
+                        .Include("person")
+                        .DefaultIfEmpty();
                 }
                 else
                 {

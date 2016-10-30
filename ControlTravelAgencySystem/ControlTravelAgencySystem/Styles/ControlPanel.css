@@ -1,3 +1,12 @@
 ﻿#control-panel table > tbody > tr {
     cursor: pointer;
 }
+
+#employees-top-panel {
+    display: flex;
+}
+
+#employee-add-btn {
+    align-self: center;
+    margin: 20px 10px 10px;
+}

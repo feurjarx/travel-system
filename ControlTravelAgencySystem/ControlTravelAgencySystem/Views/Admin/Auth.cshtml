@@ -7,10 +7,11 @@
         <button class="btn btn-primary btn-block" type="submit">Войти</button>
 
         @if (ViewBag.error != null)
-            {
+        {
             <div class="alert alert-@ViewBag.error.type">
                 <b>@ViewBag.error.message[0]</b> @ViewBag.error.message[1]
             </div>
         }
+
     </form>
 </div>

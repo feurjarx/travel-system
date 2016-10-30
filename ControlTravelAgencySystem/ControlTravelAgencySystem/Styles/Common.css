@@ -22,3 +22,12 @@ body {
 .flexbox {
     display: flex;
 }
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.space-between > * {
+    align-self: center;
+}

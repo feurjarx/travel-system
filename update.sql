@@ -7,3 +7,6 @@ ALTER TABLE `callout_room` ADD `payment` INT(6) NOT NULL AFTER `created_at`;
 ALTER TABLE `excursion_order` ADD `created_at` INT NOT NULL AFTER `bus_place_number`;
 
 ALTER TABLE `hotel_service_order` ADD `created_at` INT NOT NULL AFTER `provision_at`;
+
+ALTER TABLE `travel_system`.`employee` ADD UNIQUE (`email`);
+
