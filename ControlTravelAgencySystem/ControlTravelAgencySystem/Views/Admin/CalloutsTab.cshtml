@@ -27,8 +27,8 @@
 
             @foreach (callout c in Model.callouts)
             {
-                <tr data-id="@c.id">
-                    <td>@c.fullname</td>
+                <tr data-id="@c.id" data-fullname="@(c.fullname != null ? c.fullname : "")">
+                    <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
                     <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
 
                     <td>

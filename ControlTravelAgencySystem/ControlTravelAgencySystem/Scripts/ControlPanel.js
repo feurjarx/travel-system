@@ -15,16 +15,22 @@
 
     $('#callouts-table').find('tbody > tr').on('click', function (event) {
 
-        var $calloutItem = $(this);
-        var calloutId = $calloutItem.data('id');
         var successAction = function (params) {
+            
             $('#suggestions-modal')
                 .find('.modal-body')
                 .html(render(params))
                 .end()
+                .find('.modal-title .fullname')
+                .text(params.fullname)
+                .end()
                 .modal()
             ;
         };
+
+        var $calloutItem = $(this);
+        var calloutId = $calloutItem.data('id');
+        var fullname = $calloutItem.data('fullname');
 
         var responseFromCache = cache.get(calloutId);
         if (responseFromCache) {
@@ -37,6 +43,7 @@
                 method: 'post',
                 url: '/callout/suggestions/' + calloutId,
                 success: function (response) {
+                    response.fullname = fullname;
                     successAction(response);
                     cache.set(calloutId, response);
                 },

@@ -7,8 +7,8 @@ namespace ControlTravelAgencySystem.Common
 {
     public class Constants
     {
-        public static string ddMMMyyyyHmmss = "ddMMM yyyy (H:mm:ss)";
+        public static string ddMMMyyyyHmmss = "dd MMM yyyy (H:mm:ss)";
         public static string hhmmss = @"hh\:mm\:ss";
-        public static string ddMMMyyyy = "ddMMM yyyy";
+        public static string ddMMMyyyy = "dd MMM yyyy";
     }
 }

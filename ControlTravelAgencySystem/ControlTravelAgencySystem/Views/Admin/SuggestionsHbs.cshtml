@@ -127,7 +127,7 @@
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index " +" 1}}-room" aria-controls="collapseOne" aria-expanded="false">
-                                Номер {{ room.number }} в отеле {{ room.hotel.name }}
+                                Номер {{ room.number }} в отеле {{ room.hotel.name }} ({{ room.hotel.city.name }}, {{ room.hotel.city.country.name }})
                             </a>
                             <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
@@ -197,7 +197,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Пожелания клиента</h4>
+                <h4 class="modal-title">Пожелания клиента <span class="fullname"></span></h4>
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
