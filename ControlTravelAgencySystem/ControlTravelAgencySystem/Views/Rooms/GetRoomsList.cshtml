@@ -18,7 +18,7 @@
             {
                 <tr>
                     <td>
-                        <input type="checkbox" value="@viewItem.RoomId" title="@viewItem.RoomNumber" />
+                        <input type="checkbox" checked="@viewItem.IsChecked" value="@viewItem.RoomId" title="@viewItem.RoomNumber" />
                     </td>
                     <td>
                         @viewItem.CostPerDay
@@ -43,3 +43,22 @@
         </tbody>
     </table>
 }
+
+    <script>
+        $(function() {
+            $(':checkbox').change(function () {
+                
+                var id = $(this).val();
+
+                alert(id);
+
+                $.ajax({
+                    url: '/rooms/roomchecked/' + id,
+                    type: 'POST',
+                    success: function(response) {
+                        alert(response);
+                    }
+                });
+            });
+        });
+    </script>
