@@ -8,11 +8,15 @@
 
 <h2>Заявки от клиентов</h2>
 
+<div class="flexbox form-group">
+    @RenderPage("PanelControls/CalloutsFilterByStatus.cshtml")
+</div>
+
 @if (Model.callouts.Count() > 0)
 {
     @RenderPage("SuggestionsHbs.cshtml")
     @RenderPage("Modals/SuggestionsModal.cshtml")
-
+    
     <table class="table table-hover" id="callouts-table">
         <thead>
             <tr>
@@ -27,7 +31,7 @@
         <tbody>
 
             @foreach (callout c in Model.callouts)
-            {
+                    {
                 <tr data-id="@c.id" data-fullname="@(c.fullname != null ? c.fullname : "")">
                     <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
                     <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>

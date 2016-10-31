@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ControlTravelAgencySystem.Models;
 using ControlTravelAgencySystem.Models.ViewModels;
 using ControlTravelAgencySystem.Common;
+using System.Data.Entity;
 
 namespace ControlTravelAgencySystem.Controllers
 {
@@ -16,13 +17,21 @@ namespace ControlTravelAgencySystem.Controllers
     {
         public static int EXPIRE_COOKIE = 1; // время жизни cookie в часах 
 
+        public static Dictionary<string, string> CALLOUT_ORDER_STATUS_RUSSIFIERS = new Dictionary<string, string>
+        {
+            { "paid", "оплачено" },
+            { "canceled", "отменено" },
+            { "expired", "просрочено" },
+            { "pending", "в ожидание" }
+        };
+
         private readonly TravelSystemEntities _dbContext;
         public AdminController(TravelSystemEntities dbContext)
         {
             _dbContext = dbContext;
         }
 
-        // GET: Admin
+        [HttpGet]
         public ActionResult Index()
         {
             AdminPanelPageView model = new AdminPanelPageView();
@@ -46,10 +55,7 @@ namespace ControlTravelAgencySystem.Controllers
                         ViewBag.access = true;
 
                         model.user = user;
-                        model.callouts = _dbContext.callouts.DefaultIfEmpty();
-                        model.employees = _dbContext.employees
-                            .Include("person")
-                            .DefaultIfEmpty();
+                        prepareModel(model);
                     }
                 }
             }
@@ -88,10 +94,7 @@ namespace ControlTravelAgencySystem.Controllers
                     HttpContext.Response.Cookies.Add(cookie);
 
                     model.user = userDb;
-                    model.callouts = _dbContext.callouts.DefaultIfEmpty();
-                    model.employees = _dbContext.employees
-                        .Include("person")
-                        .DefaultIfEmpty();
+                    prepareModel(model);
                 }
                 else
                 {
@@ -108,6 +111,31 @@ namespace ControlTravelAgencySystem.Controllers
 
             ViewBag.error = error;
             return View(model);
+        }
+
+        private void prepareModel(AdminPanelPageView model)
+        {
+            string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
+            
+            if (calloutOrderStatusCriteria != "" && calloutOrderStatusCriteria != null)
+            {
+                string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
+
+                model.callouts =
+                    from c in _dbContext.callouts
+                    join co in _dbContext.callout_order on c.id equals co.callout_id
+                    where co.status == status
+                    select c;
+            }
+            else
+            {
+                model.callouts = _dbContext.callouts;
+            }
+            
+            model.employees = _dbContext.employees
+                .Include("person")
+                .DefaultIfEmpty();
+
         }
 
         public ActionResult Logout()

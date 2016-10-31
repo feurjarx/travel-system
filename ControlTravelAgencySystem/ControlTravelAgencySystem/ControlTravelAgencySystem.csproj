@@ -409,6 +409,7 @@
     <Content Include="Views\Admin\Modals\EmployeeAddModal.cshtml" />
     <Content Include="Views\Rooms\GetRoomsList.cshtml" />
     <Content Include="Views\Tours\GetToursList.cshtml" />
+    <Content Include="Views\Admin\PanelControls\CalloutsFilterByStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

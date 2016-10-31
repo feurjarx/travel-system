@@ -1,0 +1,53 @@
+﻿<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+
+        @{
+            switch (@Request.Params.Get("callout_order_status"))
+            {
+                case "paid":
+                    <span>Оплаченные заявки</span>
+                    break;
+
+                case "canceled":
+
+                    <span>Оплаченные заявки</span>
+                    break;
+
+                case "pending":
+
+                    <span>Заявки в ожидании</span>
+                    break;
+
+                case "expired":
+
+                    <span>Просроченные заявки</span>
+                    break;
+
+                default:
+
+                    <span>Фильтр по статусу</span>
+                    break;
+            }
+        }
+
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu">
+        <li class="@(Request.Params.Get("callout_order_status") == null || Request.Params.Get("callout_order_status") == "" ? "active" : "" )">
+            <a href="?callout_order_status=">Все</a>
+        </li>
+        <li class="@(Request.Params.Get("callout_order_status") == "paid" ? "active" : "" )">
+            <a href="?callout_order_status=paid">Оплаченые</a>
+        </li>
+        <li class="@(Request.Params.Get("callout_order_status") == "canceled" ? "active" : "" )">
+            <a href="?callout_order_status=canceled">Отмененные</a>
+        </li>
+        <li class="@(Request.Params.Get("callout_order_status") == "pending" ? "active" : "" )">
+            <a href="?callout_order_status=pending">В ожидании</a>
+        </li>
+        <li class="@(Request.Params.Get("callout_order_status") == "expired" ? "active" : "" )">
+            <a href="?callout_order_status=expired">Истекшие</a>
+        </li>
+    </ul>
+</div>
