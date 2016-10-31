@@ -8,8 +8,9 @@
 
 <h2>Заявки от клиентов</h2>
 
-<div class="flexbox form-group">
+<div class="space-between form-group">
     @RenderPage("PanelControls/CalloutsFilterByStatus.cshtml")
+    @RenderPage("PanelControls/ActionsBtnGroup.cshtml")
 </div>
 
 @if (Model.callouts.Count() > 0)
@@ -20,6 +21,7 @@
     <table class="table table-hover" id="callouts-table">
         <thead>
             <tr>
+                <th></th>
                 <th>ФИО</th>
                 <th>Дата и время создания</th>
                 <th>Дата и время анулирования</th>
@@ -31,8 +33,16 @@
         <tbody>
 
             @foreach (callout c in Model.callouts)
-                    {
+            {
                 <tr data-id="@c.id" data-fullname="@(c.fullname != null ? c.fullname : "")">
+
+                    <td>
+                        <div class="checkbox">
+                            <input type="checkbox" id="callout-@(c.id)-checkbox">
+                            <label for="callout-@(c.id)-checkbox"></label>
+                        </div>
+                    </td>
+
                     <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
                     <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
 

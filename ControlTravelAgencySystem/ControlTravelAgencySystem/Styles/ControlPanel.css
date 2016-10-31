@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+#control-panel table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 #employees-top-panel {
     display: flex;
 }

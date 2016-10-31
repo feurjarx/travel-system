@@ -229,5 +229,67 @@ namespace ControlTravelAgencySystem.Controllers
 
             }, JsonRequestBehavior.DenyGet);
         }
+
+
+        [HttpDelete]
+        public JsonResult Delete()
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            string calloutsIdsLine = Request.Params.Get("callouts_ids[]");
+            List<int> calloutIdsList = calloutsIdsLine.Split(',').Select(int.Parse).ToList();
+
+            try
+            {
+                IQueryable<callout> callouts = _dbContext.callouts
+                    .Include("callout_order")
+                    .Include("airtickets")
+                    .Include("transfers")
+                    .Include("hotel_service_order")
+                    .Include("excursion_order")
+                    .Include("callout_room")
+                    .Where(c => calloutIdsList.Contains(c.id));
+
+                if (callouts.Count() == calloutIdsList.Count())
+                {
+                    foreach (callout callout in callouts)
+                    {
+                        foreach (callout_order order in callout.callout_order)
+                        {
+                            _dbContext.callout_order.Attach(order);
+                            _dbContext.callout_order.Remove(order);
+                        }
+
+
+                        foreach (airticket ticket in callout.airtickets)
+                        {
+                            _dbContext.airtickets.Attach(ticket);
+                            _dbContext.airtickets.Remove(ticket);
+                        }
+
+                        foreach (transfer ticket in callout.transfers)
+                        {
+                            _dbContext.transfers.Attach(ticket);
+                            _dbContext.transfers.Remove(ticket);
+                        }
+                        
+                        
+                        _dbContext.callouts.Attach(callout);
+                        _dbContext.callouts.Remove(callout);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                else
+                {
+                    result.Add("error", "Ошибка при удалении (несоответствие)");
+                }
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
     }
 }

@@ -13,10 +13,53 @@
         }
     };
 
-    $('#callouts-table').find('tbody > tr').on('click', function (event) {
+    var domControl = {
+
+        _calloutsRemoveBtnVisible: false,
+
+        get $calloutsRemoveBtn() {
+            return $('#actions-remove-btn');
+        },
+
+        get calloutsRemoveBtnVisible() {
+            return this._calloutsRemoveBtnVisible;
+        },
+        set calloutsRemoveBtnVisible(on) {
+
+            if (on) {
+
+                this.$calloutsRemoveBtn.fadeIn();
+
+            } else {
+
+                this.$calloutsRemoveBtn.fadeOut();
+            }
+
+            this._calloutsRemoveBtnVisible = on;
+        }
+    };
+
+    var $calloutsTable = $('#callouts-table');
+
+    $calloutsTable.find('.checkbox').on('change', function () {
+        domControl.calloutsRemoveBtnVisible = $(this).closest('table').find('input:checked').length > 0;
+    });
+
+    $calloutsTable.find('tbody > tr').on('click', function (event) {
+
+        if (event.target.type === 'checkbox'
+            ||
+            !$(event.target).index()
+            ||
+            $(event.target).hasClass('checkbox')
+            ||
+            event.target.tagName === 'label'
+        ) {
+            return;
+        }
 
         var successAction = function (params) {
-            
+
             $('#suggestions-modal')
                 .find('.modal-body')
                 .html(render(params))
@@ -55,6 +98,40 @@
                 }
             });
         }
+    });
+
+    domControl.$calloutsRemoveBtn.on('click', function () {
+        debugger
+
+        var calloutsIds = [];
+        $calloutsTable.find('input[type="checkbox"]:checked').each(function (_, elem) {
+            calloutsIds.push($(elem).closest('tr').data('id'));
+        });
+
+        $.ajax({
+            method: 'delete',
+            url: '/callout/delete',
+            data: {
+                callouts_ids: calloutsIds
+            },
+            success: function (response) {
+
+                if (response.error) {
+
+                    console.error(response.error);
+
+                } else {
+
+                    location.reload();
+                }
+            },
+            error: function (err) {
+                console.error(err);
+            },
+            complete: function () {
+                $form.find('.modal-title').unmask();
+            }
+        });
     });
 
     $('#employee-add-modal').submit(function (event) {
