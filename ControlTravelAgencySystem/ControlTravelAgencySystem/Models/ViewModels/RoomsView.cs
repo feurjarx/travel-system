@@ -9,6 +9,7 @@ namespace ControlTravelAgencySystem.Models.ViewModels
     {
         public class RoomViewItem
         {
+            public bool IsChecked { get; set; }
             public int RoomId { get; set; }
             public string RoomNumber { get; set; }
             public int CostPerDay { get; set; }

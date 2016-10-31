@@ -1,5 +1,6 @@
 ﻿using ControlTravelAgencySystem.Models;
 using ControlTravelAgencySystem.Models.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,6 +20,31 @@ namespace ControlTravelAgencySystem.Controllers
         public RoomsController(TravelSystemEntities dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        [HttpPost]
+        public JsonResult RoomChecked(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json("fail");
+
+            var parId = int.Parse(id);
+
+            if (Session["selected-check"] == null)
+                Session["selected-check"] = new List<int>();
+
+            var list = Session["selected-check"] as List<int>;
+
+            if (list.Any(x => x == parId))
+            {
+                list.Remove(parId);
+            }
+            else
+            {
+                list.Add(parId);
+            }
+
+            return Json("ok");
         }
 
         /// <summary>
@@ -42,11 +68,21 @@ namespace ControlTravelAgencySystem.Controllers
                 .Include("hotel")
                 .Where(x => x.hotel_id == id);
 
+            var list = Session["selected-check"] as List<int>;
+
             foreach (var room in rooms)
             {
+                var isChecked = false;
+
+                // переписать говнокод
+                if (list != null)
+                    if (list.Any(x => x == room.id))
+                        isChecked = true;
+
                 viewModel.RoomViewItems.Add(
                     new RoomsView.RoomViewItem
                     {
+                        IsChecked = isChecked,
                         RoomId = room.id,
                         RoomNumber = room.number,
                         CostPerDay = room.cost_per_day,
