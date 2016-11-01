@@ -241,43 +241,42 @@ namespace ControlTravelAgencySystem.Controllers
 
             try
             {
-                IQueryable<callout> callouts = _dbContext.callouts
+                List<callout> callouts = _dbContext.callouts
                     .Include("callout_order")
                     .Include("airtickets")
                     .Include("transfers")
                     .Include("hotel_service_order")
                     .Include("excursion_order")
                     .Include("callout_room")
-                    .Where(c => calloutIdsList.Contains(c.id));
+                    .Where(c => calloutIdsList.Contains(c.id))
+                    .ToList<callout>();
 
                 if (callouts.Count() == calloutIdsList.Count())
                 {
                     foreach (callout callout in callouts)
                     {
-                        foreach (callout_order order in callout.callout_order)
+                        List<callout_order> orders = callout.callout_order.ToList<callout_order>();
+                        foreach (callout_order order in orders)
                         {
-                            _dbContext.callout_order.Attach(order);
                             _dbContext.callout_order.Remove(order);
                         }
 
-
-                        foreach (airticket ticket in callout.airtickets)
+                        List<airticket> airtickets = callout.airtickets.ToList<airticket>();
+                        foreach (airticket ticket in airtickets)
                         {
-                            _dbContext.airtickets.Attach(ticket);
                             _dbContext.airtickets.Remove(ticket);
                         }
 
-                        foreach (transfer ticket in callout.transfers)
+                        List<transfer> transfers = callout.transfers.ToList<transfer>();
+                        foreach (transfer ticket in transfers)
                         {
-                            _dbContext.transfers.Attach(ticket);
                             _dbContext.transfers.Remove(ticket);
                         }
-                        
-                        
-                        _dbContext.callouts.Attach(callout);
-                        _dbContext.callouts.Remove(callout);
-                        _dbContext.SaveChanges();
+                       
+                        _dbContext.callouts.Remove(callout); 
                     }
+
+                    _dbContext.SaveChanges();
                 }
                 else
                 {

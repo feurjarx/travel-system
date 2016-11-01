@@ -1,7 +1,10 @@
 ﻿$(function () {
 
     var template = $('#suggestions-box').html();
-    var render = Handlebars.compile(template);
+    var render;
+    try {
+        render = Handlebars.compile(template);
+    } catch (err) {}
 
     var cache = {
         data: {},
@@ -53,7 +56,7 @@
             ||
             $(event.target).hasClass('checkbox')
             ||
-            event.target.tagName === 'label'
+            event.target.tagName === 'LABEL'
         ) {
             return;
         }
@@ -101,12 +104,14 @@
     });
 
     domControl.$calloutsRemoveBtn.on('click', function () {
-        debugger
 
         var calloutsIds = [];
         $calloutsTable.find('input[type="checkbox"]:checked').each(function (_, elem) {
             calloutsIds.push($(elem).closest('tr').data('id'));
         });
+
+        var $body = $('body');
+        $body.mask('center');
 
         $.ajax({
             method: 'delete',
@@ -129,7 +134,7 @@
                 console.error(err);
             },
             complete: function () {
-                $form.find('.modal-title').unmask();
+                $body.unmask();
             }
         });
     });
