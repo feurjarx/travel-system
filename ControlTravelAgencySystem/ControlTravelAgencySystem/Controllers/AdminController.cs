@@ -17,6 +17,7 @@ namespace ControlTravelAgencySystem.Controllers
     {
         public static int EXPIRE_COOKIE = 1; // время жизни cookie в часах 
 
+        // Словарь соответствий англ - рус слов
         public static Dictionary<string, string> CALLOUT_ORDER_STATUS_RUSSIFIERS = new Dictionary<string, string>
         {
             { "paid", "оплачено" },
@@ -34,6 +35,7 @@ namespace ControlTravelAgencySystem.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            // объект для взаимодействия с html
             AdminPanelPageView model = new AdminPanelPageView();
 
             // параметр доступа
@@ -42,12 +44,13 @@ namespace ControlTravelAgencySystem.Controllers
             ViewBag.error = null;
             
             model.user = new employee();
-
+            // проверка наличия cookie, если пользователь уже авторизован
             if (HttpContext.Request.Cookies["session"] != null)
             {
                 string sessionFromCookie = HttpContext.Request.Cookies["session"].Value;
                 if (sessionFromCookie != null)
                 {
+                    // проверка подлинности пользователя, представившегося по cookie
                     employee user = _dbContext.employees.Where(e => e.session == sessionFromCookie).FirstOrDefault();
                     if (user != null)
                     {
@@ -55,6 +58,7 @@ namespace ControlTravelAgencySystem.Controllers
                         ViewBag.access = true;
 
                         model.user = user;
+                        // подготовка данных для авторизованного пользователя 
                         prepareModel(model);
                     }
                 }
@@ -72,9 +76,12 @@ namespace ControlTravelAgencySystem.Controllers
             ErrorView error = new ErrorView();
             employee user = model.user;
 
+            // проверка наличия данных с полей логин и пароль после нажатия войти
             if (user.email != null && user.password != null)
             {
                 string hash = Utils.md5(user.password);
+
+                // Проверка подлинности пользователя
                 employee userDb = _dbContext.employees
                     .Where(u => u.email == user.email && u.password == hash)
                     .FirstOrDefault();
@@ -108,19 +115,20 @@ namespace ControlTravelAgencySystem.Controllers
                 error.message = new string[] { "Внимание!", "Некорректно заполнены данные" };
             }
 
-
             ViewBag.error = error;
+
             return View(model);
         }
 
         private void prepareModel(AdminPanelPageView model)
         {
+            // параметр сортировки заявок по статусам их заказов
             string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
             
             if (calloutOrderStatusCriteria != "" && calloutOrderStatusCriteria != null)
             {
                 string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
-
+                // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
                 model.callouts =
                     from c in _dbContext.callouts
                     join co in _dbContext.callout_order on c.id equals co.callout_id
@@ -132,6 +140,7 @@ namespace ControlTravelAgencySystem.Controllers
                 model.callouts = _dbContext.callouts;
             }
             
+            // получение всех сотрудников (вкладка Сотрудники)
             model.employees = _dbContext.employees
                 .Include("person")
                 .DefaultIfEmpty();
@@ -148,13 +157,14 @@ namespace ControlTravelAgencySystem.Controllers
 
             if (currentUser != null)
             {
+                // сброс данных в Cookie
                 currentUser.session = null;
                 _dbContext.SaveChangesAsync();
-
+                
                 sessionFromCookie.Expires = DateTime.Now.AddHours(-1 * AdminController.EXPIRE_COOKIE);
                 HttpContext.Response.SetCookie(sessionFromCookie);
             }
-            
+            // перенаправление на страницу авторизации
             return Redirect("/admin/");
         }
     }

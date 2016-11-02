@@ -16,11 +16,18 @@ namespace ControlTravelAgencySystem.Controllers
             _dbContext = dbContext;
         }
         
+        /// <summary>
+        /// Получение данных о желаниях
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult Suggestions(int id)
         {
+            // С вкладки Заявки Админки при клике на заявку сюда приходит id выбранной заявки
             callout callout =  _dbContext.callouts.Where(c => c.id == id).FirstOrDefault();
             
+            // Сбор данных о авиабилетах
             List<object> airticketsList = new List<object>();
             foreach (airticket airticket in callout.airtickets)
             {
@@ -47,7 +54,7 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
 
-
+            // Сбор данных о трансферах
             List<object> transfersList = new List<object>();
             foreach (transfer transfer in callout.transfers)
             {
@@ -96,6 +103,7 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
 
+            // Сбор данных о желаемых комнатах
             List<object> roomsList = new List<object>();
             foreach (callout_room calloutRoom in callout.callout_room)
             {
@@ -150,6 +158,7 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
 
+            // Сбор данных об экскурсиях в заявке
             List<object> excursionOrdersList = new List<object>();
             foreach (excursion_order excursionOrder in callout.excursion_order)
             {
@@ -178,6 +187,7 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
 
+            // Сбор данных о платных услугах в заявке
             List<object> hotelServiceOrdersList = new List<object>();
             foreach (hotel_service_order hotelServiceOrder in callout.hotel_service_order)
             {
@@ -207,6 +217,7 @@ namespace ControlTravelAgencySystem.Controllers
                 });
             }
             
+            // возврат данных на фронтэнд (клиенту)
             return Json(new {
                 
                 airtickets = airticketsList,
@@ -231,16 +242,22 @@ namespace ControlTravelAgencySystem.Controllers
         }
 
 
+        /// <summary>
+        /// Удаление выбранной заявки (вкладка заявки)
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
         public JsonResult Delete()
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
 
+            // Получение всех присланных id заявок для удаления
             string calloutsIdsLine = Request.Params.Get("callouts_ids[]");
             List<int> calloutIdsList = calloutsIdsLine.Split(',').Select(int.Parse).ToList();
 
             try
             {
+                // Жадная подгрузка всех заявок, айди которых есть в листе
                 List<callout> callouts = _dbContext.callouts
                     .Include("callout_order")
                     .Include("airtickets")
@@ -251,31 +268,38 @@ namespace ControlTravelAgencySystem.Controllers
                     .Where(c => calloutIdsList.Contains(c.id))
                     .ToList<callout>();
 
+                // проверка на актуальность присланных идентификаторов
                 if (callouts.Count() == calloutIdsList.Count())
                 {
+                    // перебор удаляемых заявко в цикле
                     foreach (callout callout in callouts)
                     {
+                        // удаление всех заказов текущей заявки (т.к. связь заказ - заявка RESTRICT)
                         List<callout_order> orders = callout.callout_order.ToList<callout_order>();
                         foreach (callout_order order in orders)
                         {
                             _dbContext.callout_order.Remove(order);
                         }
 
+                        // удаление всех авиабилетов текущей заявки (т.к. связь авиабилет - заявка RESTRICT)
                         List<airticket> airtickets = callout.airtickets.ToList<airticket>();
                         foreach (airticket ticket in airtickets)
                         {
                             _dbContext.airtickets.Remove(ticket);
                         }
 
+                        // удаление всех трансферов текущей заявки (т.к. связь транфсер - заявка RESTRICT)
                         List<transfer> transfers = callout.transfers.ToList<transfer>();
                         foreach (transfer ticket in transfers)
                         {
                             _dbContext.transfers.Remove(ticket);
                         }
-                       
+
+                        // остальные связи автоматически удаляться (т.к. остальные связи с заявкой CASKADE)
+                        // после удаление крепких связей ранее удаление самой заявки 
                         _dbContext.callouts.Remove(callout); 
                     }
-
+                    // осуществление транзакции 
                     _dbContext.SaveChanges();
                 }
                 else
@@ -288,6 +312,7 @@ namespace ControlTravelAgencySystem.Controllers
                 result.Add("error", exc.Message);
             }
 
+            // возврат результат операции
             return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
