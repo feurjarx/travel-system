@@ -18,6 +18,7 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public string FoodDescription { get; set; }
             public int HowManyInDay { get; set; }
             public string CityName { get; set; }
+            public int AveragePrice { get; set; }
         }
 
         public List<HotelViewItem> HotelViewItems { get; set; }

@@ -10,6 +10,7 @@
             <th>Тип питания</th>
             <th>Описание питания</th>
             <th>Скольки разовое питание</th>
+            <th>Средняя стоимость</th>
         </tr>
     </thead>
     <tbody>
@@ -40,10 +41,13 @@
                     @viewItem.CityName
                 </td>
                 <td>
-                    @viewItem.StarsNumber
+                    @for (var i = 0; i < viewItem.StarsNumber; i++)
+                    {
+                        <img src="~/Images/star_9297.png" width="16" height="16" />
+                    }
                 </td>
                 <td>
-                    @viewItem.DistanceToBeach
+                    @viewItem.DistanceToBeach км
                 </td>
                 <td>
                     @viewItem.FoodType
@@ -53,10 +57,13 @@
                 </td>
                 <td>
                     @viewItem.HowManyInDay
-                </td>                
+                </td>
+                <td>
+                    @viewItem.AveragePrice руб
+                </td>              
             </tr>
             <tr>
-                <td colspan="8">
+                <td colspan="9">
                     <div id="rooms-table-@viewItem.HotelId" class="rooms-table" />
                 </td>
             </tr>

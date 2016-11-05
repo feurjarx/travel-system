@@ -12,6 +12,7 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public int TourId { get; set; }
             public string TourName { get; set; }
             public string CountryName { get; set; }
+            public string Cities { get; set; }
         }
 
         public List<TourViewItem> TourViewItems { get; set; }

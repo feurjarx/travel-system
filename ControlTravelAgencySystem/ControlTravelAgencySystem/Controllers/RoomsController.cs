@@ -48,6 +48,39 @@ namespace ControlTravelAgencySystem.Controllers
         }
 
         /// <summary>
+        /// GET: /
+        /// </summary>
+        public ActionResult FavoriteList()
+        {
+            var list = Session["selected-check"] as List<int>;
+
+            var viewModel = new FavotiteListView();
+
+            foreach (var rId in list)
+            {
+                var room = _dbContext.rooms
+                    .First(x => x.id == rId);
+                var city = room.hotel.city;
+                var flight = _dbContext.flights
+                    .Include("airport")
+                    .FirstOrDefault(x => x.airport.city_id == city.id);
+
+                viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
+                {
+                    SelectedRoom = room,
+                    FlightId = flight.id,
+                    Code = flight.code,
+                    FromAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.from_airport_id),
+                    ToAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.to_airport_id),
+                    FlightAt = flight.flight_at,
+                    Duration = flight.duration
+                });
+            }
+
+            return View(viewModel);
+        }
+
+        /// <summary>
         /// Представление списка номеров выбранного отеля
         /// </summary>
         /// <param name="id">ID отеля</param>
@@ -94,6 +127,48 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             return viewModel;
+        }
+
+        [HttpPost]
+        public ActionResult CalloutCreate(CalloutForm calloutForm)
+        {
+            _dbContext.callouts.Add(
+                new callout
+                {
+                    fullname = calloutForm.Fullname,
+                    email = calloutForm.Email,
+                    phone = calloutForm.Phone
+                });
+
+            _dbContext.SaveChanges();
+
+            var callout = _dbContext.callouts.Last();
+
+            var rooms = _dbContext.rooms;
+            var list = Session["selected-check"] as List<int>;
+
+            foreach (var item in list)
+            {
+                _dbContext.callout_room.Add(
+                    new callout_room
+                    {
+                        callout_id = callout.id,
+                        room_id = item
+                    });
+
+                _dbContext.SaveChanges();
+            }
+
+            Session["selected-check"] = null;
+
+            return View();
+        }
+
+        public class CalloutForm
+        {
+            public string Fullname { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
         }
     }
 }

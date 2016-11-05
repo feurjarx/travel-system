@@ -38,6 +38,9 @@ namespace ControlTravelAgencySystem.Controllers
         {
             var viewModel = new HotelsView();
 
+            var rooms = _dbContext.rooms
+                .ToList();
+
             var hotels = _dbContext.hotels
                 .Include("food")
                 .Include("city")
@@ -46,6 +49,18 @@ namespace ControlTravelAgencySystem.Controllers
 
             foreach (var hotel in hotels)
             {
+                var averagePrice = 0;
+                var count = 0;
+
+                foreach (var room in rooms)
+                    if (room.hotel_id == hotel.id)
+                    {
+                        averagePrice += room.cost_per_day;
+                        count++;
+                    }
+
+                averagePrice /= count;
+
                 viewModel.HotelViewItems.Add(
                     new HotelsView.HotelViewItem
                     {
@@ -57,7 +72,8 @@ namespace ControlTravelAgencySystem.Controllers
                         FoodType = hotel.food?.type,
                         FoodDescription = hotel.food?.description,
                         HowManyInDay = hotel.food?.how_many_in_day ?? 0,
-                        CityName = hotel.city?.name
+                        CityName = hotel.city?.name,
+                        AveragePrice = averagePrice
                     });
             }
 

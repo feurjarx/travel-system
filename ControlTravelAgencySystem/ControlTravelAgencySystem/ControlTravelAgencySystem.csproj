@@ -422,6 +422,8 @@
     <Content Include="Views\Tours\GetToursList.cshtml" />
     <Content Include="Views\Admin\PanelControls\CalloutsFilterByStatus.cshtml" />
     <Content Include="Views\Admin\PanelControls\ActionsBtnGroup.cshtml" />
+    <Content Include="Views\Rooms\FavoriteList.cshtml" />
+    <Content Include="Views\Rooms\CalloutCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
