@@ -47,12 +47,55 @@ namespace ControlTravelAgencySystem.Controllers
             return Json("ok");
         }
 
+        [HttpPost]
+        public JsonResult FlightChecked(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json("fail");
+
+            var parId = int.Parse(id);
+
+            if (Session["flight-check"] == null)
+                Session["flight-check"] = new List<int>();
+
+            var list = Session["flight-check"] as List<int>;
+
+            if (list.Any(x => x == parId))
+                list.Remove(parId);
+            else
+                list.Add(parId);
+
+            return Json("ok");
+        }
+
+        [HttpPost]
+        public JsonResult RouteChecked(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json("fail");
+
+            var parId = int.Parse(id);
+
+            if (Session["route-check"] == null)
+                Session["route-check"] = new List<int>();
+
+            var list = Session["route-check"] as List<int>;
+
+            if (list.Any(x => x == parId))
+                list.Remove(parId);
+            else
+                list.Add(parId);
+
+            return Json("ok");
+        }
+
         /// <summary>
         /// GET: /
         /// </summary>
         public ActionResult FavoriteList()
         {
             var list = Session["selected-check"] as List<int>;
+            var list2 = Session["flight-check"] as List<int>;
 
             var viewModel = new FavotiteListView();
 
@@ -60,20 +103,31 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 var room = _dbContext.rooms
                     .First(x => x.id == rId);
+
                 var city = room.hotel.city;
+
                 var flight = _dbContext.flights
                     .Include("airport")
                     .FirstOrDefault(x => x.airport.city_id == city.id);
 
+                var isChecked = false;
+
+                // переписать говнокод
+                if (list2 != null)
+                    if (list2.Any(x => x == flight.id))
+                        isChecked = true;
+
                 viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
                 {
+                    IsChecked = isChecked,
                     SelectedRoom = room,
                     FlightId = flight.id,
                     Code = flight.code,
                     FromAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.from_airport_id),
                     ToAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.to_airport_id),
                     FlightAt = flight.flight_at,
-                    Duration = flight.duration
+                    Duration = flight.duration,
+                    AirlineName = flight.airline.name
                 });
             }
 
@@ -142,8 +196,8 @@ namespace ControlTravelAgencySystem.Controllers
 
             _dbContext.SaveChanges();
 
-            var callout = _dbContext.callouts.Last();
-
+            var callout = _dbContext.callouts.ToList().Last();
+            
             var rooms = _dbContext.rooms;
             var list = Session["selected-check"] as List<int>;
 
@@ -160,6 +214,22 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             Session["selected-check"] = null;
+
+            var list2 = Session["flight-check"] as List<int>;
+
+            foreach (var item in list2)
+            {
+                _dbContext.airtickets.Add(
+                    new airticket
+                    {
+                        callout_id = callout.id,
+                        flight_id = item
+                    });
+
+                _dbContext.SaveChanges();
+            }
+
+            Session["flight-check"] = null;
 
             return View();
         }

@@ -81,7 +81,8 @@ namespace ControlTravelAgencySystem.Controllers
                         TourId = tour.id,
                         TourName = tour.name,
                         CountryName = tour.country?.name,
-                        Cities = cities
+                        Cities = cities,
+                        Description = "летний"
                     });
             }
 

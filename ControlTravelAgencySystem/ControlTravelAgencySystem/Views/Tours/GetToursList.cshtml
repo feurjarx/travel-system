@@ -5,6 +5,7 @@
             <th>Наименование</th>
             <th>Страна</th>
             <th>Города</th>
+            <th>Тип отдыха</th>
         </tr>
     </thead>
     <tbody>
@@ -34,9 +35,12 @@
                 <td>
                     @viewItem.Cities
                 </td>
+                <td>
+                    @viewItem.Description
+                </td>
             </tr>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     <div id="hotels-table-@viewItem.TourId" class="hotels-table" />
                 </td>
             </tr>

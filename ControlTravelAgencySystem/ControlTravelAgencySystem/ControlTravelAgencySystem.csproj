@@ -295,6 +295,8 @@
       <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ErrorView.cs" />
+    <Compile Include="Models\ViewModels\FavotiteListView.cs" />
+    <Compile Include="Models\ViewModels\RouteView.cs" />
     <Compile Include="Models\ViewModels\RoomsView.cs" />
     <Compile Include="Models\ViewModels\AdminPanelPageView.cs" />
     <Compile Include="Models\ViewModels\UserView.cs" />
@@ -319,6 +321,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TravelSystemDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\star_9297.png" />
     <Content Include="Models\TravelSystemDataModel.edmx.diagram">
       <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
     </Content>
@@ -424,6 +427,7 @@
     <Content Include="Views\Admin\PanelControls\ActionsBtnGroup.cshtml" />
     <Content Include="Views\Rooms\FavoriteList.cshtml" />
     <Content Include="Views\Rooms\CalloutCreate.cshtml" />
+    <Content Include="Views\Rooms\GetRouteList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

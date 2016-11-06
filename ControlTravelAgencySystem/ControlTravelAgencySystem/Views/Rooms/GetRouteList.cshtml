@@ -1,0 +1,58 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.RouteView
+<table class="table">
+    <thead>
+        <tr>
+            <th>Добавить</th>
+            <th>Тип</th>
+            <th>Из аэропорта</th>
+            <th>В аэропорт</th>
+            <th>Адрес отправления</th>
+            <th>Время отправления</th>
+            <th>Адрес прибытия</th>
+            <th>Продолжительность</th>
+            <th>Всего мест</th>
+            <th>Расстояние</th>
+            <th>Стоимость</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var viewItem in Model.RouteViewItems)
+            {
+            <tr>
+                <td>
+                    <input type="checkbox" checked="@viewItem.IsChecked" value="@viewItem.RouteId" />
+                </td>
+                <td>
+                    @viewItem.Type
+                </td>
+                <td>
+                    @viewItem.FromAirport
+                </td>
+                <td>
+                    @viewItem.ToAirport
+                </td>
+                <td>
+                    @viewItem.StartingAddress
+                </td>
+                <td>
+                    @viewItem.StartingTime
+                </td>
+                <td>
+                    @viewItem.FinalAddress
+                </td>
+                <td>
+                    @viewItem.Duration ч.
+                </td>
+                <td>
+                    @viewItem.TotalSeats
+                </td>
+                <td>
+                    @viewItem.Distance км
+                </td>
+                <td>
+                    @viewItem.Cost руб.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,153 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.FavotiteListView
+@{
+    ViewBag.Title = "Туристическое бюро";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="float-right">
+    <div id="callout-btn" data-toggle="modal" data-target="#callout-modal">
+        <button class="btn btn-primary">Регистрация</button>
+    </div>
+</div>
+
+<h2>Список пожеланий</h2>
+
+<form class="modal fade" id="callout-modal" tabindex="-1" role="dialog" action="/Rooms/CalloutCreate" method="post">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Оформление заявки
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="fullname-input" class="control-label">ФИО:</label>
+                    <input required type="text" class="form-control" id="fullname-input" name="Fullname">
+                </div>
+                <div class="form-group">
+                    <label for="fullname-input" class="control-label">Электронный адрес:</label>
+                    <input required type="text" class="form-control" id="email-input" name="Email">
+                </div>
+                <div class="form-group">
+                    <label for="fullname-input" class="control-label">Телефон:</label>
+                    <input required type="text" class="form-control" id="phone-input" name="Phone">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@foreach (var viewItem in Model.FavotiteListViewItems)
+{
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Отель</th>
+                    <th>Город</th>
+                    <th>Номер</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@viewItem.SelectedRoom.hotel.name</td>
+                    <td>@viewItem.SelectedRoom.hotel.city.name</td>
+                    <td>@viewItem.SelectedRoom.number</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Выбрать</th>
+                                    <th>Код</th>
+                                    <th>Авиакомпания</th>
+                                    <th>Город вылета</th>
+                                    <th>Аэропорт вылета</th>
+                                    <th>Город прилета</th>
+                                    <th>Аэропорт прилета</th>
+                                    <th>FlightAt</th>
+                                    <th>Продолжительность</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" checked="@viewItem.IsChecked" value="@viewItem.FlightId" />
+                                    </td>
+                                    <td>
+                                        @Ajax.ActionLink(
+                                        viewItem.Code,
+                                        "",
+                                        "",
+                                        new { id = viewItem.FlightId },
+                                        new AjaxOptions
+                                        {
+                                            UpdateTargetId = "routs-table-" + viewItem.FlightId,
+                                            Url = Url.Action(
+                                                "",
+                                                "",
+                                                new { id = viewItem.FlightId }),
+                                            OnBegin = "(function() { LoadAjaxSuccess3(" + viewItem.FlightId + "); })()"
+                                        },
+                                        new { @class = "flights-item" })
+                                    </td>
+                                    <td>
+                                        @viewItem.AirlineName
+                                    </td>
+                                    <td>
+                                        @viewItem.FromAirport.city.name
+                                    </td>
+                                    <td>
+                                        @viewItem.FromAirport.name
+                                    </td>
+                                    <td>
+                                        @viewItem.ToAirport.city.name
+                                    </td>
+                                    <td>
+                                        @viewItem.ToAirport.name
+                                    </td>
+                                    <td>
+                                        @viewItem.FlightAt
+                                    </td>
+                                    <td>
+                                        @viewItem.Duration ч.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <div id="routs-table-@viewItem" class="routs-table" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+<script>
+        $(function() {
+            $(':checkbox').change(function () {
+                var id = $(this).val();
+                $.ajax({
+                    url: '/rooms/flightchecked/' + id,
+                    type: 'POST',
+                    success: function(response) {
+                        // успех
+                    }
+                });
+            });
+        });
+</script>
