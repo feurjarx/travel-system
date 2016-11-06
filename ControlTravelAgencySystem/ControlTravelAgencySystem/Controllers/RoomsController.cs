@@ -236,7 +236,8 @@ namespace ControlTravelAgencySystem.Controllers
                 {
                     fullname = calloutForm.Fullname,
                     email = calloutForm.Email,
-                    phone = calloutForm.Phone
+                    phone = calloutForm.Phone,
+                    created_at = Utils.dtToTimestamp(DateTime.Now)
                 });
 
             _dbContext.SaveChanges();
@@ -271,7 +272,8 @@ namespace ControlTravelAgencySystem.Controllers
                         new airticket
                         {
                             callout_id = callout.id,
-                            flight_id = item
+                            flight_id = item,
+                            created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
                     _dbContext.SaveChanges();
@@ -288,7 +290,8 @@ namespace ControlTravelAgencySystem.Controllers
                         new transfer
                         {
                             callout_id = callout.id,
-                            route_id = item
+                            route_id = item,
+                            created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
                     _dbContext.SaveChanges();
