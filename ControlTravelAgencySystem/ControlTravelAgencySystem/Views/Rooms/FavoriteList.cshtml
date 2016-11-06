@@ -82,24 +82,13 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="checkbox" checked="@viewItem.IsChecked" value="@viewItem.FlightId" />
+                                        <input type="checkbox" class="flight-checkbox" checked="@viewItem.IsChecked" value="@viewItem.FlightId" />
                                     </td>
                                     <td>
-                                        @Ajax.ActionLink(
-                                        viewItem.Code,
-                                        "",
-                                        "",
-                                        new { id = viewItem.FlightId },
-                                        new AjaxOptions
-                                        {
-                                            UpdateTargetId = "routs-table-" + viewItem.FlightId,
-                                            Url = Url.Action(
-                                                "",
-                                                "",
-                                                new { id = viewItem.FlightId }),
-                                            OnBegin = "(function() { LoadAjaxSuccess3(" + viewItem.FlightId + "); })()"
-                                        },
-                                        new { @class = "flights-item" })
+                                        @viewItem.Code
+                                    </td>
+                                    <td>
+                                        @viewItem.AirlineName
                                     </td>
                                     <td>
                                         @viewItem.AirlineName
@@ -129,7 +118,9 @@
                 </tr>
                 <tr>
                     <td colspan="8">
-                        <div id="routs-table-@viewItem" class="routs-table" />
+                        <div id="routs-table-@viewItem.FlightId" class="routs-table">
+                            @Html.Action("GetRoutesList", "Rooms", new { id = viewItem.FlightId })
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -138,13 +129,35 @@
 }
 
 <script>
+    $(".routs-table").fadeOut();
+
+    $(":checkbox.flight-checkbox").change(function () {
+        if (this.checked) {
+            $("#routs-table-" + $(this).val()).fadeIn();
+        } else {
+            $("#routs-table-" + $(this).val()).fadeOut();
+        }
+    });
+</script>
+
+<script>
         $(function() {
-            $(':checkbox').change(function () {
+            $(':checkbox.flight-checkbox').change(function () {
                 var id = $(this).val();
                 $.ajax({
                     url: '/rooms/flightchecked/' + id,
                     type: 'POST',
                     success: function(response) {
+                        // успех
+                    }
+                });
+            });
+            $(':checkbox.route-checkbox').change(function () {
+                var id = $(this).val();
+                $.ajax({
+                    url: '/rooms/routechecked/' + id,
+                    type: 'POST',
+                    success: function (response) {
                         // успех
                     }
                 });

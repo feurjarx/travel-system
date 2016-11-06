@@ -134,6 +134,46 @@ namespace ControlTravelAgencySystem.Controllers
             return View(viewModel);
         }
 
+        public PartialViewResult GetRoutesList(int id)
+        {
+            var viewModel = new RoutesView();
+
+            var routes = _dbContext.routes
+                .Include("airport1");
+
+            var list = Session["route-check"] as List<int>;
+
+            foreach (var route in routes)
+            {
+                var isChecked = false;
+
+                // переписать говнокод
+                if (list != null)
+                    if (list.Any(x => x == route.id))
+                        isChecked = true;
+
+                viewModel.RoutesViewItems.Add(
+                    new RoutesView.RoutesViewItem
+                    {
+                        IsChecked = isChecked,
+                        RouteId = route.id,
+                        Type = route.type,
+                        FromAirport = route.airport?.name,
+                        ToAirport = route.airport1?.name,
+                        StartingAddress = route.starting_address,
+                        StartingTime = route.starting_time,
+                        FinalAddress = route.final_address,
+                        Duration = route.duration,
+                        TotalSeats = route.total_seats,
+                        Distance = route.distance ?? 0,
+                        Cost = route.cost
+                    });
+            }
+
+            return PartialView(viewModel);
+        }
+
+
         /// <summary>
         /// Представление списка номеров выбранного отеля
         /// </summary>
@@ -230,6 +270,22 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             Session["flight-check"] = null;
+
+            var list3 = Session["route-check"] as List<int>;
+
+            foreach (var item in list3)
+            {
+                _dbContext.transfers.Add(
+                    new transfer
+                    {
+                        callout_id = callout.id,
+                        route_id = item
+                    });
+
+                _dbContext.SaveChanges();
+            }
+
+            Session["route-check"] = null;
 
             return View();
         }

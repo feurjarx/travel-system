@@ -1,4 +1,4 @@
-﻿@model ControlTravelAgencySystem.Models.ViewModels.RouteView
+﻿@model ControlTravelAgencySystem.Models.ViewModels.RoutesView
 <table class="table">
     <thead>
         <tr>
@@ -16,11 +16,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var viewItem in Model.RouteViewItems)
+        @foreach (var viewItem in Model.RoutesViewItems)
             {
             <tr>
                 <td>
-                    <input type="checkbox" checked="@viewItem.IsChecked" value="@viewItem.RouteId" />
+                    <input type="checkbox" class="route-checkbox" checked="@viewItem.IsChecked" value="@viewItem.RouteId" />
                 </td>
                 <td>
                     @viewItem.Type

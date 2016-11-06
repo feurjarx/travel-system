@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ControlTravelAgencySystem.Models.ViewModels
 {
-    public class RouteView
+    public class RoutesView
     {
-        public class RouteViewItem
+        public class RoutesViewItem
         {
             public bool IsChecked { get; set; }
             public int RouteId { get; set; }
@@ -15,7 +15,7 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public string FromAirport { get; set; }
             public string ToAirport { get; set; }
             public string StartingAddress { get; set; }
-            public DateTime StartingTime { get; set; }
+            public TimeSpan StartingTime { get; set; }
             public string FinalAddress { get; set; }
             public int Duration { get; set; }
             public int TotalSeats { get; set; }
@@ -23,11 +23,11 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public int Cost { get; set; }
         }
 
-        public List<RouteViewItem> RouteViewItems { get; set; }
+        public List<RoutesViewItem> RoutesViewItems { get; set; }
 
-        public RouteView()
+        public RoutesView()
         {
-            RouteViewItems = new List<RouteViewItem>();
+            RoutesViewItems = new List<RoutesViewItem>();
         }
     }
 }

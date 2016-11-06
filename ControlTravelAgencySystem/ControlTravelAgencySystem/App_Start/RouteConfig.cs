@@ -40,6 +40,13 @@ namespace ControlTravelAgencySystem
                 defaults: new { controller = "Rooms", action = "GetRoomsList", id = UrlParameter.Optional }
             );
 
+            // ajax: Список номеров
+            routes.MapRoute(
+                name: "GetRoutesList",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Rooms", action = "GetRoutesList", id = UrlParameter.Optional }
+            );
+
             // ajax: Checked
             routes.MapRoute(
                 name: "RoomChecked",
