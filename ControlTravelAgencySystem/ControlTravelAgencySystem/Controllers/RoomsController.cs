@@ -1,5 +1,7 @@
-﻿using ControlTravelAgencySystem.Models;
+﻿using ControlTravelAgencySystem.Common;
+using ControlTravelAgencySystem.Models;
 using ControlTravelAgencySystem.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -99,6 +101,9 @@ namespace ControlTravelAgencySystem.Controllers
 
             var viewModel = new FavotiteListView();
 
+            if (list == null || list?.Count == 0)
+                return Redirect("/Home/Index");
+
             foreach (var rId in list)
             {
                 var room = _dbContext.rooms
@@ -125,7 +130,7 @@ namespace ControlTravelAgencySystem.Controllers
                     Code = flight.code,
                     FromAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.from_airport_id),
                     ToAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.to_airport_id),
-                    FlightAt = flight.flight_at,
+                    FlightAt = Utils.tsToDateTime(flight.flight_at),
                     Duration = flight.duration,
                     AirlineName = flight.airline.name
                 });
@@ -241,49 +246,53 @@ namespace ControlTravelAgencySystem.Controllers
             var rooms = _dbContext.rooms;
             var list = Session["selected-check"] as List<int>;
 
-            foreach (var item in list)
-            {
-                _dbContext.callout_room.Add(
-                    new callout_room
-                    {
-                        callout_id = callout.id,
-                        room_id = item
-                    });
+            if (list != null)
+                foreach (var item in list)
+                {
+                    _dbContext.callout_room.Add(
+                        new callout_room
+                        {
+                            callout_id = callout.id,
+                            room_id = item,
+                            created_at = Utils.dtToTimestamp(DateTime.Now)
+                        });
 
-                _dbContext.SaveChanges();
-            }
+                    _dbContext.SaveChanges();
+                }
 
             Session["selected-check"] = null;
 
             var list2 = Session["flight-check"] as List<int>;
 
-            foreach (var item in list2)
-            {
-                _dbContext.airtickets.Add(
-                    new airticket
-                    {
-                        callout_id = callout.id,
-                        flight_id = item
-                    });
+            if (list2 != null)
+                foreach (var item in list2)
+                {
+                    _dbContext.airtickets.Add(
+                        new airticket
+                        {
+                            callout_id = callout.id,
+                            flight_id = item
+                        });
 
-                _dbContext.SaveChanges();
-            }
+                    _dbContext.SaveChanges();
+                }
 
             Session["flight-check"] = null;
 
             var list3 = Session["route-check"] as List<int>;
 
-            foreach (var item in list3)
-            {
-                _dbContext.transfers.Add(
-                    new transfer
-                    {
-                        callout_id = callout.id,
-                        route_id = item
-                    });
+            if (list3 != null)
+                foreach (var item in list3)
+                {
+                    _dbContext.transfers.Add(
+                        new transfer
+                        {
+                            callout_id = callout.id,
+                            route_id = item
+                        });
 
-                _dbContext.SaveChanges();
-            }
+                    _dbContext.SaveChanges();
+                }
 
             Session["route-check"] = null;
 

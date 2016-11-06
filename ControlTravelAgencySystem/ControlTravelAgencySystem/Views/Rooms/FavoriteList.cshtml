@@ -3,48 +3,52 @@
     ViewBag.Title = "Туристическое бюро";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="float-right">
-    <div id="callout-btn" data-toggle="modal" data-target="#callout-modal">
-        <button class="btn btn-primary">Регистрация</button>
+<div>
+    <div class="float-left">
+        <h3>Список Ваших пожеланий</h3>
     </div>
-</div>
-
-<h2>Список пожеланий</h2>
-
-<form class="modal fade" id="callout-modal" tabindex="-1" role="dialog" action="/Rooms/CalloutCreate" method="post">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Оформление заявки
-                    <label class="error-label bg-danger"></label>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="fullname-input" class="control-label">ФИО:</label>
-                    <input required type="text" class="form-control" id="fullname-input" name="Fullname">
-                </div>
-                <div class="form-group">
-                    <label for="fullname-input" class="control-label">Электронный адрес:</label>
-                    <input required type="text" class="form-control" id="email-input" name="Email">
-                </div>
-                <div class="form-group">
-                    <label for="fullname-input" class="control-label">Телефон:</label>
-                    <input required type="text" class="form-control" id="phone-input" name="Phone">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Отправить</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-            </div>
+    <div class="float-right">
+        <div id="callout-btn" data-toggle="modal" data-target="#callout-modal">
+            <button class="btn btn-primary">Регистрация</button>
         </div>
     </div>
-</form>
+</div>
+<div>
+    <br/><br /><br /><br />
+    <form class="modal fade" id="callout-modal" tabindex="-1" role="dialog" action="/Rooms/CalloutCreate" method="post">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Оформление заявки
+                        <label class="error-label bg-danger"></label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="fullname-input" class="control-label">ФИО:</label>
+                        <input required type="text" class="form-control" id="fullname-input" name="Fullname">
+                    </div>
+                    <div class="form-group">
+                        <label for="fullname-input" class="control-label">Электронный адрес:</label>
+                        <input required type="text" class="form-control" id="email-input" name="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="fullname-input" class="control-label">Телефон:</label>
+                        <input required type="text" class="form-control" id="phone-input" name="Phone">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 @foreach (var viewItem in Model.FavotiteListViewItems)
 {
@@ -75,7 +79,7 @@
                                     <th>Аэропорт вылета</th>
                                     <th>Город прилета</th>
                                     <th>Аэропорт прилета</th>
-                                    <th>FlightAt</th>
+                                    <th>Дата и время отправления</th>
                                     <th>Продолжительность</th>
                                 </tr>
                             </thead>
@@ -86,9 +90,6 @@
                                     </td>
                                     <td>
                                         @viewItem.Code
-                                    </td>
-                                    <td>
-                                        @viewItem.AirlineName
                                     </td>
                                     <td>
                                         @viewItem.AirlineName
