@@ -110,32 +110,60 @@
             calloutsIds.push($(elem).closest('tr').data('id'));
         });
 
-        var $body = $('body');
-        $body.mask('center');
-
-        $.ajax({
-            method: 'delete',
-            url: '/callout/delete',
-            data: {
-                callouts_ids: calloutsIds
+        notification({
+            text: 'Вы действительно желаете удалить ' + (calloutsIds.length > 1 ? 'отмеченные заявки (x' + calloutsIds.length + ')'  : 'отмеченную заявку'),
+            type: 'confirm',
+            layout: 'top',
+            dismissQueue: true,
+            animation: {
+                open: {height: 'toggle'},
+                close: {height: 'toggle'},
+                easing: 'swing',
+                speed: 500
             },
-            success: function (response) {
+            killer: true,
+            buttons: [{
+                addClass: 'btn btn-danger',
+                text: 'Да',
+                onClick: function($noty) {
 
-                if (response.error) {
+                    var $body = $('body');
+                    $body.mask('center');
 
-                    console.error(response.error);
+                    $.ajax({
+                        method: 'delete',
+                        url: '/callout/delete',
+                        data: {
+                            callouts_ids: calloutsIds
+                        },
+                        success: function (response) {
 
-                } else {
+                            if (response.error) {
 
-                    location.reload();
+                                console.error(response.error);
+
+                            } else {
+
+                                location.reload();
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err);
+                        },
+                        complete: function () {
+                            $body.unmask();
+
+                            $noty.close();
+                        }
+                    });
                 }
-            },
-            error: function (err) {
-                console.error(err);
-            },
-            complete: function () {
-                $body.unmask();
-            }
+            }, {
+                addClass: 'btn btn-default',
+                text: 'Отмена',
+                onClick: function($noty) {
+                    $noty.close();
+                }
+            }]
         });
     });
 
@@ -178,28 +206,55 @@
         var $item = $(this).closest('tr');
         var employeeId = $item.data('id');
 
-        $item.find('td').first().mask();
+        notification({
+            text: 'Вы действительно желаете удалить учетную запись сотрудника',
+            type: 'confirm',
+            layout: 'top',
+            dismissQueue: true,
+            animation: {
+                open: {height: 'toggle'},
+                close: {height: 'toggle'},
+                easing: 'swing',
+                speed: 500
+            },
+            killer: true,
+            buttons: [{
+                addClass: 'btn btn-danger',
+                text: 'Да',
+                onClick: function($noty) {
 
-        $.ajax({
-            method: 'delete',
-            url: '/employee/delete/' + employeeId,
-            success: function (response) {
+                    $item.find('td').first().mask();
 
-                if (response.error) {
+                    $.ajax({
+                        method: 'delete',
+                        url: '/employee/delete/' + employeeId,
+                        success: function (response) {
 
-                    console.error(response.error);
+                            if (response.error) {
 
-                } else {
+                                console.error(response.error);
 
-                    $item.fadeOut();
+                            } else {
+
+                                $item.fadeOut();
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err);
+                        },
+                        complete: function () {
+                            $item.find('td').first().unmask();
+                            $noty.close();
+                        }
+                    });
                 }
-            },
-            error: function (err) {
-                console.error(err);
-            },
-            complete: function () {
-                $item.find('td').first().unmask();
-            }
+            }, {
+                addClass: 'btn btn-default',
+                text: 'Отмена',
+                onClick: function($noty) {
+                    $noty.close();
+                }
+            }]
         });
     });
 });

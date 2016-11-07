@@ -45,3 +45,26 @@ Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
         "%": lvalue % rvalue
     }[operator];
 });
+
+function notification(options) {
+    noty($.extend({}, {
+        template: $('<div>', {
+            class: 'noty_message',
+            html: [
+                $('<strong>', {
+                    class: 'noty_text'
+                }),
+                $('<div>', {
+                    class: 'noty_close'
+                })
+            ]
+        }),
+        layout: 'topRight',
+        closeWith: ['click'],
+        timeout: 2000,
+        animation: {
+            open: 'animated wobble',
+            close: 'animated flipOutY'
+        }
+    }, options));
+}
