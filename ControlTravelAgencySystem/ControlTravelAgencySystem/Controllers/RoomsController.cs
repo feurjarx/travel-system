@@ -240,7 +240,7 @@ namespace ControlTravelAgencySystem.Controllers
                     created_at = Utils.dtToTimestamp(DateTime.Now)
                 });
 
-            _dbContext.SaveChanges();
+            //_dbContext.SaveChanges();
 
             var callout = _dbContext.callouts.ToList().Last();
             
@@ -258,7 +258,7 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    _dbContext.SaveChanges();
+                    //_dbContext.SaveChanges();
                 }
 
             Session["selected-check"] = null;
@@ -276,7 +276,7 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    _dbContext.SaveChanges();
+                    //_dbContext.SaveChanges();
                 }
 
             Session["flight-check"] = null;
@@ -294,10 +294,12 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    _dbContext.SaveChanges();
+                    //_dbContext.SaveChanges();
                 }
 
             Session["route-check"] = null;
+
+            _dbContext.SaveChanges();
 
             return View();
         }

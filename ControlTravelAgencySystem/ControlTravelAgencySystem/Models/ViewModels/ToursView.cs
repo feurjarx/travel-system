@@ -14,6 +14,7 @@ namespace ControlTravelAgencySystem.Models.ViewModels
             public string CountryName { get; set; }
             public string Cities { get; set; }
             public string Description { get; set; }
+            public int MinCost { get; set; }
         }
 
         public List<TourViewItem> TourViewItems { get; set; }
