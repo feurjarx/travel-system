@@ -172,33 +172,89 @@
 
         var $form = $(this);
 
-        $form.find('.modal-title').mask();
+        // start validation
+        $form.find('.has-error').removeClass('has-error');
+        $form.find('.has-feedback').removeClass('has-feedback');
 
-        $.ajax({
-            method: 'post',
-            url: '/employee/create',
-            data: $form.serializeArray(),
-            success: function (response) {
+        var paramsList = $form.serializeArray();
 
-                if (response.error) {
+        var errors = [];
+        paramsList.forEach(function (param) {
 
-                    console.error(response.error);
+            switch (param.name) {
+                case 'fullname':
 
-                    $form.find('.error-label').text('Ошибка на сервере');
+                    if (param.value && param.value.trim().split(' ').length != 3) {
 
-                } else {
+                        $('#fullname-input').highlightElement('error');
+                        errors.push('Некорректно заполнено поле ФИО');
+                    }
 
-                    $form.modal('hide').get(0).reset();
-                    location.reload();
-                }
-            },
-            error: function (err) {
-                console.error(err);
-            },
-            complete: function () {
-                $form.find('.modal-title').unmask();
+                    break;
+
+                case 'passport_code':
+
+                    var match = param.value.match(/\d/g);
+                    if (!match || match.length != 10 ) {
+                        $('#passport-code-input').highlightElement('error');
+                        errors.push('Некорректно введены паспортные данные');
+                    }
+
+                    break;
             }
         });
+        // end validation
+
+        if (errors.length) {
+
+            var warningLines = '';
+            errors.forEach(function (err, i) {
+                warningLines += (i + 1) + '. ' + err + '<br>';
+            });
+
+            notification({
+                text: 'Внимание! <br> ' + warningLines,
+                type: 'warning'
+            }, 5000);
+
+        } else {
+
+            $form.find('.modal-title').mask();
+
+            $.ajax({
+                method: 'post',
+                url: '/employee/create',
+                data: paramsList,
+                success: function (response) {
+
+                    if (response.error) {
+
+                        console.error(response.error);
+
+                        notification({
+                            text: 'Ошибка! <br> Вероятно, вы попытались создать учетную запись с уже существующим email',
+                            type: 'error'
+                        }, 5000);
+
+                    } else {
+
+                        $form.modal('hide').get(0).reset();
+                        location.reload();
+                    }
+                },
+                error: function (err) {
+                    console.error(err);
+
+                    notification({
+                        text: 'Ошибка! <br> отказ на сервере',
+                        type: 'error'
+                    });
+                },
+                complete: function () {
+                    $form.find('.modal-title').unmask();
+                }
+            });
+        }
     });
 
     $('.btn-employee-remove').on('click', function () {
