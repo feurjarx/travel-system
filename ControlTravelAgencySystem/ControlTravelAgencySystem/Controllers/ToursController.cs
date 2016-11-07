@@ -49,9 +49,13 @@ namespace ControlTravelAgencySystem.Controllers
             var tours = _dbContext.tours
                 .Include("country");
 
+            var rooms = _dbContext.rooms
+                .ToList();
+
             foreach (var tour in tours)
             {
                 var citiesId = new List<int>();
+                var min = 0;
 
                 foreach (var hotel in hotels)
                     if (hotel.tour_id == tour.id)
@@ -60,6 +64,16 @@ namespace ControlTravelAgencySystem.Controllers
 
                         if (!citiesId.Any(x => x == id))
                             citiesId.Add(id);
+
+                        foreach (var room in rooms)
+                            if (room.hotel_id == hotel.id)
+                            {
+                                if (min == 0)
+                                    min = room.cost_per_day;
+                                else
+                                    if (min > room.cost_per_day)
+                                        min = room.cost_per_day;
+                            }
                     }
 
                 var cities = "";
@@ -82,7 +96,8 @@ namespace ControlTravelAgencySystem.Controllers
                         TourName = tour.name,
                         CountryName = tour.country?.name,
                         Cities = cities,
-                        Description = "летний"
+                        Description = "летний",
+                        MinCost = 5 * min
                     });
             }
 
