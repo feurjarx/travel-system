@@ -23,6 +23,7 @@
             <tr>
                 <th></th>
                 <th>ФИО</th>
+                <th>Статус</th>
                 <th>Дата и время создания</th>
                 <th>Дата и время анулирования</th>
                 <th>Email</th>
@@ -44,6 +45,9 @@
                     </td>
 
                     <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
+
+                    <td>@(c.callout_order.Count() > 0 ? c.callout_order.First().status : "в ожидании")</td>
+
                     <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
 
                     <td>

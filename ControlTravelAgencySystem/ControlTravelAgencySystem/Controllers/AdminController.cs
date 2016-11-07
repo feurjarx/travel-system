@@ -125,21 +125,30 @@ namespace ControlTravelAgencySystem.Controllers
             // параметр сортировки заявок по статусам их заказов
             string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
             
-            if (calloutOrderStatusCriteria != "" && calloutOrderStatusCriteria != null)
+            if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
             {
                 string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
+
+                
                 // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
                 model.callouts =
                     from c in _dbContext.callouts
                     join co in _dbContext.callout_order on c.id equals co.callout_id
                     where co.status == status
                     select c;
+
+                if (calloutOrderStatusCriteria == "pending")
+                {
+                    // todo: сделать обработку 
+                }
             }
             else
             {
                 model.callouts = _dbContext.callouts;
             }
-            
+
+            model.callouts = model.callouts.Include("callout_order");
+
             // получение всех сотрудников (вкладка Сотрудники)
             model.employees = _dbContext.employees
                 .Include("person")
