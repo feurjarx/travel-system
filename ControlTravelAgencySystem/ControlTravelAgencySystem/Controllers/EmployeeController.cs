@@ -31,7 +31,7 @@ namespace ControlTravelAgencySystem.Controllers
                 person employeePerson = new person();
                 employeePerson.fullname = Request.Form["fullname"];
                 employeePerson.birthday_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["birthday_at"]));
-                employeePerson.passport_code = Request.Form["passport_code"];
+                employeePerson.passport_code = Request.Form["passport_code"] + Request.Form["passport_series"];
                 _dbContext.people.Add(employeePerson);
 
                 // создаем объект класса - Сотрудник

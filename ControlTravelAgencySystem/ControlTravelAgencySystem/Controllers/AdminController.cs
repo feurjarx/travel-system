@@ -127,19 +127,25 @@ namespace ControlTravelAgencySystem.Controllers
             
             if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
             {
-                string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
-
-                
                 // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
-                model.callouts =
-                    from c in _dbContext.callouts
-                    join co in _dbContext.callout_order on c.id equals co.callout_id
-                    where co.status == status
-                    select c;
-
+                string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
+                
                 if (calloutOrderStatusCriteria == "pending")
                 {
-                    // todo: сделать обработку 
+                    model.callouts =
+                        from c in _dbContext.callouts
+                        join co in _dbContext.callout_order on c.id equals co.callout_id into join_scope
+                        from co in join_scope.DefaultIfEmpty()
+                        where co.id == null || co.status == status
+                        select c;
+                }
+                else
+                {
+                    model.callouts =
+                        from c in _dbContext.callouts
+                        join co in _dbContext.callout_order on c.id equals co.callout_id
+                        where co.status == status
+                        select c;
                 }
             }
             else

@@ -181,6 +181,8 @@
         var errors = [];
         paramsList.forEach(function (param) {
 
+            var match;
+
             switch (param.name) {
                 case 'fullname':
 
@@ -192,12 +194,22 @@
 
                     break;
 
+                case 'passport_series':
+
+                    match = param.value.match(/\d/g);
+                    if (!match || match.length != 6 ) {
+                        $('#passport-series-input').highlightElement('error');
+                        errors.push('Некорректно указана серия паспорта');
+                    }
+
+                    break;
+
                 case 'passport_code':
 
-                    var match = param.value.match(/\d/g);
-                    if (!match || match.length != 10 ) {
+                    match = param.value.match(/\d/g);
+                    if (!match || match.length != 4 ) {
                         $('#passport-code-input').highlightElement('error');
-                        errors.push('Некорректно введены паспортные данные');
+                        errors.push('Некорректно указан номер паспорта');
                     }
 
                     break;
