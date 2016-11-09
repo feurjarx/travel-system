@@ -3,6 +3,9 @@
     ViewBag.Title = "Туристическое бюро";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section scripts {
+    <script src="@Href("~/Scripts/FavoriteList.js")"></script>
+}
 <div>
     <div class="float-left">
         <h3>Список Ваших пожеланий</h3>
@@ -30,15 +33,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="fullname-input" class="control-label">ФИО:</label>
-                        <input required type="text" class="form-control" id="fullname-input" name="Fullname">
+                        <input type="text" class="form-control" id="fullname-input" name="Fullname">
                     </div>
                     <div class="form-group">
                         <label for="fullname-input" class="control-label">Электронный адрес:</label>
-                        <input required type="text" class="form-control" id="email-input" name="Email">
+                        <input type="email" class="form-control" id="email-input" name="Email">
                     </div>
                     <div class="form-group">
                         <label for="fullname-input" class="control-label">Телефон:</label>
-                        <input required type="text" class="form-control" id="phone-input" name="Phone">
+                        <input type="text" class="form-control" id="phone-input" name="Phone">
                     </div>
                 </div>
                 <div class="modal-footer">
