@@ -436,6 +436,8 @@
     <Content Include="Views\Rooms\FavoriteList.cshtml" />
     <Content Include="Views\Rooms\CalloutCreate.cshtml" />
     <Content Include="Views\Rooms\GetRoutesList.cshtml" />
+    <Content Include="Views\Shared\ClientNavigation.cshtml" />
+    <Content Include="Views\Shared\AdminNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

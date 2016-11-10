@@ -27,25 +27,50 @@
         @Scripts.Render("~/scripts/spinner.js")
         @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
         @Scripts.Render("~/Scripts/jquery.noty.packaged.min.js")
+        @Scripts.Render("~/Scripts/jquery.bootstrap-autohidingnavbar.min.js")
         
     </head>
+
+    @{
+        ViewBag.Admin = ViewBag.Admin != null && ViewBag.Admin;
+        ViewBag.Session = Request.Cookies["session"] != null;
+    }
 
     <body>
         <header>
             <div class="content-wrapper">
+
+                @if (ViewBag.Admin && ViewBag.Session)
+                {
+                    @RenderPage("AdminNavigation.cshtml")
+                }
+                else
+                {
+                    @RenderPage("ClientNavigation.cshtml")
+                }
+
             </div>
         </header>
         <div id="body">
             <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
+                <div class="container">
+                    @RenderBody()
+                </div>
             </section>
         </div>
-        <footer>
-            <div class="content-wrapper">
-            </div>
+        <footer class="flexbox">
+            @if (!ViewBag.Admin)
+            {
+                <kbd class="content-wrapper text-center">
+                    <i class="fa fa-copyright"></i> Команда разработчиков 8ИВТ-51 Будовских И. | Ребро И. | Яковенко Р.
+                </kbd>
+            }
         </footer>  
     </body>
     
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/scripts/global.js")
+    <script type="text/javascript">
+        $(".navbar-fixed-top").autoHidingNavbar();
+    </script>
 </html>
