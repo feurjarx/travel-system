@@ -20,6 +20,11 @@
             @if (ViewBag.Session)
             {
                 <li class="visible-xs">
+                    <a href="/admin" class="">Панель управления
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </li>
+                <li class="visible-xs">
                     <a href="/admin/logout" class="">Выйти
                         <i class="fa fa-sign-out"></i>
                     </a>
@@ -31,8 +36,12 @@
         {
             <ul class="nav navbar-nav pull-right hidden-xs">
                 <li>
-                    <a href="/admin/logout" class="">
-                        Выйти
+                    <a href="/admin" class="">Панель управления
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/logout" class="">Выйти
                         <i class="fa fa-sign-out"></i>
                     </a>
                 </li>

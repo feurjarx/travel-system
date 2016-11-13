@@ -11,5 +11,13 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public IQueryable<callout> callouts { get; set; }
         public IQueryable<employee> employees { get; set; }
+
+        public List<tour> tours { get; set; }
+
+        public List<hotel> hotels { get; set; }
+
+        public List<room> rooms { get; set; }
+
+        public string section = null;
     }
 }

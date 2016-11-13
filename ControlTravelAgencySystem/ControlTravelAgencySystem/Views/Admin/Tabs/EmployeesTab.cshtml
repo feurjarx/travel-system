@@ -2,13 +2,9 @@
 @using ControlTravelAgencySystem.Models
 @using ControlTravelAgencySystem.Common
 
-@{
-    ViewBag.Title = "Сотрудники";
-}
+@RenderPage("../Modals/EmployeeAddModal.cshtml")
 
-@RenderPage("Modals/EmployeeAddModal.cshtml")
-
-<div id="employees-top-panel">
+<div class="space-between" id="employees-top-panel">
     <h2>Ваши сотрудники</h2>
 
     <div class="btn-group btn-group-sm" id="employee-add-btn"  data-toggle="modal" data-target="#employee-add-modal">

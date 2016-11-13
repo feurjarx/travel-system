@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -10,19 +12,64 @@
     </div>
 
     <ul class="collapse nav navbar-nav navbar-collapse">
-        <li>
+        
+        @*<li>
             <a href="/">Главная</a>
+        </li>*@
+
+        <li class="@(Model.section == null || Model.section == "callouts" ? "active" : "")">
+            <a href="/admin">Заявки</a>
         </li>
-        <li class="active">
-            <a href="#callouts-tab" data-toggle="tab">Заявки</a>
+
+        @{ 
+            string[] clientVacationSuggestions = { "tours", "hotels", "rooms" };
+        }
+        <li class="dropdown @(clientVacationSuggestions.Contains(Model.section) ? "active" : "")">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                
+                @switch (Model.section)
+                {
+                    case "tours":
+                        <span>Работа с турами</span>
+                        break;
+                    case "hotels":
+                        <span>Работа с отелями</span>
+                        break;
+                    case "rooms":
+                        <span>Работа с номерами</span>
+                        break;
+                    default:
+                        <span>Отдых клиента</span>
+                        break;
+                }
+
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="@(Model.section == "tours" ? "active" : "")">
+                    <a href="/admin/index/tours">Туры</a>
+                </li>
+                <li class="@(Model.section == "hotels" ? "active" : "")">
+                    <a href="/admin/index/hotels">Отели</a>
+                </li>
+                <li class="@(Model.section == "rooms" ? "active" : "")">
+                    <a href="/admin/index/rooms">Номера</a>
+                </li>
+            </ul>
         </li>
 
         @if (Model.user.position == "директор")
         {
-            <li>
-                <a href="#employees-tab" data-toggle="tab">Сотрудники</a>
+            <li class="@(Model.section == "employees" ? "active" : "")">
+                <a href="/admin/index/employees">Сотрудники</a>
             </li>
         }
+
+        <li>
+            <a class="visible-xs" href="/">Клиент-зона
+                <i class="fa fa-users"></i>
+            </a>
+        </li>
 
         <li class="visible-xs">
             <a href="/admin/logout">Выйти</a>
@@ -31,7 +78,12 @@
 
     <ul class="nav navbar-nav pull-right hidden-xs">
         <li>
-            <a href="/admin/logout">Выйти 
+            <a href="/">Клиент-зона
+                <i class="fa fa-users"></i>
+            </a>
+        </li>
+        <li>
+            <a href="/admin/logout">Выйти
                 <i class="fa fa-sign-out"></i>
             </a>
         </li>

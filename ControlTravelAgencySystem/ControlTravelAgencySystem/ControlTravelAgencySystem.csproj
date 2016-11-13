@@ -423,8 +423,8 @@
     <Content Include="Views\Hotels\GetHotelsList.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ControlPanel.cshtml" />
-    <Content Include="Views\Admin\CalloutsTab.cshtml" />
-    <Content Include="Views\Admin\EmployeesTab.cshtml" />
+    <Content Include="Views\Admin\Tabs\CalloutsTab.cshtml" />
+    <Content Include="Views\Admin\Tabs\EmployeesTab.cshtml" />
     <Content Include="Views\Admin\Auth.cshtml" />
     <Content Include="Views\Admin\SuggestionsHbs.cshtml" />
     <Content Include="Views\Admin\Modals\SuggestionsModal.cshtml" />
@@ -438,6 +438,9 @@
     <Content Include="Views\Rooms\GetRoutesList.cshtml" />
     <Content Include="Views\Shared\ClientNavigation.cshtml" />
     <Content Include="Views\Shared\AdminNavigation.cshtml" />
+    <Content Include="Views\Admin\Tabs\ToursTab.cshtml" />
+    <Content Include="Views\Admin\Tabs\HotelsTab.cshtml" />
+    <Content Include="Views\Admin\Tabs\RoomsTab.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

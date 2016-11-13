@@ -70,8 +70,8 @@ namespace ControlTravelAgencySystem
 
             routes.MapRoute(
                 name: "Admin",
-                url: "{controller}/{action}",
-                defaults: new { controller = "Admin", action = "Index" }
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

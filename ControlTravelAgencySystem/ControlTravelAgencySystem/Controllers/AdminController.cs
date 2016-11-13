@@ -33,8 +33,10 @@ namespace ControlTravelAgencySystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
+            string section = id;
+
             // объект для взаимодействия с html
             AdminPanelPageView model = new AdminPanelPageView();
 
@@ -58,6 +60,10 @@ namespace ControlTravelAgencySystem.Controllers
                         ViewBag.access = true;
 
                         model.user = user;
+                        if (section != null)
+                        {
+                            model.section = section;
+                        }
                         // подготовка данных для авторизованного пользователя 
                         prepareModel(model);
                     }
@@ -122,44 +128,76 @@ namespace ControlTravelAgencySystem.Controllers
 
         private void prepareModel(AdminPanelPageView model)
         {
-            // параметр сортировки заявок по статусам их заказов
-            string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
-            
-            if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
+            switch (model.section)
             {
-                // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
-                string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
-                
-                if (calloutOrderStatusCriteria == "pending")
-                {
-                    model.callouts =
-                        from c in _dbContext.callouts
-                        join co in _dbContext.callout_order on c.id equals co.callout_id into join_scope
-                        from co in join_scope.DefaultIfEmpty()
-                        where co.id == null || co.status == status
-                        select c;
-                }
-                else
-                {
-                    model.callouts =
-                        from c in _dbContext.callouts
-                        join co in _dbContext.callout_order on c.id equals co.callout_id
-                        where co.status == status
-                        select c;
-                }
+                case "employees":
+
+                    ViewBag.Title = "Управление сотрудниками";
+
+                    model.employees = _dbContext.employees
+                        .Include("person")
+                        .DefaultIfEmpty();
+                    break;
+
+                case "tours":
+
+                    ViewBag.Title = "Управление турами";
+
+                    model.tours = _dbContext.tours.ToList();
+                    break;
+
+                case "hotels":
+
+                    ViewBag.Title = "Управление отелями";
+
+                    model.hotels = _dbContext.hotels.ToList();
+                    break;
+
+                case "rooms":
+
+                    ViewBag.Title = "Управление номерами";
+
+                    model.rooms = _dbContext.rooms.ToList();
+                    break;
+
+                default:
+
+                    ViewBag.Title = "Панель управления";
+
+                    string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
+
+                    if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
+                    {
+                        // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
+                        string status = CALLOUT_ORDER_STATUS_RUSSIFIERS[calloutOrderStatusCriteria];
+
+                        if (calloutOrderStatusCriteria == "pending")
+                        {
+                            model.callouts =
+                                from c in _dbContext.callouts
+                                join co in _dbContext.callout_order on c.id equals co.callout_id into join_scope
+                                from co in join_scope.DefaultIfEmpty()
+                                where co.id == null || co.status == status
+                                select c;
+                        }
+                        else
+                        {
+                            model.callouts =
+                                from c in _dbContext.callouts
+                                join co in _dbContext.callout_order on c.id equals co.callout_id
+                                where co.status == status
+                                select c;
+                        }
+                    }
+                    else
+                    {
+                        model.callouts = _dbContext.callouts;
+                    }
+
+                    model.callouts = model.callouts.Include("callout_order");
+
+                    break;
             }
-            else
-            {
-                model.callouts = _dbContext.callouts;
-            }
-
-            model.callouts = model.callouts.Include("callout_order");
-
-            // получение всех сотрудников (вкладка Сотрудники)
-            model.employees = _dbContext.employees
-                .Include("person")
-                .DefaultIfEmpty();
-
         }
 
         public ActionResult Logout()

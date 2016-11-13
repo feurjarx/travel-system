@@ -43,7 +43,6 @@
     };
 
     var $calloutsTable = $('#callouts-table');
-
     $calloutsTable.find('.checkbox').on('change', function () {
         domControl.calloutsRemoveBtnVisible = $(this).closest('table').find('input:checked').length > 0;
     });

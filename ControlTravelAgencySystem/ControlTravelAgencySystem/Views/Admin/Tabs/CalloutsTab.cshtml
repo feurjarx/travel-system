@@ -2,21 +2,17 @@
 @using ControlTravelAgencySystem.Models
 @using ControlTravelAgencySystem.Common
 
-@{
-    ViewBag.Title = "CalloutsTab";
-}
-
 <h2>Заявки от клиентов</h2>
 
 <div class="space-between form-group">
-    @RenderPage("PanelControls/CalloutsFilterByStatus.cshtml")
-    @RenderPage("PanelControls/ActionsBtnGroup.cshtml")
+    @RenderPage("../PanelControls/CalloutsFilterByStatus.cshtml")
+    @RenderPage("../PanelControls/ActionsBtnGroup.cshtml")
 </div>
 
 @if (Model.callouts.Count() > 0)
 {
-    @RenderPage("SuggestionsHbs.cshtml")
-    @RenderPage("Modals/SuggestionsModal.cshtml")
+    @RenderPage("../SuggestionsHbs.cshtml")
+    @RenderPage("../Modals/SuggestionsModal.cshtml")
     
     <table class="table table-hover" id="callouts-table">
         <thead>

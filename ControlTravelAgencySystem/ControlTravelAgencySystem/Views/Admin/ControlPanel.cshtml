@@ -1,21 +1,41 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 
-@{
-    ViewBag.Title = "Панель управления";
-}
-
 <div id="control-panel">
-    <div class="tab-content">
-        <div class="tab-pane active" id="callouts-tab">
-            @RenderPage("CalloutsTab.cshtml")
-        </div>
 
-        @if (Model.user.position == "директор")
-        {
-            <div class="tab-pane" id="employees-tab">
-                @RenderPage("EmployeesTab.cshtml")
-            </div>
-        }
-        
-    </div>
+    @if (Model.section == null || Model.section == "callouts")
+    {
+        <div id="callouts-tab">
+            @RenderPage("Tabs/CalloutsTab.cshtml")
+        </div>
+    }
+
+
+    @if (Model.section == "tours")
+    {
+        <div id="tours-tab">
+            @RenderPage("Tabs/ToursTab.cshtml")
+        </div>
+    }
+
+    @if (Model.section == "hotels")
+    {     
+        <div id="hotels-tab">
+            @RenderPage("Tabs/HotelsTab.cshtml")
+        </div>
+    }
+
+    @if (Model.section == "rooms")
+    {
+        <div id="rooms-tab">
+            @RenderPage("Tabs/RoomsTab.cshtml")
+        </div>
+    }
+    
+    @if (Model.user.position == "директор" && Model.section == "employees")
+    {
+        <div id="employees-tab">
+            @RenderPage("Tabs/EmployeesTab.cshtml")
+        </div>
+    }    
+    
 </div>

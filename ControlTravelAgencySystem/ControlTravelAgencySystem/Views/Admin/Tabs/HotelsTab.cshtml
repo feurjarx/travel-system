@@ -1,0 +1,40 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+@*@using ControlTravelAgencySystem.Common*@
+
+@*@RenderPage("Modals/EmployeeAddModal.cshtml")*@
+
+<div class="space-between" id="hotels-top-panel">
+    <h2>Список отелей</h2>
+
+    <div class="btn-group btn-group-sm" id="hotel-add-btn" data-toggle="modal" data-target="#hotel-add-modal">
+        <button class="btn btn-success">Добавить</button>
+    </div>
+</div>
+
+@if (Model.hotels.Count() > 0)
+{
+ 
+    <table class="table table-hover" id="hotels-table">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (hotel h in Model.hotels)
+            {
+                <tr data-id="@h.id" data-name="@h.name">
+                    <td>@h.name</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">Отели не найдены</div>
+}

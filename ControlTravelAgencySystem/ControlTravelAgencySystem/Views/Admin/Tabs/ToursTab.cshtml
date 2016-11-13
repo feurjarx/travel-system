@@ -1,0 +1,40 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+@*@using ControlTravelAgencySystem.Common*@
+
+@*@RenderPage("Modals/EmployeeAddModal.cshtml")*@
+
+<div class="space-between" id="tours-top-panel">
+    <h2>Список туров</h2>
+
+    <div class="btn-group btn-group-sm" id="tour-add-btn"  data-toggle="modal" data-target="#tour-add-modal">
+        <button class="btn btn-success">Добавить</button>
+    </div>
+</div>
+
+@if (Model.tours.Count() > 0)
+{
+   
+    <table class="table table-hover" id="tours-table">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (tour t in Model.tours)
+            {
+                <tr data-id="@t.id" data-name="@t.name">
+                    <td>@t.name</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">Туры не найдены</div>
+}

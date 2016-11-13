@@ -1,7 +1,6 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 
 @{
-    ViewBag.Title = "Панель управления";
     ViewBag.Admin = true;
 }
 
@@ -22,6 +21,8 @@ else
     @section Styles {
         <link href="@Href("~/Styles/Auth.css")" rel="stylesheet" type="text/css" />
     }
-    
+
+    ViewBag.Title = "Авторизация";
+
     @RenderPage("~/views/admin/Auth.cshtml")
 }
