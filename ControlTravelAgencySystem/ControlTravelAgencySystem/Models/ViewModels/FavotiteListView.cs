@@ -26,5 +26,10 @@ namespace ControlTravelAgencySystem.Models.ViewModels
         {
             FavotiteListViewItems = new List<FavotiteListViewItem>();
         }
+
+
+        public string Fullname { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }

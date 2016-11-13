@@ -229,18 +229,18 @@ namespace ControlTravelAgencySystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult CalloutCreate(CalloutForm calloutForm)
+        public ActionResult CalloutCreate(FavotiteListView favListView)
         {
             _dbContext.callouts.Add(
                 new callout
                 {
-                    fullname = calloutForm.Fullname,
-                    email = calloutForm.Email,
-                    phone = calloutForm.Phone,
+                    fullname = favListView.Fullname,
+                    email = favListView.Email,
+                    phone = favListView.Phone,
                     created_at = Utils.dtToTimestamp(DateTime.Now)
                 });
 
-            //_dbContext.SaveChanges();
+            _dbContext.SaveChanges();
 
             var callout = _dbContext.callouts.ToList().Last();
             
@@ -258,7 +258,7 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    //_dbContext.SaveChanges();
+                    _dbContext.SaveChanges();
                 }
 
             Session["selected-check"] = null;
@@ -276,7 +276,7 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    //_dbContext.SaveChanges();
+                    _dbContext.SaveChanges();
                 }
 
             Session["flight-check"] = null;
@@ -294,7 +294,7 @@ namespace ControlTravelAgencySystem.Controllers
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
-                    //_dbContext.SaveChanges();
+                    _dbContext.SaveChanges();
                 }
 
             Session["route-check"] = null;
@@ -302,13 +302,6 @@ namespace ControlTravelAgencySystem.Controllers
             _dbContext.SaveChanges();
 
             return View();
-        }
-
-        public class CalloutForm
-        {
-            public string Fullname { get; set; }
-            public string Email { get; set; }
-            public string Phone { get; set; }
         }
     }
 }
