@@ -1,12 +1,20 @@
 ﻿#auth-form-box {
     height: 100%;
-    display: flex; 
+    display: flex;
     justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 #auth-form-box > form {
     width: 300px;
     align-self: center;
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
 }
 
 #auth-form-box > form input,

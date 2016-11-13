@@ -4,37 +4,56 @@
 
 @*@RenderPage("Modals/EmployeeAddModal.cshtml")*@
 
-<div class="space-between" id="tours-top-panel">
-    <h2>Список туров</h2>
+<div class="panel panel-default">
 
-    <div class="btn-group btn-group-sm" id="tour-add-btn"  data-toggle="modal" data-target="#tour-add-modal">
-        <button class="btn btn-success">Добавить</button>
+    <div class="panel-heading">
+        <h2>Список туров</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between" id="tours-top-panel">
+            <div class="btn-group" id="tour-add-btn" data-toggle="modal" data-target="#tour-add-modal">
+                <button class="btn btn-success">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.tours.Count() > 0)
+        {
+            <table class="table table-hover" id="tours-table">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th></th>  
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (tour t in Model.tours)
+                    {
+                        <tr data-id="@t.id" data-name="@t.name" class="hover-box">
+                            <td>@t.name</td>
+                            <td>
+                                <div class="btn-group hover-elem actions-group">
+                                    <button class="btn btn-default btn-xs center-block">
+                                        <i class="fa fa-pencil text-warning"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-xs center-block btn-tour-remove">
+                                        <i class="fa fa-ban text-danger"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning">Туры не найдены</div>
+        }
     </div>
 </div>
-
-@if (Model.tours.Count() > 0)
-{
-   
-    <table class="table table-hover" id="tours-table">
-        <thead>
-            <tr>
-                <th>Наименование</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach (tour t in Model.tours)
-            {
-                <tr data-id="@t.id" data-name="@t.name">
-                    <td>@t.name</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning">Туры не найдены</div>
-}

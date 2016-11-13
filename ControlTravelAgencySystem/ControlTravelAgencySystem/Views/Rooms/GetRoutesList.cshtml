@@ -1,58 +1,73 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.RoutesView
-<table class="table">
-    <thead>
-        <tr>
-            <th>Добавить</th>
-            <th>Тип</th>
-            <th>Из аэропорта</th>
-            <th>В аэропорт</th>
-            <th>Адрес отправления</th>
-            <th>Время отправления</th>
-            <th>Адрес прибытия</th>
-            <th>Продолжительность</th>
-            <th>Всего мест</th>
-            <th>Расстояние</th>
-            <th>Стоимость</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var viewItem in Model.RoutesViewItems)
-            {
-            <tr>
-                <td>
-                    <input type="checkbox" class="route-checkbox" checked="@viewItem.IsChecked" value="@viewItem.RouteId" />
-                </td>
-                <td>
-                    @viewItem.Type
-                </td>
-                <td>
-                    @viewItem.FromAirport
-                </td>
-                <td>
-                    @viewItem.ToAirport
-                </td>
-                <td>
-                    @viewItem.StartingAddress
-                </td>
-                <td>
-                    @viewItem.StartingTime
-                </td>
-                <td>
-                    @viewItem.FinalAddress
-                </td>
-                <td>
-                    @viewItem.Duration ч.
-                </td>
-                <td>
-                    @viewItem.TotalSeats
-                </td>
-                <td>
-                    @viewItem.Distance км
-                </td>
-                <td>
-                    @viewItem.Cost руб.
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Выберите трансфер(-ы)</h2>
+    </div>
+    <div class="panel-body">
+        <h3>Список доступных маршрутов</h3>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Добавить</th>
+                    <th>Тип</th>
+                    <th>Из аэропорта</th>
+                    <th>В аэропорт</th>
+                    <th>Адрес отправления</th>
+                    <th>Время отправления</th>
+                    <th>Адрес прибытия</th>
+                    <th>Продолжительность</th>
+                    <th>Всего мест</th>
+                    <th>Расстояние</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var viewItem in Model.RoutesViewItems)
+                {
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <input type="checkbox" class="route-checkbox" checked="@viewItem.IsChecked" value="@viewItem.RouteId" id="route-@(viewItem.RouteId)-checkbox" />
+                                <label for="route-@(viewItem.RouteId)-checkbox"></label>
+                            </div>
+                        </td>
+                        <td>
+                            @viewItem.Type
+                        </td>
+                        <td>
+                            @viewItem.FromAirport
+                        </td>
+                        <td>
+                            @viewItem.ToAirport
+                        </td>
+                        <td>
+                            @viewItem.StartingAddress
+                        </td>
+                        <td>
+                            @viewItem.StartingTime
+                        </td>
+                        <td>
+                            @viewItem.FinalAddress
+                        </td>
+                        <td>
+                            @viewItem.Duration ч.
+                        </td>
+                        <td>
+                            @viewItem.TotalSeats
+                        </td>
+                        <td>
+                            @viewItem.Distance км
+                        </td>
+                        <td>
+                            @viewItem.Cost руб.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

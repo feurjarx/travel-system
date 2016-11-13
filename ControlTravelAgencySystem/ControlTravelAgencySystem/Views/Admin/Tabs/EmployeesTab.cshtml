@@ -4,63 +4,78 @@
 
 @RenderPage("../Modals/EmployeeAddModal.cshtml")
 
-<div class="space-between" id="employees-top-panel">
-    <h2>Ваши сотрудники</h2>
+<div class="panel panel-default">
 
-    <div class="btn-group btn-group-sm" id="employee-add-btn"  data-toggle="modal" data-target="#employee-add-modal">
-        <button class="btn btn-success">Добавить</button>
+    <div class="panel-heading">
+        <h2>Ваши сотрудники</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between" id="employees-top-panel">
+            <div class="btn-group btn-group-sm margin-none" id="employee-add-btn" data-toggle="modal" data-target="#employee-add-modal">
+                <button class="btn btn-success">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.employees.Count() > 0)
+        {
+            <table class="table table-hover" id="employees-table">
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Дата рождения</th>
+                        <th>Должность</th>
+                        <th>Дата и время вступления</th>
+                        <th>Зарплата</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (employee e in Model.employees)
+                    {
+                        <tr data-id="@e.id" data-fullname="@e.person.fullname" class="hover-box">
+                            <td>@e.person.fullname</td>
+                            <td>@Utils.tsToDateTime(e.person.birthday_at).ToString(Constants.ddMMMyyyy)</td>
+                            <td>@e.position</td>
+                            <td>@Utils.tsToDateTime(e.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
+                            <td>@e.salary</td>
+                            <td>
+
+                                @if (e.email != null)
+                                {
+
+                                    @e.email
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+
+                            </td>
+                            <td>
+                                <div class="btn-group hover-elem actions-group">
+                                    <button class="btn btn-default btn-xs center-block">
+                                        <i class="fa fa-pencil text-warning"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-xs center-block btn-employee-remove">
+                                        <i class="fa fa-ban text-danger"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning margin-none">Заявки не найдены</div>
+        }
     </div>
 </div>
-
-@if (Model.employees.Count() > 0)
-{
-    
-    <table class="table table-hover" id="employees-table">
-        <thead>
-            <tr>
-                <th>ФИО</th>
-                <th>Дата рождения</th>
-                <th>Должность</th>
-                <th>Дата и время вступления</th>
-                <th>Зарплата</th>
-                <th>Email</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach (employee e in Model.employees)
-            {
-                <tr data-id="@e.id" data-fullname="@e.person.fullname">
-                    <td>@e.person.fullname</td>
-                    <td>@Utils.tsToDateTime(e.person.birthday_at).ToString(Constants.ddMMMyyyy)</td>
-                    <td>@e.position</td>
-                    <td>@Utils.tsToDateTime(e.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
-                    <td>@e.salary</td>
-                    <td>
-
-                        @if (e.email != null)
-                        {
-
-                            @e.email
-                        }
-                        else
-                        {
-                            <span>-</span>
-                        }
-
-                    </td>
-                    <td>
-                        <button class="btn btn-danger btn-xs center-block btn-employee-remove" style="padding: 0px 5px;">x</button>
-                    </td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning">Сотрудники не найдены</div>
-}

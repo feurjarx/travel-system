@@ -12,14 +12,6 @@ body {
     margin: 10px;
 }
 
-#tours-list {
-    margin-top: 60px;
-}
-
-#callout-btn {
-    margin-top: 20px;
-}
-
 header, footer, hgroup, nav, section {
     display: block;
 }

@@ -2,72 +2,81 @@
 @using ControlTravelAgencySystem.Models
 @using ControlTravelAgencySystem.Common
 
-<h2>Заявки от клиентов</h2>
 
-<div class="space-between form-group">
-    @RenderPage("../PanelControls/CalloutsFilterByStatus.cshtml")
-    @RenderPage("../PanelControls/ActionsBtnGroup.cshtml")
+@RenderPage("../SuggestionsHbs.cshtml")
+@RenderPage("../Modals/SuggestionsModal.cshtml")
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <h2>Заявки от клиентов</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between">
+            @RenderPage("../PanelControls/CalloutsFilterByStatus.cshtml")
+            @RenderPage("../PanelControls/ActionsBtnGroup.cshtml")
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.callouts.Count() > 0)
+        {
+            <table class="table table-hover" id="callouts-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ФИО</th>
+                        <th>Статус</th>
+                        <th>Дата и время создания</th>
+                        <th>Дата и время анулирования</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (callout c in Model.callouts)
+                    {
+                        <tr data-id="@c.id" data-fullname="@(c.fullname != null ? c.fullname : "")">
+
+                            <td>
+                                <div class="checkbox">
+                                    <input type="checkbox" id="callout-@(c.id)-checkbox">
+                                    <label for="callout-@(c.id)-checkbox"></label>
+                                </div>
+                            </td>
+
+                            <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
+
+                            <td>@(c.callout_order.Count() > 0 ? c.callout_order.First().status : "в ожидании")</td>
+
+                            <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
+
+                            <td>
+
+                                @if (c.cancellation_at != null)
+                                {
+
+                                    @Utils.tsToDateTime((double)c.cancellation_at).ToString(Constants.ddMMMyyyyHmmss)
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+
+                            </td>
+                            <td>@(c.email != null ? c.email : "-")</td>
+                            <td>@(c.phone != null ? c.phone : "-")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning margin-none">Заявки не найдены</div>
+        }
+    </div>
 </div>
-
-@if (Model.callouts.Count() > 0)
-{
-    @RenderPage("../SuggestionsHbs.cshtml")
-    @RenderPage("../Modals/SuggestionsModal.cshtml")
-    
-    <table class="table table-hover" id="callouts-table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>ФИО</th>
-                <th>Статус</th>
-                <th>Дата и время создания</th>
-                <th>Дата и время анулирования</th>
-                <th>Email</th>
-                <th>Телефон</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach (callout c in Model.callouts)
-            {
-                <tr data-id="@c.id" data-fullname="@(c.fullname != null ? c.fullname : "")">
-
-                    <td>
-                        <div class="checkbox">
-                            <input type="checkbox" id="callout-@(c.id)-checkbox">
-                            <label for="callout-@(c.id)-checkbox"></label>
-                        </div>
-                    </td>
-
-                    <td>@(c.fullname != null ? c.fullname : "<ФИО не указано>")</td>
-
-                    <td>@(c.callout_order.Count() > 0 ? c.callout_order.First().status : "в ожидании")</td>
-
-                    <td>@Utils.tsToDateTime(c.created_at).ToString(Constants.ddMMMyyyyHmmss)</td>
-
-                    <td>
-
-                        @if (c.cancellation_at != null)
-                        {
-
-                            @Utils.tsToDateTime((double)c.cancellation_at).ToString(Constants.ddMMMyyyyHmmss)
-                        }
-                        else
-                        {
-                            <span>-</span>
-                        }
-
-                    </td>
-                    <td>@(c.email != null ? c.email : "-")</td>
-                    <td>@(c.phone != null ? c.phone : "-")</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning">Заявки не найдены</div>
-}

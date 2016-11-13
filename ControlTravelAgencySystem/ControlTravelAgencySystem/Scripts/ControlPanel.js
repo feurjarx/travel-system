@@ -42,11 +42,123 @@
         }
     };
 
+    // START CREATE ZONE
+    $('form.add-entity-modal').submit(function () {
+        event.preventDefault();
+debugger
+        var $form = $(this);
+
+        // clear previous validation elements
+        $form.find('.has-error').removeClass('has-error');
+        $form.find('.has-feedback').removeClass('has-feedback');
+
+        var paramsList = $form.serializeArray();
+        var errors = [], match;
+
+        var entityName = $form.data('entity');
+        paramsList.forEach(function (param) {
+
+            switch (entityName) {
+                case 'employee':
+
+                    switch (param.name) {
+                        case 'fullname':
+
+                            if (param.value && param.value.trim().split(' ').length != 3) {
+
+                                $('#fullname-input').highlightElement('error');
+                                errors.push('Некорректно заполнено поле ФИО');
+                            }
+
+                            break;
+
+                        case 'passport_series':
+
+                            match = param.value.match(/\d/g);
+                            if (!match || match.length != 6 ) {
+                                $('#passport-series-input').highlightElement('error');
+                                errors.push('Некорректно указана серия паспорта');
+                            }
+
+                            break;
+
+                        case 'passport_code':
+
+                            match = param.value.match(/\d/g);
+                            if (!match || match.length != 4 ) {
+                                $('#passport-code-input').highlightElement('error');
+                                errors.push('Некорректно указан номер паспорта');
+                            }
+
+                            break;
+                    }
+
+                    break;
+
+                default:
+                    throw new Error('Unexcepted entity');
+
+            }
+        });
+
+        if (errors.length) {
+
+            var warningLines = '';
+            errors.forEach(function (err, i) {
+                warningLines += (i + 1) + '. ' + err + '<br>';
+            });
+
+            notification({
+                text: 'Внимание! <br> ' + warningLines,
+                type: 'warning'
+            }, 5000);
+
+        } else {
+
+            $form.find('.modal-title').mask();
+
+            $.ajax({
+                method: 'post',
+                url: $form.data('url'),
+                data: paramsList,
+                success: function (response) {
+
+                    if (response.error) {
+
+                        console.error(response.error);
+
+                        notification({
+                            text: 'Ошибка! <br> Вероятно, вы попытались создать учетную запись с уже существующим email',
+                            type: 'error'
+                        }, 5000);
+
+                    } else {
+
+                        $form.modal('hide').get(0).reset();
+                        location.reload();
+                    }
+                },
+                error: function (err) {
+                    console.error(err);
+
+                    notification({
+                        text: 'Ошибка! <br> отказ на сервере',
+                        type: 'error'
+                    });
+                },
+                complete: function () {
+                    $form.find('.modal-title').unmask();
+                }
+            });
+        }
+    });
+    // END CREATE ZONE
+
+    // START READ ZONE
     var $calloutsTable = $('#callouts-table');
     $calloutsTable.find('.checkbox').on('change', function () {
         domControl.calloutsRemoveBtnVisible = $(this).closest('table').find('input:checked').length > 0;
     });
-
     $calloutsTable.find('tbody > tr').on('click', function (event) {
 
         if (event.target.type === 'checkbox'
@@ -101,7 +213,9 @@
             });
         }
     });
+    // END READ ZONE
 
+    // START REMOVE ZONE
     domControl.$calloutsRemoveBtn.on('click', function () {
 
         var calloutsIds = [];
@@ -165,109 +279,6 @@
             }]
         });
     });
-
-    $('#employee-add-modal').submit(function (event) {
-        event.preventDefault();
-
-        var $form = $(this);
-
-        // start validation
-        $form.find('.has-error').removeClass('has-error');
-        $form.find('.has-feedback').removeClass('has-feedback');
-
-        var paramsList = $form.serializeArray();
-
-        var errors = [];
-        paramsList.forEach(function (param) {
-
-            var match;
-
-            switch (param.name) {
-                case 'fullname':
-
-                    if (param.value && param.value.trim().split(' ').length != 3) {
-
-                        $('#fullname-input').highlightElement('error');
-                        errors.push('Некорректно заполнено поле ФИО');
-                    }
-
-                    break;
-
-                case 'passport_series':
-
-                    match = param.value.match(/\d/g);
-                    if (!match || match.length != 6 ) {
-                        $('#passport-series-input').highlightElement('error');
-                        errors.push('Некорректно указана серия паспорта');
-                    }
-
-                    break;
-
-                case 'passport_code':
-
-                    match = param.value.match(/\d/g);
-                    if (!match || match.length != 4 ) {
-                        $('#passport-code-input').highlightElement('error');
-                        errors.push('Некорректно указан номер паспорта');
-                    }
-
-                    break;
-            }
-        });
-        // end validation
-
-        if (errors.length) {
-
-            var warningLines = '';
-            errors.forEach(function (err, i) {
-                warningLines += (i + 1) + '. ' + err + '<br>';
-            });
-
-            notification({
-                text: 'Внимание! <br> ' + warningLines,
-                type: 'warning'
-            }, 5000);
-
-        } else {
-
-            $form.find('.modal-title').mask();
-
-            $.ajax({
-                method: 'post',
-                url: '/employee/create',
-                data: paramsList,
-                success: function (response) {
-
-                    if (response.error) {
-
-                        console.error(response.error);
-
-                        notification({
-                            text: 'Ошибка! <br> Вероятно, вы попытались создать учетную запись с уже существующим email',
-                            type: 'error'
-                        }, 5000);
-
-                    } else {
-
-                        $form.modal('hide').get(0).reset();
-                        location.reload();
-                    }
-                },
-                error: function (err) {
-                    console.error(err);
-
-                    notification({
-                        text: 'Ошибка! <br> отказ на сервере',
-                        type: 'error'
-                    });
-                },
-                complete: function () {
-                    $form.find('.modal-title').unmask();
-                }
-            });
-        }
-    });
-
     $('.btn-employee-remove').on('click', function () {
 
         var $item = $(this).closest('tr');
@@ -324,4 +335,5 @@
             }]
         });
     });
+    // END REMOVE ZONE
 });

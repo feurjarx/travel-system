@@ -29,7 +29,6 @@ body {
 .content-wrapper > .container {
     margin-top: 50px;
     width: auto;
-    background: white;
     padding-bottom: 15px;
 }
 
@@ -63,4 +62,43 @@ footer > kbd {
 
 .space-between > * {
     align-self: center;
+}
+
+.hover-box .hover-elem {
+    visibility: hidden;
+}
+
+.hover-box .hover-hidden-elem {
+    visibility: visible;
+}
+
+.hover-box:hover .hover-elem {
+    visibility: visible;
+}
+
+.hover-box:hover .hover-hidden-elem {
+    visibility: hidden;
+}
+
+.actions-group {
+    min-width: 50px;
+    padding-left: 5px;
+}
+
+th:empty {
+    width: 1px;
+}
+
+#callout-end-signup-btn,
+#callout-begin-signup-btn {
+    border-radius: 0;
+    margin-top: 3px;
+}
+
+.navbar-inverse .container-fluid ul:last-child li:last-child {
+    margin-right: 10px;
+}
+
+.notification-alert {
+    margin: 10px 0 15px;
 }

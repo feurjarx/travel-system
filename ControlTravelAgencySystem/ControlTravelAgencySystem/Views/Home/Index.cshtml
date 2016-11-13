@@ -7,18 +7,20 @@
 <div class="tab-content">
     <div class="tab-pane fade in active" id="custom-tour-tab">
 
-        <div id="tours-title">
-            <div class="text-center">
-                <h3>Добро пожаловать в туристическое бюро!</h3>
+        @if (Request.Cookies["welcome_alert_close"] == null)
+        {
+            <div class="alert alert-success fade in notification-alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="document.cookie = 'welcome_alert_close=true'">&times;</a>
+                <h1>
+                    <strong>Добро пожаловать в туристическое бюро!</strong>
+                </h1>
+                <p class="hvr-icon-down" style="cursor: pointer">
+                    <a href="#tours-list" class="alert-link">Здесь</a>
+                    <b> Вы можете выбрать пожелания для заявки на незабываемый отдых.</b>
+                </p>
             </div>
-            <br />
-            <div class="float-left">
-                <h4>Выберите понравившиеся Вам туры:</h4>
-            </div>
-            <div class="float-right">
-                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("FavoriteList", "Rooms")'">Список пожеланий</button>
-            </div>
-        </div>
+        }
+        
         <div id="tours-list">
             @Html.Action("GetToursList", "Tours")
         </div>

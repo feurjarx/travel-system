@@ -163,7 +163,7 @@ namespace ControlTravelAgencySystem.Controllers
                 default:
 
                     ViewBag.Title = "Панель управления";
-
+                    
                     string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
 
                     if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
@@ -173,25 +173,31 @@ namespace ControlTravelAgencySystem.Controllers
 
                         if (calloutOrderStatusCriteria == "pending")
                         {
-                            model.callouts =
+                            model.callouts = (
+
                                 from c in _dbContext.callouts
                                 join co in _dbContext.callout_order on c.id equals co.callout_id into join_scope
                                 from co in join_scope.DefaultIfEmpty()
                                 where co.id == null || co.status == status
-                                select c;
+                                select c
+
+                            ).OrderByDescending(c => c.created_at);
                         }
                         else
                         {
-                            model.callouts =
+                            model.callouts = (
+                                
                                 from c in _dbContext.callouts
                                 join co in _dbContext.callout_order on c.id equals co.callout_id
                                 where co.status == status
-                                select c;
+                                select c
+
+                            ).OrderByDescending(c => c.created_at);
                         }
                     }
                     else
                     {
-                        model.callouts = _dbContext.callouts;
+                        model.callouts = _dbContext.callouts.OrderByDescending(c => c.created_at);
                     }
 
                     model.callouts = model.callouts.Include("callout_order");

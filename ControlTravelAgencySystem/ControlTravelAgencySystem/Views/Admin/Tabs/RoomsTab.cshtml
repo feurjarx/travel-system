@@ -4,37 +4,58 @@
 
 @*@RenderPage("Modals/EmployeeAddModal.cshtml")*@
 
-<div class="space-between" id="rooms-top-panel">
-    <h2>Список номеров отелей</h2>
+<div class="panel panel-default">
 
-    <div class="btn-group btn-group-sm" id="room-add-btn"  data-toggle="modal" data-target="#room-add-modal">
-        <button class="btn btn-success">Добавить</button>
+    <div class="panel-heading">
+        <h2>Список номеров отелей</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between" id="rooms-top-panel">
+            <div class="btn-group" id="room-add-btn" data-toggle="modal" data-target="#room-add-modal">
+                <button class="btn btn-success">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.rooms.Count() > 0)
+        {
+
+            <table class="table table-hover" id="rooms-table">
+                <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (room r in Model.rooms)
+                    {
+                        <tr data-id="@r.id" data-number="@r.number" class="hover-box">
+                            <td>@r.number</td>
+                            <td>
+                                <div class="btn-group hover-elem actions-group">
+                                    <button class="btn btn-default btn-xs center-block btn-room-edit">
+                                        <i class="fa fa-pencil text-warning"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-xs center-block btn-room-remove">
+                                        <i class="fa fa-ban text-danger"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning">Номера не найдены</div>
+        }
+
     </div>
 </div>
-
-@if (Model.rooms.Count() > 0)
-{
-   
-    <table class="table table-hover" id="rooms-table">
-        <thead>
-            <tr>
-                <th>Номер</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach (room r in Model.rooms)
-            {
-                <tr data-id="@r.id" data-number="@r.number">
-                    <td>@r.number</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="alert alert-warning">Номера не найдены</div>
-}

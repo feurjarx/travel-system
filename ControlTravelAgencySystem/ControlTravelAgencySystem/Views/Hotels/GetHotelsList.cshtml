@@ -1,24 +1,34 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.HotelsView
-<table class="table">
-    <thead>
-        <tr>
-            <th>Наименование</th>
-            <th>Адрес</th>
-            <th>Город</th>
-            <th>Кол-во звезд</th>
-            <th>Растояние до пляжа</th>
-            <th>Тип питания</th>
-            <th>Описание питания</th>
-            <th>Скольки разовое питание</th>
-            <th>Средняя стоимость проживания в сутки</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var viewItem in Model.HotelViewItems)
-        {
-            <tr>
-                <td>
-                    @Ajax.ActionLink(
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Выберите желаемый отель</h2>
+    </div>
+    <div class="panel-body">
+        <h3>Список отелей</h3>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Адрес</th>
+                    <th>Город</th>
+                    <th>Кол-во звезд</th>
+                    <th>Растояние до пляжа</th>
+                    <th>Тип питания</th>
+                    <th>Описание питания</th>
+                    <th>Скольки разовое питание</th>
+                    <th>Средняя стоимость проживания в сутки</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var viewItem in Model.HotelViewItems)
+                {
+                    <tr>
+                        <td>
+                            @Ajax.ActionLink(
                         viewItem.HotelName,
                         "GetRoomsList",
                         "Rooms",
@@ -30,46 +40,49 @@
                                 "GetRoomsList",
                                 "Rooms",
                                 new { id = viewItem.HotelId }),
-                                OnBegin = "(function() { LoadAjaxSuccess2(" + viewItem.HotelId + "); })()"
+                            OnBegin = "(function() { LoadAjaxSuccess2(" + viewItem.HotelId + "); })()"
                         },
                         new { @class = "rooms-item" })
-                </td>
-                <td>
-                    @viewItem.HotelAddress
-                </td>
-                <td>
-                    @viewItem.CityName
-                </td>
-                <td>
-                    @for (var i = 0; i < viewItem.StarsNumber; i++)
-                    {
-                        <img src="~/Images/star_9297.png" width="16" height="16" />
-                    }
-                </td>
-                <td>
-                    @viewItem.DistanceToBeach м
-                </td>
-                <td>
-                    @viewItem.FoodType
-                </td>
-                <td>
-                    @viewItem.FoodDescription
-                </td>
-                <td>
-                    @viewItem.HowManyInDay
-                </td>
-                <td>
-                    @viewItem.AveragePrice руб
-                </td>              
-            </tr>
-            <tr>
-                <td colspan="9">
-                    <div id="rooms-table-@viewItem.HotelId" class="rooms-table" />
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        </td>
+                        <td>
+                            @viewItem.HotelAddress
+                        </td>
+                        <td>
+                            @viewItem.CityName
+                        </td>
+                        <td>
+                            @for (var i = 0; i < viewItem.StarsNumber; i++)
+                            {
+                                <img src="~/Images/star_9297.png" width="16" height="16" />
+                            }
+                        </td>
+                        <td>
+                            @viewItem.DistanceToBeach м
+                        </td>
+                        <td>
+                            @viewItem.FoodType
+                        </td>
+                        <td>
+                            @viewItem.FoodDescription
+                        </td>
+                        <td>
+                            @viewItem.HowManyInDay
+                        </td>
+                        <td>
+                            @viewItem.AveragePrice руб
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <div id="rooms-table-@viewItem.HotelId" class="rooms-table" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
 @*перенести в файл*@
 <script>
     function LoadAjaxSuccess2(id) {
