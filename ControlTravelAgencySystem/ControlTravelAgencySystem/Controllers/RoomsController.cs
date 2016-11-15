@@ -303,5 +303,40 @@ namespace ControlTravelAgencySystem.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult Create()
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                room room = new room();
+                room.number = Request.Form["number"];
+                room.hotel_id = int.Parse(Request.Form["hotel_id"]);
+                room.cost_per_day = int.Parse(Request.Form["cost_per_day"]);
+                room.@class = "Эконом";// Request.Form["class"];
+                room.seats_number = int.Parse(Request.Form["seats_number"]);
+
+                if (Request.Form["room_size"] != "")
+                {
+                    room.room_size = int.Parse(Request.Form["room_size"]);
+                }
+
+                if (Request.Form["description"] != "")
+                {
+                    room.description = Request.Form["description"];
+                }
+
+                _dbContext.rooms.Add(room);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
     }
 }

@@ -45,7 +45,7 @@
     // START CREATE ZONE
     $('form.add-entity-modal').submit(function () {
         event.preventDefault();
-debugger
+
         var $form = $(this);
 
         // clear previous validation elements
@@ -54,11 +54,28 @@ debugger
 
         var paramsList = $form.serializeArray();
         var errors = [], match;
-
+        debugger
         var entityName = $form.data('entity');
         paramsList.forEach(function (param) {
 
             switch (entityName) {
+
+                case 'hotel':
+                case 'tour':
+                    break;
+
+                case 'room':
+
+                    if (param.name === 'number') {
+                        match = param.value.match(/\d/g);
+                        if (!match) {
+                            $('#number-input').highlightElement('error');
+                            errors.push('Некорректно заполнено поле номера помещения');
+                        }
+                    }
+
+                    break;
+
                 case 'employee':
 
                     switch (param.name) {
@@ -128,7 +145,7 @@ debugger
                         console.error(response.error);
 
                         notification({
-                            text: 'Ошибка! <br> Вероятно, вы попытались создать учетную запись с уже существующим email',
+                            text: 'Ошибка! <br> Создание объекта завершилось с ошибкой. Обратитесь в техподдержку сайта',
                             type: 'error'
                         }, 5000);
 
@@ -142,7 +159,7 @@ debugger
                     console.error(err);
 
                     notification({
-                        text: 'Ошибка! <br> отказ на сервере',
+                        text: 'Ошибка! <br> Отказ на сервере. Обратитесь в техподдержку сайта',
                         type: 'error'
                     });
                 },

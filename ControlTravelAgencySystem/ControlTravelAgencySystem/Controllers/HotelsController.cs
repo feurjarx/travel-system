@@ -1,5 +1,7 @@
 ﻿using ControlTravelAgencySystem.Models;
 using ControlTravelAgencySystem.Models.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -78,6 +80,46 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             return viewModel;
+        }
+
+        [HttpPost]
+        public JsonResult Create()
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                hotel hotel = new hotel();
+                hotel.name = Request.Form["name"];
+
+                if (Request.Form["tour_id"] != "")
+                {
+                    hotel.tour_id = int.Parse(Request.Form["tour_id"]);
+                }
+
+                hotel.city_id = int.Parse(Request.Form["city_id"]);
+                hotel.address = Request.Form["address"];
+                hotel.stars_number = int.Parse(Request.Form["stars_number"]);
+
+                if (Request.Form["distance_to_beach"] != "")
+                {
+                    hotel.distance_to_beach = int.Parse(Request.Form["distance_to_beach"]);
+                }
+
+                if (Request.Form["food_id"] != "")
+                {
+                    hotel.food_id = int.Parse(Request.Form["food_id"]);
+                }
+
+                _dbContext.hotels.Add(hotel);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

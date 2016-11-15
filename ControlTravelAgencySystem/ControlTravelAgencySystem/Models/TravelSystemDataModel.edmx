@@ -212,7 +212,7 @@
           <Property Name="number" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="hotel_id" Type="int" Nullable="false" />
           <Property Name="cost_per_day" Type="int" Nullable="false" />
-          <Property Name="class" Type="enum" Nullable="false" />
+          <Property Name="class" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="seats_number" Type="int" Nullable="false" />
           <Property Name="room_size" Type="int" />
           <Property Name="description" Type="text" />

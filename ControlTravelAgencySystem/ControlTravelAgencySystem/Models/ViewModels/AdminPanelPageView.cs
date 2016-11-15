@@ -18,6 +18,12 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public List<room> rooms { get; set; }
 
+        public List<country> countries { get; set; }
+
+        public List<city> cities { get; set; }
+
+        public List<food> foods { get; set; }
+
         public string section = null;
     }
 }

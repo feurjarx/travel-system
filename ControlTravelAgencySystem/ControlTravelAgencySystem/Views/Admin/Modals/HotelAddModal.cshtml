@@ -1,0 +1,79 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade" id="hotel-add-modal" tabindex="-1" role="dialog"
+      data-entity="hotel" data-url="/hotels/create">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление отеля
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Название:</span>
+                    <input required type="text" class="form-control" id="name-input" name="name">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Курорт:</span>
+                    <select class="form-control" id="tour-input" name="tour_id">
+                        @foreach (tour t in Model.tours)
+                        {
+                            <option value="@t.id">@t.name</option>
+                        }
+
+                        <option class="text-muted" value="">Отсутствует</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Город:</span>
+                    <select required class="form-control" id="city-input" name="city_id">
+                        @foreach (city c in Model.cities)
+                        {
+                            <option value="@c.id">@c.name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Адрес:</span>
+                    <input required type="text" class="form-control" id="address-input" name="address">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Количество звезд:</span>
+                    <input required type="number" class="form-control" id="stars-number-input" name="stars_number" min="1" max="5" value="1"/>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Расстояние до ближайшего пляжа (м):</span>
+                    <input type="number" class="form-control" id="distance-to-beach-input" name="distance_to_beach" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Тип питания:</span>
+                    <select class="form-control" id="food-input" name="food_id">
+                        @foreach (food f in Model.foods)
+                        {
+                            <option value="@f.id" title="@f.description">@f.type</option>
+                        }
+                        <option class="text-muted" value="">Отсутствует</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

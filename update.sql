@@ -10,3 +10,5 @@ ALTER TABLE `hotel_service_order` ADD `created_at` INT NOT NULL AFTER `provision
 
 ALTER TABLE `travel_system`.`employee` ADD UNIQUE (`email`);
 
+-- 16.11.2016
+ALTER TABLE `room` CHANGE `class` `class` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Эконом';

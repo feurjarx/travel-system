@@ -1,0 +1,70 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade" id="room-add-modal" tabindex="-1" role="dialog" 
+      data-entity="room" data-url="/rooms/create">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление номера отеля
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Отель:</span>
+                    <select class="form-control" id="hotel-input" name="hotel_id">
+                        @foreach (hotel h in Model.hotels)
+                        {
+                            <option value="@h.id" title="@(h.tour != null ? h.tour.name : @"Не относится к курорту")">@h.name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Порядковый номер:</span>
+                    <input required type="text" class="form-control" id="number-input" name="number">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Цена (р/сутки):</span>
+                    <input required type="number" step="100" class="form-control" id="cost-per-day-input" name="cost_per_day">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Класс:</span>
+                    <select class="form-control" id="class-input" name="class">
+                        <option value="Эконом">Эконом</option>
+                        <option value="Бизнес">Бизнес</option>
+                        <option value="Люкс">Люкс</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Количество мест:</span>
+                    <input required type="number" min="1" max="10" class="form-control" id="seats-number-input" name="seats_number">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Площадь помещения (м<sup>2</sup>):</span>
+                    <input type="number" min="5" max="150" class="form-control" id="room-size-input" name="room_size">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Описание:</span>
+                    <textarea class="form-control" rows="5" id="description-textarea" name="description"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

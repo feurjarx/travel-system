@@ -137,6 +137,7 @@ namespace ControlTravelAgencySystem.Controllers
                     model.employees = _dbContext.employees
                         .Include("person")
                         .DefaultIfEmpty();
+
                     break;
 
                 case "tours":
@@ -144,6 +145,9 @@ namespace ControlTravelAgencySystem.Controllers
                     ViewBag.Title = "Управление турами";
 
                     model.tours = _dbContext.tours.ToList();
+
+                    model.countries = _dbContext.countries.ToList();
+
                     break;
 
                 case "hotels":
@@ -151,6 +155,11 @@ namespace ControlTravelAgencySystem.Controllers
                     ViewBag.Title = "Управление отелями";
 
                     model.hotels = _dbContext.hotels.ToList();
+
+                    model.foods = _dbContext.foods.ToList();
+                    model.cities = _dbContext.cities.ToList();
+                    model.tours = _dbContext.tours.ToList();
+
                     break;
 
                 case "rooms":
@@ -158,6 +167,8 @@ namespace ControlTravelAgencySystem.Controllers
                     ViewBag.Title = "Управление номерами";
 
                     model.rooms = _dbContext.rooms.ToList();
+                    model.hotels = _dbContext.hotels.Include("tour").ToList();
+                    
                     break;
 
                 default:

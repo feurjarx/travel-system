@@ -85,6 +85,24 @@ namespace ControlTravelAgencySystem
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Employee", action = "Create", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Tours",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Tours", action = "Create" }
+            );
+
+            routes.MapRoute(
+                name: "Hotels",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Hotels", action = "Create" }
+            );
+
+            routes.MapRoute(
+                name: "Rooms",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Rooms", action = "Create" }
+            );
         }
     }
 }
