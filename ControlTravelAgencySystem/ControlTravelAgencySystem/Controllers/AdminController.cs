@@ -136,6 +136,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                     model.employees = _dbContext.employees
                         .Include("person")
+                        .OrderByDescending(e => e.created_at)
                         .DefaultIfEmpty();
 
                     break;

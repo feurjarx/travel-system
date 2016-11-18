@@ -66,134 +66,6 @@ $(function () {
             return result;
         }
     };
-    // START CREATE ZONE
-    $('form.add-entity-modal').submit(function () {
-        event.preventDefault();
-
-        var $form = $(this);
-
-        // clear previous validation elements
-        $form.find('.has-error').removeClass('has-error');
-        $form.find('.has-feedback').removeClass('has-feedback');
-
-        var paramsList = $form.serializeArray();
-        var errors = [], match;
-
-        var entityName = $form.data('entity');
-        paramsList.forEach(function (param) {
-
-            switch (entityName) {
-
-                case 'hotel':
-                case 'tour':
-                    break;
-
-                case 'room':
-
-                    if (param.name === 'number') {
-                        match = param.value.match(/\d/g);
-                        if (!match) {
-                            $('#number-input').highlightElement('error');
-                            errors.push('Некорректно заполнено поле номера помещения');
-                        }
-                    }
-
-                    break;
-
-                case 'employee':
-
-                    switch (param.name) {
-                        case 'fullname':
-
-                            if (param.value && param.value.trim().split(' ').length != 3) {
-
-                                $('#fullname-input').highlightElement('error');
-                                errors.push('Некорректно заполнено поле ФИО');
-                            }
-
-                            break;
-
-                        case 'passport_series':
-
-                            match = param.value.match(/\d/g);
-                            if (!match || match.length != 6 ) {
-                                $('#passport-series-input').highlightElement('error');
-                                errors.push('Некорректно указана серия паспорта');
-                            }
-
-                            break;
-
-                        case 'passport_code':
-
-                            match = param.value.match(/\d/g);
-                            if (!match || match.length != 4 ) {
-                                $('#passport-code-input').highlightElement('error');
-                                errors.push('Некорректно указан номер паспорта');
-                            }
-
-                            break;
-                    }
-
-                    break;
-
-                default:
-                    throw new Error('Unexcepted entity');
-
-            }
-        });
-
-        if (errors.length) {
-
-            var warningLines = '';
-            errors.forEach(function (err, i) {
-                warningLines += (i + 1) + '. ' + err + '<br>';
-            });
-
-            notification({
-                text: 'Внимание! <br> ' + warningLines,
-                type: 'warning'
-            }, 5000);
-
-        } else {
-
-            $form.find('.modal-title').mask();
-
-            $.ajax({
-                method: 'post',
-                url: $form.data('create-url'),
-                data: paramsList,
-                success: function (response) {
-
-                    if (response.error) {
-
-                        console.error(response.error);
-
-                        notification({
-                            text: 'Ошибка! <br> Создание объекта завершилось с ошибкой. Обратитесь в техподдержку сайта',
-                            type: 'error'
-                        }, 5000);
-
-                    } else {
-
-                        $form.modal('hide').get(0).reset();
-                        location.reload();
-                    }
-                },
-                error: function (err) {
-                    console.error(err);
-
-                    notification({
-                        text: 'Ошибка! <br> Отказ на сервере. Обратитесь в техподдержку сайта',
-                        type: 'error'
-                    });
-                },
-                complete: function () {
-                    $form.find('.modal-title').unmask();
-                }
-            });
-        }
-    });
-    // END CREATE ZONE
 
     // START READ ZONE
     var $calloutsTable = $('#callouts-table');
@@ -378,6 +250,100 @@ $(function () {
     });
     // END REMOVE ZONE
 
+    function preSubmit($form) {
+
+        var result;
+
+        // clear previous validation elements
+        $form.find('.has-error').removeClass('has-error');
+        $form.find('.has-feedback').removeClass('has-feedback');
+
+        var paramsList = $form.serializeArray();
+        var errors = [], match;
+
+        var entityName = $form.data('entity');
+        paramsList.forEach(function (param) {
+
+            switch (entityName) {
+
+                case 'hotel':
+                case 'tour':
+                    break;
+
+                case 'room':
+
+                    if (param.name === 'number') {
+                        match = param.value.match(/\d/g);
+                        if (!match) {
+                            $form.find('[name="number"]').highlightElement('error');
+                            errors.push('Некорректно заполнено поле номера помещения');
+                        }
+                    }
+
+                    break;
+
+                case 'employee':
+
+                    switch (param.name) {
+                        case 'fullname':
+
+                            if (param.value && param.value.trim().split(' ').length != 3) {
+                                $form.find('[name="fullname"]').highlightElement('error');
+                                errors.push('Некорректно заполнено поле ФИО');
+                            }
+
+                            break;
+
+                        case 'passport_series':
+
+                            match = param.value.match(/\d/g);
+                            if (!match || match.length != 4) {
+                                $form.find('[name="passport_series"]').highlightElement('error');
+                                errors.push('Некорректно указана серия паспорта');
+                            }
+
+                            break;
+
+                        case 'passport_code':
+
+                            match = param.value.match(/\d/g);
+                            if (!match || match.length != 6) {
+                                $form.find('[name="passport_code"]').highlightElement('error');
+                                errors.push('Некорректно указан номер паспорта');
+                            }
+
+                            break;
+                    }
+
+                    break;
+
+                default:
+                    throw new Error('Unexcepted entity');
+
+            }
+        });
+
+        if (errors.length) {
+
+            var warningLines = '';
+            errors.forEach(function (err, i) {
+                warningLines += (i + 1) + '. ' + err + '<br>';
+            });
+
+            notification({
+                text: 'Внимание! <br> ' + warningLines,
+                type: 'warning'
+            }, 5000);
+
+            result = false;
+
+        } else {
+
+            result = paramsList;
+        }
+
+        return result;
+    }
     // START EDIT ZONE
     $(document).on('click', '.btn-modal-edit', function () {
         var $activeRow = $(this).closest('tr');
@@ -386,16 +352,123 @@ $(function () {
         var modalBodyHtml = render.getPainterFor($template)($activeRow.data('json'));
         $modalClone.find('.modal-title').text('Редактирование объекта');
         $modalClone.find('.modal-body').html(modalBodyHtml);
-        $modalClone.modal('show');
+
         $modalClone
+            .on('shown.bs.modal', function (e) {
+
+                if ($modalClone.data('entity') === 'employee') {
+                    var $birthdayAtDatetimepicker = $('#edit-birthday-at-datetimepicker');
+
+                    if ($birthdayAtDatetimepicker.data('DateTimePicker')) {
+                        $birthdayAtDatetimepicker.data('DateTimePicker').destroy();
+                    }
+
+                    var ts = $activeRow.data('json')['person']['birthday_at'];
+                    $birthdayAtDatetimepicker.datetimepicker({
+                        defaultDate: new Date(ts * 1000),
+                        locale: 'ru',
+                        format: 'DD/MM/YYYY',
+                        viewMode: 'years'
+                    });
+                }
+            })
             .on('hidden.bs.modal', function (e) {
                 $(this).remove();
             })
-            .submit(function (e) {
-                e.preventDefault();
-                debugger
+            .submit(function (event) {
+                event.preventDefault();
+
+                var $form = $(this);
+
+                var paramsList = preSubmit($form);
+                if (paramsList) {
+                    $form.find('.modal-title').mask();
+
+                    $.ajax({
+                        method: 'post',
+                        url: $form.data('edit-url') + '/' + $activeRow.data('id'),
+                        data: paramsList,
+                        success: function (response) {
+
+                            if (response.error) {
+
+                                console.error(response.error);
+
+                                notification({
+                                    text: 'Ошибка! <br> Операция с объектом завершилась с ошибкой. Обратитесь в техподдержку сайта',
+                                    type: 'error'
+                                }, 5000);
+
+                            } else {
+
+                                $form.modal('hide').get(0).reset();
+                                location.reload();
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err);
+
+                            notification({
+                                text: 'Ошибка! <br> Отказ на сервере. Обратитесь в техподдержку сайта',
+                                type: 'error'
+                            });
+                        },
+                        complete: function () {
+                            $form.find('.modal-title').unmask();
+                        }
+                    });
+                }
+
             });
+
+        $modalClone.modal('show');
     });
     // END EDIT ZONE
 
+    // START CREATE ZONE
+    $('form.add-entity-modal').submit(function () {
+        event.preventDefault();
+
+        var $form = $(this);
+
+        var paramsList = preSubmit($form);
+        if (paramsList) {
+            $form.find('.modal-title').mask();
+
+            $.ajax({
+                method: 'post',
+                url: $form.data('create-url'),
+                data: paramsList,
+                success: function (response) {
+
+                    if (response.error) {
+
+                        console.error(response.error);
+
+                        notification({
+                            text: 'Ошибка! <br> Операция с объектом завершилась с ошибкой. Обратитесь в техподдержку сайта',
+                            type: 'error'
+                        }, 5000);
+
+                    } else {
+
+                        $form.modal('hide').get(0).reset();
+                        location.reload();
+                    }
+                },
+                error: function (err) {
+                    console.error(err);
+
+                    notification({
+                        text: 'Ошибка! <br> Отказ на сервере. Обратитесь в техподдержку сайта',
+                        type: 'error'
+                    });
+                },
+                complete: function () {
+                    $form.find('.modal-title').unmask();
+                }
+            });
+        }
+    });
+    // END CREATE ZONE
 });

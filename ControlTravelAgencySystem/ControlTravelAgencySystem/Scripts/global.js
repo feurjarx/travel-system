@@ -26,6 +26,10 @@ Handlebars.registerHelper('debug', function (v1) {
     console.log(v1);
 });
 
+Handlebars.registerHelper('slice', function (value, start, end) {
+    return end && typeof end === "number" ? value.slice(start, end) : value.slice(start);
+});
+
 Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
     if (arguments.length < 4) {
         // Operator omitted, assuming "+"

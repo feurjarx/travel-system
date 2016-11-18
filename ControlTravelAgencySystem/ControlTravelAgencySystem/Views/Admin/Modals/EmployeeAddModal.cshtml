@@ -1,5 +1,7 @@
-﻿<form class="modal add-entity-modal fade" id="employee-add-modal" tabindex="-1" role="dialog"
-      data-entity="employee" data-create-url="/employee/create">
+﻿<form class="modal add-entity-modal fade" id="employee-modal" tabindex="-1" role="dialog"
+      data-entity="employee" 
+      data-create-url="/employee/create"
+      data-edit-url="/employee/edit">
 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -38,11 +40,11 @@
                 <div class="form-group flexbox" style="width: 50%">
                     <div class="input-group" style="padding-right: 5px">
                         <span class="input-group-addon">Номер паспорта:</span>
-                        <input required maxlength="4" type="text" class="form-control" id="passport-code-input" name="passport_code">
+                        <input required maxlength="6" type="text" class="form-control" id="passport-code-input" name="passport_code">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Серия:</span>
-                        <input required maxlength="6" type="text" class="form-control" id="passport-series-input" name="passport_series">
+                        <input required maxlength="4" type="text" class="form-control" id="passport-series-input" name="passport_series">
                     </div>
                 </div>
 
@@ -71,6 +73,60 @@
                     <input required type="password" class="form-control" id="password-input" name="password">
                 </div>
             </div>
+
+            <!--HBS-->
+            <script class="hbs" type="text/x-handlebars-template">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">ФИО:</span>
+                    <input required type="text" class="form-control" id="edit-fullname-input" name="fullname" value="{{ person.fullname }}">
+                </div>
+
+                <div class="form-group input-group date" id="edit-birthday-at-datetimepicker">
+                    <span class="input-group-addon">Дата рождения:</span>
+                    <input required id="edit-birthday-at-input" class="form-control" type="text" name="birthday_at" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+                <div class="form-group flexbox" style="width: 50%">
+                    <div class="input-group" style="padding-right: 5px">
+                        <span class="input-group-addon">Номер паспорта:</span>
+                        <input required maxlength="6" type="text" class="form-control" id="edit-passport-code-input" name="passport_code" value="{{slice person.passport_code 0 6 }}">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Серия:</span>
+                        <input required maxlength="4" type="text" class="form-control" id="edit-passport-series-input" name="passport_series" value="{{slice person.passport_code 6 }}">
+                    </div>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Должность:</span>
+                    <select required class="form-control" id="edit-position-input" name="position">
+                        <option {{#ifCond position "==" "менеджер" }}selected{{/ifCond}} value="менеджер">Менеджер</option>
+                        <option {{#ifCond position "==" "директор" }}selected{{/ifCond}} value="директор">Директор</option>
+                        <option {{#ifCond position "==" "пиар-менеджер" }}selected{{/ifCond}} value="пиар-менеджер">Пиар-менеджер</option>
+                        <option {{#ifCond position "==" "рекрутер" }}selected{{/ifCond}} value="рекрутер">Рекрутер</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Зарплата:</span>
+                    <input type="number" class="form-control" id="edit-salary-input" name="salary" min="5000" max="200000" value="{{ salary }}" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">@@</span>
+                    <input required type="email" class="form-control" id="edit-email-input" name="email" value="{{ email }}" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Пароль:</span>
+                    <input required type="password" class="form-control" id="edit-password-input" name="password" value="" />
+                </div>
+
+            </script>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>

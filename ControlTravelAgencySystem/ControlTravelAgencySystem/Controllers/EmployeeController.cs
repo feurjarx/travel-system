@@ -29,25 +29,13 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 // создаем объект класса - Пдн
                 person employeePerson = new person();
-                employeePerson.fullname = Request.Form["fullname"];
-                employeePerson.birthday_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["birthday_at"]));
-                employeePerson.passport_code = Request.Form["passport_code"] + Request.Form["passport_series"];
+                serializePersonToModal(ref employeePerson);
                 _dbContext.people.Add(employeePerson);
 
                 // создаем объект класса - Сотрудник
                 employee employee = new employee();
-                employee.created_at = Utils.dtToTimestamp(DateTime.Now);
                 employee.person = employeePerson; // присваиваем новые Пдн
-                employee.position = Request.Form["position"];
-
-                // зп необязательное поле
-                if (Request.Form["salary"] != null && Request.Form["salary"] != "")
-                {
-                    employee.salary = Int32.Parse(Request.Form["salary"]);
-                }
-
-                employee.email = Request.Form["email"];
-                employee.password = Utils.md5(Request.Form["password"]);
+                serializeEmployeeToModel(ref employee);
 
                 // Добавляем в коллекцию
                 _dbContext.employees.Add(employee);
@@ -62,6 +50,53 @@ namespace ControlTravelAgencySystem.Controllers
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
+        [HttpPost]
+        public JsonResult Edit(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                employee employee = _dbContext.employees.Find(id);
+                serializeEmployeeToModel(ref employee);
+
+                person employeePerson = employee.person;
+                serializePersonToModal(ref employeePerson);
+                
+                // сохранение в базу
+                _dbContext.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        
+        
+        private void serializeEmployeeToModel(ref employee employee)
+        {
+            employee.created_at = Utils.dtToTimestamp(DateTime.Now);
+            employee.position = Request.Form["position"];
+            
+            if (Request.Form["salary"] != null && Request.Form["salary"] != "")
+            {
+                employee.salary = Int32.Parse(Request.Form["salary"]);
+            }
+
+            employee.email = Request.Form["email"];
+            employee.password = Utils.md5(Request.Form["password"]);
+        }
+
+        private void serializePersonToModal(ref person person)
+        {
+            person.fullname = Request.Form["fullname"];
+            person.birthday_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["birthday_at"]));
+            person.passport_code = Request.Form["passport_code"] + Request.Form["passport_series"];   
+        }
+        
         /// <summary>
         /// Процедура увольнения
         /// </summary>

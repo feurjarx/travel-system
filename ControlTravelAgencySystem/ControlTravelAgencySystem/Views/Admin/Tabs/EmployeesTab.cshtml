@@ -4,6 +4,28 @@
 
 @RenderPage("../Modals/EmployeeAddModal.cshtml")
 
+@{ 
+    List<object> employeeProperties = new List<object>()
+    {
+        "id",
+        "person_id",
+        new
+        {
+            key = "person",
+            properties = new List<object>()
+            {
+                "fullname",
+                "birthday_at",
+                "passport_code"
+            }
+        },
+        "position",
+        "created_at",
+        "salary",
+        "email"
+    };
+}
+
 <div class="panel panel-default">
 
     <div class="panel-heading">
@@ -11,7 +33,7 @@
     </div>
     <div class="panel-body">
         <div class="space-between" id="employees-top-panel">
-            <div class="btn-group btn-group-sm margin-none" id="employee-add-btn" data-toggle="modal" data-target="#employee-add-modal">
+            <div class="btn-group btn-group-sm margin-none" id="employee-add-btn" data-toggle="modal" data-target="#employee-modal">
                 <button class="btn btn-success">Добавить</button>
             </div>
         </div>
@@ -38,7 +60,11 @@
 
                     @foreach (employee e in Model.employees)
                     {
-                        <tr data-id="@e.id" data-fullname="@e.person.fullname" class="hover-box">
+                        <tr data-id="@e.id" class="hover-box" 
+                            data-modal-target="#employee-modal" 
+                            data-fullname="@e.person.fullname" 
+                            data-json="@(Utils.toJsonByCustomProperties(e, employeeProperties))">
+
                             <td>@e.person.fullname</td>
                             <td>@Utils.tsToDateTime(e.person.birthday_at).ToString(Constants.ddMMMyyyy)</td>
                             <td>@e.position</td>
@@ -59,7 +85,7 @@
                             </td>
                             <td>
                                 <div class="btn-group hover-elem actions-group">
-                                    <button class="btn btn-default btn-xs center-block">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
                                     <button class="btn btn-default btn-xs center-block btn-employee-remove">

@@ -113,10 +113,8 @@ namespace ControlTravelAgencySystem.Controllers
             try
             {
                 tour tour = new tour();
-                tour.name = Request.Form["name"];
-                tour.country_id = int.Parse(Request.Form["country_id"]);
+                serializeToModel(ref tour);
                 _dbContext.tours.Add(tour);
-
                 _dbContext.SaveChanges();
             }
             catch (Exception exc)
@@ -125,6 +123,31 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public JsonResult Edit(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                tour tour = _dbContext.tours.Find(id);
+                serializeToModel(ref tour);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        private void serializeToModel(ref tour tour)
+        {
+            tour.country_id = int.Parse(Request.Form["country_id"]);
+            tour.name = Request.Form["name"];
         }
     }
 }

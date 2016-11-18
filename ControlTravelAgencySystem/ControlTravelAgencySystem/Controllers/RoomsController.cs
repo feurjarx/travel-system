@@ -312,22 +312,7 @@ namespace ControlTravelAgencySystem.Controllers
             try
             {
                 room room = new room();
-                room.number = Request.Form["number"];
-                room.hotel_id = int.Parse(Request.Form["hotel_id"]);
-                room.cost_per_day = int.Parse(Request.Form["cost_per_day"]);
-                room.type = Request.Form["type"];
-                room.seats_number = int.Parse(Request.Form["seats_number"]);
-
-                if (Request.Form["room_size"] != "")
-                {
-                    room.room_size = int.Parse(Request.Form["room_size"]);
-                }
-
-                if (Request.Form["description"] != "")
-                {
-                    room.description = Request.Form["description"];
-                }
-
+                serializeToModel(ref room);
                 _dbContext.rooms.Add(room);
                 _dbContext.SaveChanges();
             }
@@ -337,6 +322,44 @@ namespace ControlTravelAgencySystem.Controllers
             }
 
             return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public JsonResult Edit(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                room room = _dbContext.rooms.Find(id);
+                serializeToModel(ref room);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        private void serializeToModel(ref room room)
+        {
+            room.number = Request.Form["number"];
+            room.hotel_id = int.Parse(Request.Form["hotel_id"]);
+            room.cost_per_day = int.Parse(Request.Form["cost_per_day"]);
+            room.type = Request.Form["type"];
+            room.seats_number = int.Parse(Request.Form["seats_number"]);
+
+            if (Request.Form["room_size"] != "")
+            {
+                room.room_size = int.Parse(Request.Form["room_size"]);
+            }
+
+            if (Request.Form["description"] != "")
+            {
+                room.description = Request.Form["description"];
+            }
         }
     }
 }
