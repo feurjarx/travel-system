@@ -1,8 +1,10 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 @using ControlTravelAgencySystem.Models
 
-<form class="modal add-entity-modal fade" id="hotel-add-modal" tabindex="-1" role="dialog"
-      data-entity="hotel" data-url="/hotels/create">
+<form class="modal add-entity-modal fade" id="hotel-modal" tabindex="-1" role="dialog"
+      data-entity="hotel" 
+      data-create-url="/hotels/create"
+      data-edit-url="/hotels/edit">
 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -69,6 +71,65 @@
                     </select>
                 </div>
             </div>
+
+            <script class="hbs" type="text/x-handlebars-template">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Название:</span>
+                    <input required type="text" class="form-control" id="name-input" name="name" value="{{ name }}">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Курорт:</span>
+                    <select class="form-control" id="tour-input" name="tour_id">
+
+                        @foreach (tour t in Model.tours)
+                        {
+                            <option {{#ifCond tour_id "==" @t.id }}selected{{/ifCond}} value="@t.id">@t.name</option>
+                        }
+
+                        <option {{#unless tour_id}}selected{{/unless}} class="text-muted" value="">Отсутствует</option>
+
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Город:</span>
+                    <select required class="form-control" id="city-input" name="city_id">
+                        @foreach (city c in Model.cities)
+                        {
+                            <option {{#ifCond city_id "==" @c.id }}selected{{/ifCond}} value="@c.id">@c.name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Адрес:</span>
+                    <input required type="text" class="form-control" id="address-input" name="address" value="{{ address }}">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Количество звезд:</span>
+                    <input required type="number" class="form-control" id="stars-number-input" name="stars_number" min="1" max="5" value="{{ stars_number }}" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Расстояние до ближайшего пляжа (м):</span>
+                    <input type="number" class="form-control" id="distance-to-beach-input" name="distance_to_beach" value="{{ distance_to_beach }}"/>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Тип питания:</span>
+                    <select class="form-control" id="food-input" name="food_id">
+                        @foreach (food f in Model.foods)
+                        {
+                            <option {{#ifCond food_id "==" @f.id }}selected{{/ifCond}} value="@f.id" title="@f.description">@f.type</option>
+                        }
+                        <option {{#unless food_id}}selected{{/unless}} class="text-muted" value="">Отсутствует</option>
+                    </select>
+                </div>
+
+            </script>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>

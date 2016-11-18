@@ -1,20 +1,14 @@
-﻿$(function () {
+﻿var cache = {
+    data: {},
+    get: function (key) {
+        return this.data[key];
+    },
+    set: function (key, value) {
+        this.data[key] = value;
+    }
+};
 
-    var template = $('#suggestions-box').html();
-    var render;
-    try {
-        render = Handlebars.compile(template);
-    } catch (err) {}
-
-    var cache = {
-        data: {},
-        get: function (key) {
-            return this.data[key];
-        },
-        set: function (key, value) {
-            this.data[key] = value;
-        }
-    };
+$(function () {
 
     var domControl = {
 
@@ -42,6 +36,36 @@
         }
     };
 
+    var render = {
+        painters: {},
+        getPainterFor: function (object) {
+
+            var result;
+
+            if (object instanceof jQuery) {
+
+                var html = object.html();
+                var key = html.length;
+                if (!this.painters[key]) {
+                    this.painters[key] = Handlebars.compile(html);
+                }
+
+                result = this.painters[key];
+
+            } else {
+
+                var selector = object;
+
+                if (!this.painters[selector]) {
+                    this.painters[selector] = Handlebars.compile($(selector).html());
+                }
+
+                result = this.painters[selector];
+            }
+
+            return result;
+        }
+    };
     // START CREATE ZONE
     $('form.add-entity-modal').submit(function () {
         event.preventDefault();
@@ -54,7 +78,7 @@
 
         var paramsList = $form.serializeArray();
         var errors = [], match;
-        debugger
+
         var entityName = $form.data('entity');
         paramsList.forEach(function (param) {
 
@@ -136,7 +160,7 @@
 
             $.ajax({
                 method: 'post',
-                url: $form.data('url'),
+                url: $form.data('create-url'),
                 data: paramsList,
                 success: function (response) {
 
@@ -193,7 +217,7 @@
 
             $('#suggestions-modal')
                 .find('.modal-body')
-                .html(render(params))
+                .html(render.getPainterFor('#suggestions-box')(params))
                 .end()
                 .find('.modal-title .fullname')
                 .text(params.fullname)
@@ -353,4 +377,25 @@
         });
     });
     // END REMOVE ZONE
+
+    // START EDIT ZONE
+    $(document).on('click', '.btn-modal-edit', function () {
+        var $activeRow = $(this).closest('tr');
+        var $modalClone = $($activeRow.data('modal-target')).clone();
+        var $template = $modalClone.find('.hbs');
+        var modalBodyHtml = render.getPainterFor($template)($activeRow.data('json'));
+        $modalClone.find('.modal-title').text('Редактирование объекта');
+        $modalClone.find('.modal-body').html(modalBodyHtml);
+        $modalClone.modal('show');
+        $modalClone
+            .on('hidden.bs.modal', function (e) {
+                $(this).remove();
+            })
+            .submit(function (e) {
+                e.preventDefault();
+                debugger
+            });
+    });
+    // END EDIT ZONE
+
 });

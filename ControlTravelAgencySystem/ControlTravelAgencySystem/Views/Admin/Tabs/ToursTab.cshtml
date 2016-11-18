@@ -1,7 +1,25 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 @using ControlTravelAgencySystem.Models
+@using ControlTravelAgencySystem.Common
 
 @RenderPage("../Modals/TourAddModal.cshtml")
+
+@{
+    List<object> tourProperties = new List<object>()
+    {
+        "id",
+        "name",
+        "country_id",
+        new
+        {
+            key = "country",
+            properties = new List<object>()
+            {
+                "name"
+            }
+        }
+    };
+}
 
 <div class="panel panel-default">
 
@@ -10,7 +28,7 @@
     </div>
     <div class="panel-body">
         <div class="space-between" id="tours-top-panel">
-            <div class="btn-group" id="tour-add-btn" data-toggle="modal" data-target="#tour-add-modal">
+            <div class="btn-group" id="tour-add-btn" data-toggle="modal" data-target="#tour-modal">
                 <button class="btn btn-success">Добавить</button>
             </div>
         </div>
@@ -24,6 +42,7 @@
                 <thead>
                     <tr>
                         <th>Наименование</th>
+                        <th>Страна</th>
                         <th></th>  
                     </tr>
                 </thead>
@@ -32,11 +51,12 @@
 
                     @foreach (tour t in Model.tours)
                     {
-                        <tr data-id="@t.id" data-name="@t.name" class="hover-box">
+                        <tr data-id="@t.id" data-name="@t.name" class="hover-box" data-modal-target="#tour-modal" data-json="@(Utils.toJsonByCustomProperties(t, tourProperties))">
                             <td>@t.name</td>
+                            <td>@t.country.name</td>
                             <td>
                                 <div class="btn-group hover-elem actions-group">
-                                    <button class="btn btn-default btn-xs center-block">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
                                     <button class="btn btn-default btn-xs center-block btn-tour-remove">

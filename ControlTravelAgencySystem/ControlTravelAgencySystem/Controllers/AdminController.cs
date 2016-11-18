@@ -144,17 +144,25 @@ namespace ControlTravelAgencySystem.Controllers
 
                     ViewBag.Title = "Управление турами";
 
-                    model.tours = _dbContext.tours.ToList();
+                    model.tours = _dbContext
+                        .tours
+                        .OrderByDescending(t => t.id)
+                        .ToList();
 
                     model.countries = _dbContext.countries.ToList();
-
+                    
                     break;
 
                 case "hotels":
 
                     ViewBag.Title = "Управление отелями";
 
-                    model.hotels = _dbContext.hotels.ToList();
+                    model.hotels = _dbContext
+                        .hotels
+                        .OrderByDescending(h => h.id)
+                        //.ToList();
+                        //.Take(1)
+                        .ToList();
 
                     model.foods = _dbContext.foods.ToList();
                     model.cities = _dbContext.cities.ToList();
@@ -165,8 +173,12 @@ namespace ControlTravelAgencySystem.Controllers
                 case "rooms":
 
                     ViewBag.Title = "Управление номерами";
+                    
+                    model.rooms = _dbContext
+                        .rooms
+                        .OrderByDescending(r => r.id)
+                        .ToList();
 
-                    model.rooms = _dbContext.rooms.ToList();
                     model.hotels = _dbContext.hotels.Include("tour").ToList();
                     
                     break;

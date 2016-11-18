@@ -212,7 +212,7 @@
           <Property Name="number" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="hotel_id" Type="int" Nullable="false" />
           <Property Name="cost_per_day" Type="int" Nullable="false" />
-          <Property Name="class" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="seats_number" Type="int" Nullable="false" />
           <Property Name="room_size" Type="int" />
           <Property Name="description" Type="text" />
@@ -1073,13 +1073,13 @@
           <Property Name="number" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="hotel_id" Type="Int32" Nullable="false" />
           <Property Name="cost_per_day" Type="Int32" Nullable="false" />
-          <Property Name="class" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="seats_number" Type="Int32" Nullable="false" />
           <Property Name="room_size" Type="Int32" />
           <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="callout_room" Relationship="Self.callout_room_ibfk_2" FromRole="room" ToRole="callout_room" />
           <NavigationProperty Name="hotel" Relationship="Self.room_ibfk_1" FromRole="room" ToRole="hotel" />
           <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_2" FromRole="room" ToRole="hotel_service_order" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="route">
           <Key>
@@ -1907,11 +1907,11 @@
           <EntitySetMapping Name="rooms">
             <EntityTypeMapping TypeName="travel_systemModel.room">
               <MappingFragment StoreEntitySet="room">
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="number" ColumnName="number" />
                 <ScalarProperty Name="hotel_id" ColumnName="hotel_id" />
                 <ScalarProperty Name="cost_per_day" ColumnName="cost_per_day" />
-                <ScalarProperty Name="class" ColumnName="class" />
                 <ScalarProperty Name="seats_number" ColumnName="seats_number" />
                 <ScalarProperty Name="room_size" ColumnName="room_size" />
                 <ScalarProperty Name="description" ColumnName="description" />

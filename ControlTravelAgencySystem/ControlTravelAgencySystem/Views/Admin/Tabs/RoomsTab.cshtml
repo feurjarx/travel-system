@@ -1,7 +1,30 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 @using ControlTravelAgencySystem.Models
+@using ControlTravelAgencySystem.Common
 
 @RenderPage("../Modals/RoomAddModal.cshtml")
+
+@{ 
+    List<object> roomProperties = new List<object>()
+    {
+        "id",
+        "number",
+        "hotel_id",
+        new
+        {
+            key = "hotel",
+            properties = new List<object>()
+            {
+                "name"
+            }
+        },
+        "cost_per_day",
+        "type",
+        "seats_number",
+        "room_size",
+        "description"
+    };
+}
 
 <div class="panel panel-default">
 
@@ -10,7 +33,7 @@
     </div>
     <div class="panel-body">
         <div class="space-between" id="rooms-top-panel">
-            <div class="btn-group" id="room-add-btn" data-toggle="modal" data-target="#room-add-modal">
+            <div class="btn-group" id="room-add-btn" data-toggle="modal" data-target="#room-modal">
                 <button class="btn btn-success">Добавить</button>
             </div>
         </div>
@@ -25,6 +48,11 @@
                 <thead>
                     <tr>
                         <th>Номер</th>
+                        <th>Отель</th>
+                        <th>Цена (р/сут)</th>
+                        <th>Класс</th>
+                        <th>Количество мест</th>
+                        <th>Площадь</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -33,11 +61,16 @@
 
                     @foreach (room r in Model.rooms)
                     {
-                        <tr data-id="@r.id" data-number="@r.number" class="hover-box">
+                        <tr data-id="@r.id" data-modal-target="#room-modal" data-number="@r.number" class="hover-box" data-json="@(Utils.toJsonByCustomProperties(r, roomProperties))">
                             <td>@r.number</td>
+                            <td>@r.hotel.name</td>
+                            <td>@r.cost_per_day</td>
+                            <td>@r.type</td>
+                            <td>@r.seats_number</td>
+                            <td>@r.room_size</td>
                             <td>
                                 <div class="btn-group hover-elem actions-group">
-                                    <button class="btn btn-default btn-xs center-block btn-room-edit">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
                                     <button class="btn btn-default btn-xs center-block btn-room-remove">

@@ -1,7 +1,47 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Common
 @using ControlTravelAgencySystem.Models
 
 @RenderPage("../Modals/HotelAddModal.cshtml")
+
+@{
+    List<object> hotelProperties = new List<object>()
+    {
+        "id",
+        "name",
+        "tour_id",
+        new
+        {
+            key = "tour",
+            properties = new List<object>
+            {
+                "name"
+            }
+        },
+        "city_id",
+        new
+        {
+            key = "city",
+            properties = new List<object>
+            {
+                "name"
+            }
+        },
+        "address",
+        "stars_number",
+        "distance_to_beach",
+        "food_id",
+        new
+        {
+            key = "food",
+            properties = new List<object>()
+            {
+                "type",
+                "description"
+            }
+        }
+    };
+}
 
 <div class="panel panel-default">
 
@@ -10,7 +50,7 @@
     </div>
     <div class="panel-body">
         <div class="space-between" id="hotels-top-panel">
-            <div class="btn-group" id="hotel-add-btn" data-toggle="modal" data-target="#hotel-add-modal">
+            <div class="btn-group" id="hotel-add-btn" data-toggle="modal" data-target="#hotel-modal">
                 <button class="btn btn-success">Добавить</button>
             </div>
         </div>
@@ -24,6 +64,12 @@
                 <thead>
                     <tr>
                         <th>Наименование</th>
+                        <th>Город</th>
+                        <th>Адрес</th>
+                        <th>Курорт</th>
+                        <th>Количество звёзд</th>
+                        <th>До ближайшего пляжа (м)</th>
+                        <th>Питание</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -32,11 +78,26 @@
 
                     @foreach (hotel h in Model.hotels)
                     {
-                        <tr data-id="@h.id" data-name="@h.name" class="hover-box">
+                        <tr data-id="@h.id" data-modal-target="#hotel-modal" data-name="@h.name" class="hover-box" data-json="@(Utils.toJsonByCustomProperties(h, hotelProperties))">
                             <td>@h.name</td>
+                            <td>@h.city.name</td>
+                            <td>@h.address</td>
+                            <td>@(h.tour != null ? @h.tour.name : "-")</td>
+                            <td>@h.stars_number</td>
+                            <td>@h.distance_to_beach</td>
+
+                            @if (h.food != null)
+                            {
+                                <td data-toggle="tooltip" title="@h.food.description">@h.food.type</td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+                            
                             <td>
                                 <div class="btn-group hover-elem actions-group">
-                                    <button class="btn btn-default btn-xs center-block btn-hotel-edit">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
                                     <button class="btn btn-default btn-xs center-block btn-hotel-remove">

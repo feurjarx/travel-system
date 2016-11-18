@@ -218,7 +218,7 @@ namespace ControlTravelAgencySystem.Controllers
                         RoomId = room.id,
                         RoomNumber = room.number,
                         CostPerDay = room.cost_per_day,
-                        Class = room.@class,
+                        Class = room.type,
                         SeatsNumber = room.seats_number,
                         RoomSize = room.room_size ?? 0,
                         Description = room.description
@@ -315,7 +315,7 @@ namespace ControlTravelAgencySystem.Controllers
                 room.number = Request.Form["number"];
                 room.hotel_id = int.Parse(Request.Form["hotel_id"]);
                 room.cost_per_day = int.Parse(Request.Form["cost_per_day"]);
-                room.@class = "Эконом";// Request.Form["class"];
+                room.type = Request.Form["type"];
                 room.seats_number = int.Parse(Request.Form["seats_number"]);
 
                 if (Request.Form["room_size"] != "")

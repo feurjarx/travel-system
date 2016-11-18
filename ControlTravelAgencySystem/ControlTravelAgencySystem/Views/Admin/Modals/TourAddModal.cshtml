@@ -1,11 +1,14 @@
 ﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
 @using ControlTravelAgencySystem.Models
 
-<form class="modal add-entity-modal fade" id="tour-add-modal" tabindex="-1" role="dialog"
-      data-entity="tour" data-url="/tours/create">
+<form class="modal add-entity-modal fade" id="tour-modal" tabindex="-1" role="dialog"
+      data-entity="tour" 
+      data-create-url="/tours/create"
+      data-edit-tour="/tours/edit">
 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -14,7 +17,9 @@
                     <label class="error-label bg-danger"></label>
                 </h4>
             </div>
+
             <div class="modal-body">
+
                 <div class="input-group form-group">
                     <span class="input-group-addon">Название:</span>
                     <input required type="text" class="form-control" id="name-input" name="name">
@@ -29,6 +34,25 @@
                         }
                     </select>
                 </div>
+
+                <script class="hbs" type="text/x-handlebars-template">
+                    
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Название:</span>
+                        <input required type="text" class="form-control" id="name-input" name="name" value="{{ name }}">
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Страна:</span>
+                        <select required class="form-control" id="country-input" name="country_id">
+                            @foreach (country c in Model.countries)
+                            {
+                                <option {{#ifCond country_id "==" @c.id }}selected{{/ifCond}} value="@c.id">@c.name</option>
+                            }
+                        </select>
+                    </div>
+                </script>
+
             </div>
 
             <div class="modal-footer">

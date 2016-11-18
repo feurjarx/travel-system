@@ -124,7 +124,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                         id = room.id,   
                         number = room.number,
-                        @class = room.@class,
+                        @class = room.type,
                         seats_number = room.seats_number,
                         room_size =  room.room_size,
                         description = room.description,
