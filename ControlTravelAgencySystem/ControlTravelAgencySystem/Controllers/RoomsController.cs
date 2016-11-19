@@ -351,12 +351,20 @@ namespace ControlTravelAgencySystem.Controllers
             room.type = Request.Form["type"];
             room.seats_number = int.Parse(Request.Form["seats_number"]);
 
-            if (Request.Form["room_size"] != "")
+            if (Request.Form["room_size"] == "")
+            {
+                room.room_size = null;
+            }
+            else
             {
                 room.room_size = int.Parse(Request.Form["room_size"]);
             }
 
-            if (Request.Form["description"] != "")
+            if (Request.Form["description"] == "")
+            {
+                room.description = null;
+            }
+            else
             {
                 room.description = Request.Form["description"];
             }

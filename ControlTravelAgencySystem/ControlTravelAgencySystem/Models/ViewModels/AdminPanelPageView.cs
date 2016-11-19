@@ -25,6 +25,11 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public List<food> foods { get; set; }
 
+        public List<flight> flights { get; set; }
+        public List<airline> airlines { get; set; }
+
+        public List<airport> airports { get; set; }
+
         public string section = null;
     }
 }

@@ -293,6 +293,7 @@ $(function () {
 
             switch (entityName) {
 
+                case 'flight':
                 case 'hotel':
                 case 'tour':
                     break;
@@ -383,20 +384,43 @@ $(function () {
         $modalClone
             .on('shown.bs.modal', function (e) {
 
-                if ($modalClone.data('entity') === 'employee') {
-                    var $birthdayAtDatetimepicker = $('#edit-birthday-at-datetimepicker');
+                var $datetimepickerBlock, ts;
+                switch (true) {
+                    case $modalClone.data('entity') === 'employee':
 
-                    if ($birthdayAtDatetimepicker.data('DateTimePicker')) {
-                        $birthdayAtDatetimepicker.data('DateTimePicker').destroy();
-                    }
+                        $datetimepickerBlock = $('#edit-birthday-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
 
-                    var ts = $activeRow.data('json')['person']['birthday_at'];
-                    $birthdayAtDatetimepicker.datetimepicker({
-                        defaultDate: new Date(ts * 1000),
-                        locale: 'ru',
-                        format: 'DD/MM/YYYY',
-                        viewMode: 'years'
-                    });
+                        ts = $activeRow.data('json')['person']['birthday_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru',
+                            format: 'DD/MM/YYYY',
+                            viewMode: 'years'
+                        });
+
+                        break;
+                    case $modalClone.data('entity') === 'flight':
+
+                        $datetimepickerBlock = $('#edit-flight-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        ts = $activeRow.data('json')['flight_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru',
+                            format: 'LT'
+                        });
+
+                        break;
+
+                    default:
+                        break;
+
                 }
             })
             .on('hidden.bs.modal', function (e) {

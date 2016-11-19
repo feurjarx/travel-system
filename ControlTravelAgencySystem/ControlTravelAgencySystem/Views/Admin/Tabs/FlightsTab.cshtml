@@ -1,0 +1,105 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+@using ControlTravelAgencySystem.Common
+
+@RenderPage("../Modals/FlightAddModal.cshtml")
+
+@{
+    List<object> flightProperties = new List<object>()
+    {
+        "id",
+        "code",
+        "airline_id",
+        "from_airport_id",
+        "to_airport_id",
+        "flight_at",
+        "duration",
+        "cost",
+        "total_seats"
+    };
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2>Список авиарейсов</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between" id="flights-top-panel">
+            <div class="btn-group" id="flight-add-btn" data-toggle="modal" data-target="#flight-modal">
+                <button class="btn btn-success">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.flights.Count() > 0)
+        {
+            <table class="table table-hover" id="flights-table">
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Перевозчик</th>
+                        <th>Аэропорт вылета</th>
+                        <th>Аэропорт назначения</th>
+                        <th>Время вылета</th>
+                        <th>Продолжительность (мин)</th>
+                        <th>Цена</th>  
+                        <th>Всего мест</th>
+                        <th></th>  
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (flight f in Model.flights)
+                    {
+                        <tr class="hover-box" 
+                            data-id="@f.id" 
+                            data-modal-target="#flight-modal" 
+                            data-json="@(Utils.toJsonByCustomProperties(f, flightProperties))"
+                            data-title="Авиарейс"
+                            data-delete-url="/flights/delete/@f.id">
+
+                            <td>@f.code</td>
+
+                            <td>
+                                @if (f.airline_id != null)
+                                {
+                                    <span>@f.airline.name</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td>@f.airport.name</td>
+                            <td>@f.airport1.name</td>
+                            <td>@(Utils.tsToDateTime(f.flight_at).ToString(Constants.hhmmss))</td>
+                            <td>@f.duration</td>
+                            <td>@f.code</td>
+                            <td>@f.total_seats</td>
+                            <td>
+                                <div class="btn-group hover-elem actions-group">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
+                                        <i class="fa fa-pencil text-warning"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-xs center-block btn-entity-remove">
+                                        <i class="fa fa-ban text-danger"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning">Авиарейсы не найдены</div>
+        }
+    </div>
+</div>

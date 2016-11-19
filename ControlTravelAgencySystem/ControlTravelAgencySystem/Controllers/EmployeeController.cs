@@ -81,7 +81,11 @@ namespace ControlTravelAgencySystem.Controllers
             employee.created_at = Utils.dtToTimestamp(DateTime.Now);
             employee.position = Request.Form["position"];
             
-            if (Request.Form["salary"] != null && Request.Form["salary"] != "")
+            if (Request.Form["salary"] == "")
+            {
+                employee.salary = null;
+            }
+            else
             {
                 employee.salary = Int32.Parse(Request.Form["salary"]);
             }

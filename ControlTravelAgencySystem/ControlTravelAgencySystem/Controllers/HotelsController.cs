@@ -126,7 +126,11 @@ namespace ControlTravelAgencySystem.Controllers
         {
             hotel.name = Request.Form["name"];
 
-            if (Request.Form["tour_id"] != "")
+            if (Request.Form["tour_id"] == "")
+            {
+                hotel.tour_id = null;
+            }
+            else
             {
                 hotel.tour_id = int.Parse(Request.Form["tour_id"]);
             }
@@ -135,12 +139,20 @@ namespace ControlTravelAgencySystem.Controllers
             hotel.address = Request.Form["address"];
             hotel.stars_number = int.Parse(Request.Form["stars_number"]);
 
-            if (Request.Form["distance_to_beach"] != "")
+            if (Request.Form["distance_to_beach"] == "")
+            {
+                hotel.distance_to_beach = null;
+            }
+            else
             {
                 hotel.distance_to_beach = int.Parse(Request.Form["distance_to_beach"]);
             }
 
-            if (Request.Form["food_id"] != "")
+            if (Request.Form["food_id"] == "")
+            {
+                hotel.food_id = null;
+            }
+            else
             {
                 hotel.food_id = int.Parse(Request.Form["food_id"]);
             }

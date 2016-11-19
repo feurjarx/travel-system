@@ -103,6 +103,12 @@ namespace ControlTravelAgencySystem
                 url: "{controller}/{action}",
                 defaults: new { controller = "Rooms", action = "Create", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Flights",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Flights", action = "Create", id = UrlParameter.Optional }
+            );
         }
     }
 }
