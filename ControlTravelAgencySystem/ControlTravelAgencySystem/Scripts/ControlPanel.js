@@ -35,6 +35,7 @@ $(function () {
             this._calloutsRemoveBtnVisible = on;
         }
     };
+    var reloadText = '<br>Обновление страницы <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>';
 
     var render = {
         painters: {},
@@ -67,7 +68,7 @@ $(function () {
         }
     };
 
-    // START READ ZONE
+    // START CALLOUT CRUD ZONE
     var $calloutsTable = $('#callouts-table');
     $calloutsTable.find('.checkbox').on('change', function () {
         domControl.calloutsRemoveBtnVisible = $(this).closest('table').find('input:checked').length > 0;
@@ -126,9 +127,6 @@ $(function () {
             });
         }
     });
-    // END READ ZONE
-
-    // START REMOVE ZONE
     domControl.$calloutsRemoveBtn.on('click', function () {
 
         var calloutsIds = [];
@@ -170,7 +168,15 @@ $(function () {
 
                             } else {
 
-                                location.reload();
+                                notification({
+                                    text: 'Успешно! Объект(-ы) удален(-ы)' + reloadText,
+                                    type: 'success'
+                                }, 5000);
+
+                                $form.modal('hide').get(0).reset();
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 3000);
                             }
                         },
                         error: function (err) {
@@ -192,13 +198,24 @@ $(function () {
             }]
         });
     });
-    $('.btn-employee-remove').on('click', function () {
+    // END CALLOUT CRUD ZONE
 
-        var $item = $(this).closest('tr');
-        var employeeId = $item.data('id');
+    // START READ ZONE
+    // ...
+    // END READ ZONE
+
+    // START REMOVE ZONE
+    $(document).on('click', '.btn-entity-remove', function () {
+
+        var $activeRow = $(this).closest('tr');
+
+        var warningText =  $activeRow.data('warning-text') || '';
+        if (warningText) {
+            warningText = '<br><span class="text-danger">' + warningText + '</span>';
+        }
 
         notification({
-            text: 'Вы действительно желаете удалить учетную запись сотрудника',
+            text: 'Вы действительно желаете удалить объект "' + ($activeRow.data('title') || '') + '"' + warningText,
             type: 'confirm',
             layout: 'top',
             dismissQueue: true,
@@ -214,27 +231,37 @@ $(function () {
                 text: 'Да',
                 onClick: function($noty) {
 
-                    $item.find('td').first().mask();
+                    $activeRow.find('td').first().mask();
 
                     $.ajax({
                         method: 'delete',
-                        url: '/employee/delete/' + employeeId,
+                        url: $activeRow.data('delete-url'),
                         success: function (response) {
 
                             if (response.error) {
 
                                 console.error(response.error);
 
+                                notification({
+                                    text: 'Ошибка! ' + response.error,
+                                    type: 'error'
+                                }, 5000);
+
                             } else {
 
-                                $item.fadeOut();
+                                notification({
+                                    text: 'Успешно! Объект удален',
+                                    type: 'success'
+                                }, 5000);
+
+                                $activeRow.fadeOut();
                             }
                         },
                         error: function (err) {
                             console.error(err);
                         },
                         complete: function () {
-                            $item.find('td').first().unmask();
+                            $activeRow.find('td').first().unmask();
                             $noty.close();
                         }
                     });
@@ -401,8 +428,16 @@ $(function () {
 
                             } else {
 
+                                notification({
+                                    text: 'Успешно! Объект изменен' + reloadText,
+                                    type: 'success'
+                                }, 5000);
+
                                 $form.modal('hide').get(0).reset();
-                                location.reload();
+
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 3000);
                             }
                         },
                         error: function (err) {
@@ -452,8 +487,15 @@ $(function () {
 
                     } else {
 
+                        notification({
+                            text: 'Успешно! Объект добавлен' + reloadText,
+                            type: 'success'
+                        }, 5000);
+
                         $form.modal('hide').get(0).reset();
-                        location.reload();
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
                     }
                 },
                 error: function (err) {

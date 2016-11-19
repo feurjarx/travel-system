@@ -102,3 +102,7 @@ th:empty {
 .notification-alert {
     margin: 10px 0 15px;
 }
+
+h2 {
+    margin: 0;
+}

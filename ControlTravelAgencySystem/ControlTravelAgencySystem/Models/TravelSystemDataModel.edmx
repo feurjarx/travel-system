@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="travel_systemModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="TravelSystemDataModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="airline">
           <Key>
             <PropertyRef Name="id" />
@@ -60,7 +60,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="callout_id" Type="int" Nullable="false" />
           <Property Name="person_id" Type="int" Nullable="false" />
-          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="employee_id" Type="int" />
           <Property Name="created_at" Type="int" Nullable="false" />
           <Property Name="payment" Type="int" Nullable="false" />
           <Property Name="payment_at" Type="int" />
@@ -344,7 +344,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="callout_order_ibfk_3">
-          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="0..1" />
           <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="employee">
@@ -657,7 +657,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="travel_systemModelStoreContainer">
+        <EntityContainer Name="TravelSystemDataModelStoreContainer">
           <EntitySet Name="airline" EntityType="Self.airline" Schema="travel_system" store:Type="Tables" />
           <EntitySet Name="airport" EntityType="Self.airport" Schema="travel_system" store:Type="Tables" />
           <EntitySet Name="airseat" EntityType="Self.airseat" Schema="travel_system" store:Type="Tables" />
@@ -809,10 +809,11 @@
             <End Role="transfer" EntitySet="transfer" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="travel_systemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="TravelSystemDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="airline">
           <Key>
             <PropertyRef Name="id" />
@@ -884,7 +885,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="callout_id" Type="Int32" Nullable="false" />
           <Property Name="person_id" Type="Int32" Nullable="false" />
-          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="employee_id" Type="Int32" />
           <Property Name="created_at" Type="Int32" Nullable="false" />
           <Property Name="payment" Type="Int32" Nullable="false" />
           <Property Name="payment_at" Type="Int32" />
@@ -904,10 +905,10 @@
           <Property Name="room_id" Type="Int32" Nullable="false" />
           <Property Name="start_living_at" Type="Int32" Nullable="false" />
           <Property Name="duration" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="callout" Relationship="Self.callout_room_ibfk_1" FromRole="callout_room" ToRole="callout" />
-          <NavigationProperty Name="room" Relationship="Self.callout_room_ibfk_2" FromRole="callout_room" ToRole="room" />
           <Property Name="created_at" Type="Int32" Nullable="false" />
           <Property Name="payment" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="callout" Relationship="Self.callout_room_ibfk_1" FromRole="callout_room" ToRole="callout" />
+          <NavigationProperty Name="room" Relationship="Self.callout_room_ibfk_2" FromRole="callout_room" ToRole="room" />
         </EntityType>
         <EntityType Name="city">
           <Key>
@@ -939,11 +940,11 @@
           <Property Name="position" Type="String" MaxLength="65532" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="created_at" Type="Int32" Nullable="false" />
           <Property Name="salary" Type="Int32" />
-          <NavigationProperty Name="callout_order" Relationship="Self.callout_order_ibfk_3" FromRole="employee" ToRole="callout_order" />
-          <NavigationProperty Name="person" Relationship="Self.employee_ibfk_1" FromRole="employee" ToRole="person" />
           <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="session" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="callout_order" Relationship="Self.callout_order_ibfk_3" FromRole="employee" ToRole="callout_order" />
+          <NavigationProperty Name="person" Relationship="Self.employee_ibfk_1" FromRole="employee" ToRole="person" />
         </EntityType>
         <EntityType Name="excursion">
           <Key>
@@ -973,9 +974,9 @@
           <Property Name="is_privilege" Type="Int32" Nullable="false" />
           <Property Name="is_custom" Type="Int32" Nullable="false" />
           <Property Name="bus_place_number" Type="Int32" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
           <NavigationProperty Name="callout" Relationship="Self.excursion_order_ibfk_3" FromRole="excursion_order" ToRole="callout" />
           <NavigationProperty Name="excursion" Relationship="Self.excursion_order_ibfk_1" FromRole="excursion_order" ToRole="excursion" />
-          <Property Name="created_at" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="flight">
           <Key>
@@ -1047,10 +1048,10 @@
           <Property Name="room_id" Type="Int32" />
           <Property Name="payment" Type="Int32" Nullable="false" />
           <Property Name="provision_at" Type="Int32" Nullable="false" />
+          <Property Name="created_at" Type="Int32" Nullable="false" />
           <NavigationProperty Name="callout" Relationship="Self.hotel_service_order_ibfk_3" FromRole="hotel_service_order" ToRole="callout" />
           <NavigationProperty Name="hotel_service" Relationship="Self.hotel_service_order_ibfk_1" FromRole="hotel_service_order" ToRole="hotel_service" />
           <NavigationProperty Name="room" Relationship="Self.hotel_service_order_ibfk_2" FromRole="hotel_service_order" ToRole="room" />
-          <Property Name="created_at" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="person">
           <Key>
@@ -1073,13 +1074,13 @@
           <Property Name="number" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="hotel_id" Type="Int32" Nullable="false" />
           <Property Name="cost_per_day" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="seats_number" Type="Int32" Nullable="false" />
           <Property Name="room_size" Type="Int32" />
           <Property Name="description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="callout_room" Relationship="Self.callout_room_ibfk_2" FromRole="room" ToRole="callout_room" />
           <NavigationProperty Name="hotel" Relationship="Self.room_ibfk_1" FromRole="room" ToRole="hotel" />
           <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_2" FromRole="room" ToRole="hotel_service_order" />
-          <Property Name="type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="route">
           <Key>
@@ -1330,7 +1331,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="callout_order_ibfk_3">
-          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="0..1" />
           <End Role="callout_order" Type="Self.callout_order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="employee">
@@ -1686,9 +1687,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="travel_systemModelStoreContainer" CdmEntityContainer="TravelSystemEntities">
+        <EntityContainerMapping StorageEntityContainer="TravelSystemDataModelStoreContainer" CdmEntityContainer="TravelSystemEntities">
           <EntitySetMapping Name="airlines">
-            <EntityTypeMapping TypeName="travel_systemModel.airline">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.airline">
               <MappingFragment StoreEntitySet="airline">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1696,7 +1697,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="airports">
-            <EntityTypeMapping TypeName="travel_systemModel.airport">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.airport">
               <MappingFragment StoreEntitySet="airport">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1705,7 +1706,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="airseats">
-            <EntityTypeMapping TypeName="travel_systemModel.airseat">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.airseat">
               <MappingFragment StoreEntitySet="airseat">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="flight_id" ColumnName="flight_id" />
@@ -1714,7 +1715,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="airtickets">
-            <EntityTypeMapping TypeName="travel_systemModel.airticket">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.airticket">
               <MappingFragment StoreEntitySet="airticket">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="flight_id" ColumnName="flight_id" />
@@ -1729,7 +1730,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="callouts">
-            <EntityTypeMapping TypeName="travel_systemModel.callout">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.callout">
               <MappingFragment StoreEntitySet="callout">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />
@@ -1741,7 +1742,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="callout_order">
-            <EntityTypeMapping TypeName="travel_systemModel.callout_order">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.callout_order">
               <MappingFragment StoreEntitySet="callout_order">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />
@@ -1757,20 +1758,20 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="callout_room">
-            <EntityTypeMapping TypeName="travel_systemModel.callout_room">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.callout_room">
               <MappingFragment StoreEntitySet="callout_room">
-                <ScalarProperty Name="payment" ColumnName="payment" />
-                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
                 <ScalarProperty Name="start_living_at" ColumnName="start_living_at" />
                 <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="cities">
-            <EntityTypeMapping TypeName="travel_systemModel.city">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.city">
               <MappingFragment StoreEntitySet="city">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1779,7 +1780,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="countries">
-            <EntityTypeMapping TypeName="travel_systemModel.country">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.country">
               <MappingFragment StoreEntitySet="country">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1787,21 +1788,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="employees">
-            <EntityTypeMapping TypeName="travel_systemModel.employee">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.employee">
               <MappingFragment StoreEntitySet="employee">
-                <ScalarProperty Name="session" ColumnName="session" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="person_id" ColumnName="person_id" />
                 <ScalarProperty Name="position" ColumnName="position" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="session" ColumnName="session" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="excursions">
-            <EntityTypeMapping TypeName="travel_systemModel.excursion">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.excursion">
               <MappingFragment StoreEntitySet="excursion">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1814,9 +1815,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="excursion_order">
-            <EntityTypeMapping TypeName="travel_systemModel.excursion_order">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.excursion_order">
               <MappingFragment StoreEntitySet="excursion_order">
-                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="excursion_id" ColumnName="excursion_id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />
@@ -1827,11 +1827,12 @@
                 <ScalarProperty Name="is_privilege" ColumnName="is_privilege" />
                 <ScalarProperty Name="is_custom" ColumnName="is_custom" />
                 <ScalarProperty Name="bus_place_number" ColumnName="bus_place_number" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="flights">
-            <EntityTypeMapping TypeName="travel_systemModel.flight">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.flight">
               <MappingFragment StoreEntitySet="flight">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="airline_id" ColumnName="airline_id" />
@@ -1846,7 +1847,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="foods">
-            <EntityTypeMapping TypeName="travel_systemModel.food">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.food">
               <MappingFragment StoreEntitySet="food">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="type" ColumnName="type" />
@@ -1856,7 +1857,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="hotels">
-            <EntityTypeMapping TypeName="travel_systemModel.hotel">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.hotel">
               <MappingFragment StoreEntitySet="hotel">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="tour_id" ColumnName="tour_id" />
@@ -1870,7 +1871,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="hotel_service">
-            <EntityTypeMapping TypeName="travel_systemModel.hotel_service">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.hotel_service">
               <MappingFragment StoreEntitySet="hotel_service">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="hotel_id" ColumnName="hotel_id" />
@@ -1881,9 +1882,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="hotel_service_order">
-            <EntityTypeMapping TypeName="travel_systemModel.hotel_service_order">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.hotel_service_order">
               <MappingFragment StoreEntitySet="hotel_service_order">
-                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="hotel_service_id" ColumnName="hotel_service_id" />
                 <ScalarProperty Name="callout_id" ColumnName="callout_id" />
@@ -1891,11 +1891,12 @@
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
                 <ScalarProperty Name="payment" ColumnName="payment" />
                 <ScalarProperty Name="provision_at" ColumnName="provision_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="people">
-            <EntityTypeMapping TypeName="travel_systemModel.person">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.person">
               <MappingFragment StoreEntitySet="person">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
@@ -1905,13 +1906,13 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rooms">
-            <EntityTypeMapping TypeName="travel_systemModel.room">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.room">
               <MappingFragment StoreEntitySet="room">
-                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="number" ColumnName="number" />
                 <ScalarProperty Name="hotel_id" ColumnName="hotel_id" />
                 <ScalarProperty Name="cost_per_day" ColumnName="cost_per_day" />
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="seats_number" ColumnName="seats_number" />
                 <ScalarProperty Name="room_size" ColumnName="room_size" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -1919,7 +1920,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="routes">
-            <EntityTypeMapping TypeName="travel_systemModel.route">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.route">
               <MappingFragment StoreEntitySet="route">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="type" ColumnName="type" />
@@ -1936,7 +1937,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tours">
-            <EntityTypeMapping TypeName="travel_systemModel.tour">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.tour">
               <MappingFragment StoreEntitySet="tour">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="country_id" ColumnName="country_id" />
@@ -1945,7 +1946,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="transfers">
-            <EntityTypeMapping TypeName="travel_systemModel.transfer">
+            <EntityTypeMapping TypeName="TravelSystemDataModel.transfer">
               <MappingFragment StoreEntitySet="transfer">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="route_id" ColumnName="route_id" />

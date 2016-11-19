@@ -17,7 +17,7 @@ namespace ControlTravelAgencySystem.Models
         public int id { get; set; }
         public int callout_id { get; set; }
         public int person_id { get; set; }
-        public int employee_id { get; set; }
+        public Nullable<int> employee_id { get; set; }
         public int created_at { get; set; }
         public int payment { get; set; }
         public Nullable<int> payment_at { get; set; }

@@ -15,3 +15,8 @@ ALTER TABLE `room` CHANGE `class` `class` VARCHAR(20) CHARACTER SET utf8 COLLATE
 
 -- 17.11.2016
 ALTER TABLE `room` CHANGE `class` `type` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Эконом';
+
+-- 19.11.2016
+ALTER TABLE `callout_order` CHANGE `employee_id` `employee_id` INT(11) NULL;
+ALTER TABLE `callout_order` DROP FOREIGN KEY `callout_order_ibfk_3`;
+ALTER TABLE `callout_order` ADD CONSTRAINT `callout_order_ibfk_3` FOREIGN KEY (`employee_id`) REFERENCES `travel_system`.`employee`(`id`) ON DELETE SET NULL ON UPDATE RESTRICT;

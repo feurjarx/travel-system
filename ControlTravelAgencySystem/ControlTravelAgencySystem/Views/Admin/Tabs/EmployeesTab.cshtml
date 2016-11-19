@@ -63,7 +63,9 @@
                         <tr data-id="@e.id" class="hover-box" 
                             data-modal-target="#employee-modal" 
                             data-fullname="@e.person.fullname" 
-                            data-json="@(Utils.toJsonByCustomProperties(e, employeeProperties))">
+                            data-json="@(Utils.toJsonByCustomProperties(e, employeeProperties))"
+                            data-delete-url="/employee/delete/@e.id"
+                            data-title="Учетная запись сотрудника">
 
                             <td>@e.person.fullname</td>
                             <td>@Utils.tsToDateTime(e.person.birthday_at).ToString(Constants.ddMMMyyyy)</td>
@@ -88,7 +90,7 @@
                                     <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
-                                    <button class="btn btn-default btn-xs center-block btn-employee-remove">
+                                    <button class="btn btn-default btn-xs center-block btn-entity-remove">
                                         <i class="fa fa-ban text-danger"></i>
                                     </button>
                                 </div>

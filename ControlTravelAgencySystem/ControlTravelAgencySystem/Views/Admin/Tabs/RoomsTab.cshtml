@@ -61,7 +61,13 @@
 
                     @foreach (room r in Model.rooms)
                     {
-                        <tr data-id="@r.id" data-modal-target="#room-modal" data-number="@r.number" class="hover-box" data-json="@(Utils.toJsonByCustomProperties(r, roomProperties))">
+                        <tr data-id="@r.id" class="hover-box"
+                            data-modal-target="#room-modal" 
+                            data-number="@r.number" 
+                            data-json="@(Utils.toJsonByCustomProperties(r, roomProperties))"
+                            data-title="Номер отеля"
+                            data-delete-url="/rooms/delete/@r.id">
+
                             <td>@r.number</td>
                             <td>@r.hotel.name</td>
                             <td>@r.cost_per_day</td>
@@ -73,7 +79,7 @@
                                     <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
-                                    <button class="btn btn-default btn-xs center-block btn-room-remove">
+                                    <button class="btn btn-default btn-xs center-block btn-entity-remove">
                                         <i class="fa fa-ban text-danger"></i>
                                     </button>
                                 </div>

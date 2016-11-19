@@ -116,8 +116,6 @@ namespace ControlTravelAgencySystem.Controllers
 
                 if (employeeFromDb != null)
                 {
-                    // если есть - тогда удаление
-                    _dbContext.employees.Attach(employeeFromDb);
                     _dbContext.employees.Remove(employeeFromDb);
                     _dbContext.SaveChanges();
                 }

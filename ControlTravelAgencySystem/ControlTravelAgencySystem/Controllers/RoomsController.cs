@@ -361,5 +361,64 @@ namespace ControlTravelAgencySystem.Controllers
                 room.description = Request.Form["description"];
             }
         }
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                room room = _dbContext.rooms.Find(id);
+                if (room != null)
+                {
+                    if (room.callout_room.Count() > 0)
+                    {
+                        int calloutRoomsBlockedCounter = 0;
+                        List<callout_room> calloutRoomList = room.callout_room.ToList();
+                        foreach (callout_room cr in calloutRoomList)
+                        {
+                            var a = Utils.dtToTimestamp(DateTime.Now);
+                            var b = cr.start_living_at + cr.duration;
+                            if (Utils.dtToTimestamp(DateTime.Now) > (cr.start_living_at + cr.duration))
+                            {
+                                _dbContext.callout_room.Remove(cr);
+                            }
+                            else
+                            {
+                                calloutRoomsBlockedCounter++;
+                            }
+                        }
+
+                        if (calloutRoomsBlockedCounter == 0)
+                        {
+                            _dbContext.rooms.Remove(room);
+                            
+                        }
+                        else
+                        {
+                            result.Add("error", "На данный момент номер забронирован. Удаление недопустимо");
+                        }
+                        
+                    }
+                    else
+                    {
+                        _dbContext.rooms.Remove(room);
+                    }
+
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    result.Add("error", "Номер не найден");
+                }
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
     }
 }

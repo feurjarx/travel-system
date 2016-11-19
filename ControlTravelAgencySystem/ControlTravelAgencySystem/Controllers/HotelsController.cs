@@ -39,29 +39,30 @@ namespace ControlTravelAgencySystem.Controllers
         private HotelsView GetHotelsViewModel(int? id)
         {
             var viewModel = new HotelsView();
-
-            var rooms = _dbContext.rooms
-                .ToList();
-
+            
             var hotels = _dbContext.hotels
                 .Include("food")
                 .Include("city")
                 .Include("tour")
-                .Where(x => x.tour_id == id);
-
+                .Where(x => x.tour_id == id)
+                .ToList();
+            
             foreach (var hotel in hotels)
             {
                 var averagePrice = 0;
-                var count = 0;
 
-                foreach (var room in rooms)
-                    if (room.hotel_id == hotel.id)
-                    {
-                        averagePrice += room.cost_per_day;
-                        count++;
-                    }
+                int numberRooms = 0;
+                int costCounter = hotel.rooms
+                    .Select(r => r.cost_per_day)
+                    .Aggregate(0, (sum, cost) => {
+                        numberRooms++;
+                        return sum + cost;
+                    });
 
-                averagePrice /= count;
+                if (numberRooms != 0)
+                {
+                    averagePrice = costCounter / numberRooms;
+                }
 
                 viewModel.HotelViewItems.Add(
                     new HotelsView.HotelViewItem
@@ -143,6 +144,32 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 hotel.food_id = int.Parse(Request.Form["food_id"]);
             }
+        }
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                hotel hotel = _dbContext.hotels.Find(id);
+                if (hotel != null)
+                {
+                    _dbContext.hotels.Remove(hotel);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    result.Add("error", "Отель не найден");
+                }
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

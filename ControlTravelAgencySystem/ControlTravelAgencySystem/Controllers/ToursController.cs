@@ -149,5 +149,31 @@ namespace ControlTravelAgencySystem.Controllers
             tour.country_id = int.Parse(Request.Form["country_id"]);
             tour.name = Request.Form["name"];
         }
+
+        [HttpDelete]
+        public JsonResult Delete(int id)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            try
+            {
+                tour tour = _dbContext.tours.Find(id);
+                if (tour != null)
+                {
+                    _dbContext.tours.Remove(tour);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    result.Add("error", "Тур не найден");
+                }
+            }
+            catch (Exception exc)
+            {
+                result.Add("error", exc.Message);
+            }
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
     }
 }

@@ -51,7 +51,14 @@
 
                     @foreach (tour t in Model.tours)
                     {
-                        <tr data-id="@t.id" data-name="@t.name" class="hover-box" data-modal-target="#tour-modal" data-json="@(Utils.toJsonByCustomProperties(t, tourProperties))">
+                        <tr class="hover-box" 
+                            data-id="@t.id" 
+                            data-name="@t.name" 
+                            data-modal-target="#tour-modal" 
+                            data-json="@(Utils.toJsonByCustomProperties(t, tourProperties))"
+                            data-title="Тур"
+                            data-delete-url="/tours/delete/@t.id">
+
                             <td>@t.name</td>
                             <td>@t.country.name</td>
                             <td>
@@ -59,7 +66,7 @@
                                     <button class="btn btn-default btn-xs center-block btn-modal-edit">
                                         <i class="fa fa-pencil text-warning"></i>
                                     </button>
-                                    <button class="btn btn-default btn-xs center-block btn-tour-remove">
+                                    <button class="btn btn-default btn-xs center-block btn-entity-remove">
                                         <i class="fa fa-ban text-danger"></i>
                                     </button>
                                 </div>

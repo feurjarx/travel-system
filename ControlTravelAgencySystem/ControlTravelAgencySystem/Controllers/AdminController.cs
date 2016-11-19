@@ -198,14 +198,14 @@ namespace ControlTravelAgencySystem.Controllers
                         if (calloutOrderStatusCriteria == "pending")
                         {
                             model.callouts = (
-
                                 from c in _dbContext.callouts
                                 join co in _dbContext.callout_order on c.id equals co.callout_id into join_scope
                                 from co in join_scope.DefaultIfEmpty()
                                 where co.id == null || co.status == status
                                 select c
-
-                            ).OrderByDescending(c => c.created_at);
+                            )
+                            .OrderByDescending(c => c.created_at)
+                            .ToList();
                         }
                         else
                         {
@@ -215,16 +215,17 @@ namespace ControlTravelAgencySystem.Controllers
                                 join co in _dbContext.callout_order on c.id equals co.callout_id
                                 where co.status == status
                                 select c
-
-                            ).OrderByDescending(c => c.created_at);
+                            )
+                            .OrderByDescending(c => c.created_at)
+                            .ToList();
                         }
                     }
                     else
                     {
-                        model.callouts = _dbContext.callouts.OrderByDescending(c => c.created_at);
+                        model.callouts = _dbContext.callouts
+                            .OrderByDescending(c => c.created_at)
+                            .ToList();
                     }
-
-                    model.callouts = model.callouts.Include("callout_order");
 
                     break;
             }

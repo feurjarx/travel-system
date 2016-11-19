@@ -319,24 +319,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\TravelSystemDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TravelSystemDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Images\star_9297.png" />
-    <Content Include="Models\TravelSystemDataModel.edmx.diagram">
-      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\TravelSystemDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
-      <LastGenOutput>TravelSystemDataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\TravelSystemDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
-      <LastGenOutput>TravelSystemDataModel.cs</LastGenOutput>
-    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -354,7 +337,24 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <EntityDeploy Include="Models\TravelSystemDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TravelSystemDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TravelSystemDataModel.edmx.diagram">
+      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Models\TravelSystemDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
+      <LastGenOutput>TravelSystemDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TravelSystemDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TravelSystemDataModel.edmx</DependentUpon>
+      <LastGenOutput>TravelSystemDataModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />

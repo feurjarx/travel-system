@@ -9,8 +9,9 @@ namespace ControlTravelAgencySystem.Models.ViewModels
     {
         public employee user { get; set; }
 
-        public IQueryable<callout> callouts { get; set; }
         public IQueryable<employee> employees { get; set; }
+
+        public List<callout> callouts { get; set; }
 
         public List<tour> tours { get; set; }
 
