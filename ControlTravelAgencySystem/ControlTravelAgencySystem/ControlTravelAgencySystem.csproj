@@ -206,6 +206,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalloutController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
@@ -447,6 +448,8 @@
     <Content Include="Views\Admin\Modals\RoomAddModal.cshtml" />
     <Content Include="Views\Admin\Modals\FlightAddModal.cshtml" />
     <Content Include="Views\Admin\Tabs\FlightsTab.cshtml" />
+    <Content Include="Views\Admin\Modals\RouteAddModal.cshtml" />
+    <Content Include="Views\Admin\Tabs\RoutesTab.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,140 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+@using ControlTravelAgencySystem.Common
+
+@RenderPage("../Modals/RouteAddModal.cshtml")
+
+@{
+    List<object> routeProperties = new List<object>()
+    {
+        "id",
+        "type",
+        "from_airport_id",
+        "to_airport_id",
+        "starting_address",
+        "starting_time",
+        "final_address",
+        "duration",
+        "cost",
+        "total_seats",
+        "distance"
+    };
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2>Список трансферных маршрутов</h2>
+    </div>
+    <div class="panel-body">
+        <div class="space-between" id="routes-top-panel">
+            <div class="btn-group" id="route-add-btn" data-toggle="modal" data-target="#route-modal">
+                <button class="btn btn-success">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+
+        @if (Model.routes.Count() > 0)
+        {
+            <table class="table table-hover" id="routes-table">
+                <thead>
+                    <tr>
+                        <th>Тип</th>
+                        <th>Аэропорт встречи</th>
+                        <th>Аэропорт назначения</th>
+                        <th>Адрес отъезда</th>
+                        <th>Время отъезда</th>
+                        <th>Адрес назначения</th>
+                        <th>Продолжительность (мин)</th>
+                        <th>Всего мест</th>
+                        <th>Расстояние (км)</th>
+                        <th>Цена</th>  
+                        <th></th>  
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (route r in Model.routes)
+                    {
+                        <tr class="hover-box" 
+                            data-id="@r.id" 
+                            data-modal-target="#route-modal" 
+                            data-json="@(Utils.toJsonByCustomProperties(r, routeProperties))"
+                            data-title="Маршрут"
+                            data-delete-url="/routes/delete/@r.id">
+
+                            <td>@r.type</td>
+
+                            <td>
+                                @if (r.from_airport_id != null)
+                                {
+                                    <span>@r.airport.name</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (r.to_airport_id != null)
+                                {
+                                    <span>@r.airport1.name</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (r.starting_address != null)
+                                {
+                                    <span>@r.starting_address</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+
+                            <td>@r.starting_time</td>
+                            <td>@r.final_address</td>
+                            <td>@r.duration</td>
+                            <td>@r.total_seats</td>
+                            <td>
+                                @if (r.distance != null)
+                                {
+                                    <span>@r.distance</span>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+                            <td>@r.cost</td>
+                            <td>
+                                <div class="btn-group hover-elem actions-group">
+                                    <button class="btn btn-default btn-xs center-block btn-modal-edit">
+                                        <i class="fa fa-pencil text-warning"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-xs center-block btn-entity-remove">
+                                        <i class="fa fa-ban text-danger"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning">Маршруты не найдены</div>
+        }
+    </div>
+</div>

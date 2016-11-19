@@ -1,0 +1,181 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade" id="route-modal" tabindex="-1" role="dialog"
+      data-entity="route" 
+      data-create-url="/routes/create"
+      data-edit-url="/routes/edit">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление трансферного маршрута
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Тип транспорта:</span>
+                    <select required class="form-control" name="type">
+                        <option value="автобус">автобус</option>
+                        <option value="такси">такси</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Аэропорт для встречи:</span>
+                    <select class="form-control" name="from_airport_id">
+                        @foreach (airport ap in Model.airports)
+                        {
+                            <option value="@ap.id">@ap.name</option>
+                        }
+                        <option value="">Отсутствует</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Аэропорт назначения:</span>
+                    <select class="form-control" name="to_airport_id">
+                        @foreach (airport ap in Model.airports)
+                        {
+                            <option value="@ap.id">@ap.name</option>
+                        }
+                        <option value="">Отсутствует</option>
+                    </select>
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Адрес отправления:</span>
+                    <input type="text" class="form-control" name="starting_address">
+                </div>
+
+                <div class="form-group input-group date" id="starting-time-datetimepicker">
+                    <span class="input-group-addon">Время отъезда:</span>
+                    <input required class="form-control" type="text" name="starting_time" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('#starting-time-datetimepicker').datetimepicker({
+                            locale: 'ru',
+                            format: 'LT'
+                        });
+                    });
+                </script>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Адрес прибытия:</span>
+                    <input required type="text" class="form-control" name="final_address">
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Продолжительность трансфера (мин):</span>
+                    <input required type="number" class="form-control" name="duration" min="5" max="1440" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Цена билета:</span>
+                    <input required type="number" class="form-control" name="cost" step="100" min="1000" max="200000" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Максимальная вместимость людей:</span>
+                    <input required type="number" class="form-control" name="total_seats" min="1" max="100" />
+                </div>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Расстояние (км):</span>
+                    <input required type="number" class="form-control" name="distance" min="1" max="1000" />
+                </div>
+
+                <!--HBS-->
+                <script class="hbs" type="text/x-handlebars-template">
+                    
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Тип транспорта:</span>
+                        <select required class="form-control" name="type">
+                            <option {{#ifCond type "==" "автобус" }}selected{{/ifCond}} value="автобус">автобус</option>
+                            <option {{#ifCond type "==" "такси" }}selected{{/ifCond}} value="такси">такси</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Аэропорт для встречи:</span>
+                        <select class="form-control" name="from_airport_id">
+                            @foreach (airport ap in Model.airports)
+                            {
+                                <option {{#ifCond from_airport_id "==" @ap.id }}selected{{/ifCond}} value="@ap.id">@ap.name</option>
+                            }
+                            <option {{#unless from_airport_id }}selected{{/unless}} value="">Отсутствует</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Аэропорт назначения:</span>
+                        <select class="form-control" name="to_airport_id">
+                            @foreach (airport ap in Model.airports)
+                            {
+                                <option {{#ifCond to_airport_id "==" @ap.id }}selected{{/ifCond}} value="@ap.id">@ap.name</option>
+                            }
+                            <option {{#unless to_airport_id }}selected{{/unless}} value="">Отсутствует</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Адрес отправления:</span>
+                        <input type="text" class="form-control" name="starting_address" value="{{ starting_address }}" />
+                    </div>
+
+                    <div class="form-group input-group date" id="edit-starting-time-datetimepicker">
+                        <span class="input-group-addon">Время отъезда:</span>
+                        <input required class="form-control" type="text" name="starting_time" value="" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Адрес прибытия:</span>
+                        <input required type="text" class="form-control" name="final_address" value="{{ final_address }}"/>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Продолжительность трансфера (мин):</span>
+                        <input required type="number" class="form-control" name="duration" min="5" max="1440" value="{{ duration }}" />
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Цена билета:</span>
+                        <input required type="number" class="form-control" name="cost" step="100" min="1000" max="200000" value="{{ cost }}" />
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Максимальная вместимость людей:</span>
+                        <input required type="number" class="form-control" name="total_seats" min="1" max="100" value="{{ total_seats }}" />
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Расстояние (км):</span>
+                        <input required type="number" class="form-control" name="distance" min="1" max="1000" value="{{ distance }}" />
+                    </div>
+                    
+                </script>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

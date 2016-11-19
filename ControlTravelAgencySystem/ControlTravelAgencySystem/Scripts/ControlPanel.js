@@ -293,6 +293,7 @@ $(function () {
 
             switch (entityName) {
 
+                case 'route':
                 case 'flight':
                 case 'hotel':
                 case 'tour':
@@ -412,6 +413,22 @@ $(function () {
                         ts = $activeRow.data('json')['flight_at'];
                         $datetimepickerBlock.datetimepicker({
                             defaultDate: new Date(ts * 1000),
+                            locale: 'ru',
+                            format: 'LT'
+                        });
+
+                        break;
+
+                    case $modalClone.data('entity') === 'route':
+
+                        $datetimepickerBlock = $('#edit-starting-time-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        var timeParts = $activeRow.data('json')['starting_time'].split(':');
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(0, 0, 0, timeParts[0], timeParts[1], timeParts[2]),
                             locale: 'ru',
                             format: 'LT'
                         });

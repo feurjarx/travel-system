@@ -30,6 +30,8 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public List<airport> airports { get; set; }
 
+        public List<route> routes { get; set; }
+
         public string section = null;
     }
 }

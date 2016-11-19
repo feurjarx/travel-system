@@ -11,8 +11,15 @@
 
     @if (Model.section == "flights")
     {
-        <div id="tours-tab">
+        <div id="flights-tab">
             @RenderPage("Tabs/FlightsTab.cshtml")
+        </div>
+    }
+
+    @if (Model.section == "routes")
+    {
+        <div id="routes-tab">
+            @RenderPage("Tabs/RoutesTab.cshtml")
         </div>
     }
 
