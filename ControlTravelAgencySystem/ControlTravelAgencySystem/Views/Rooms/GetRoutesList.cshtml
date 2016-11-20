@@ -36,7 +36,18 @@
                             </div>
                         </td>
                         <td>
-                            @viewItem.Type
+                            @switch (viewItem.Type)
+                            {
+                                case "такси":
+                                    <img src="~/Images/taxi-icon.png" width="42" />
+                                    break;
+                                case "автобус":
+                                    <img src="~/Images/bus-icon.png" width="42" />
+                                    break;
+                                default:
+                                    @viewItem.Type;
+                                    break;
+                            }
                         </td>
                         <td>
                             @viewItem.FromAirport

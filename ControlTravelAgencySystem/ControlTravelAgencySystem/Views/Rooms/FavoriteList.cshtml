@@ -137,6 +137,13 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="8">
+                                    <div id="excursions-table-@viewItem.SelectedRoom.hotel.city.id" class="excursions-table">
+                                        @Html.Action("GetExcursionsList", "Rooms", new { id = viewItem.SelectedRoom.hotel.city.id })
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
