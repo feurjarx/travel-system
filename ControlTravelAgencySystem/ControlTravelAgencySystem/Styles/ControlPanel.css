@@ -14,3 +14,15 @@
     align-self: center;
     margin: 20px 10px 10px;
 }
+
+.internal-interval-5 > * {
+    margin-right: 5px;
+}
+
+.internal-interval-5 > *:first-child {
+    margin-left: 0;
+}
+
+.internal-interval-5 > *:last-child {
+    margin-right: 0;
+}

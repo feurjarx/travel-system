@@ -114,7 +114,7 @@ namespace ControlTravelAgencySystem.Controllers
                 var flight = _dbContext.flights
                     .Include("airport")
                     .FirstOrDefault(x => x.airport.city_id == city.id);
-
+                
                 var isChecked = false;
 
                 // переписать говнокод
@@ -262,19 +262,23 @@ namespace ControlTravelAgencySystem.Controllers
         [HttpPost]
         public ActionResult CalloutCreate(FavotiteListView favListView)
         {
-            _dbContext.callouts.Add(
-                new callout
-                {
-                    fullname = favListView.Fullname,
-                    email = favListView.Email,
-                    phone = favListView.Phone,
-                    created_at = Utils.dtToTimestamp(DateTime.Now)
-                });
+            callout callout = new callout
+            {
+                fullname = favListView.Fullname,
+                email = favListView.Email,
+                phone = favListView.Phone,
+                created_at = Utils.dtToTimestamp(DateTime.Now)
+            };
+
+            if (Request.Form["is_predefined"] != null)
+            {
+                callout.is_predefined = sbyte.Parse(Request.Form["is_predefined"]);
+            }
+            
+            _dbContext.callouts.Add(callout);
 
             _dbContext.SaveChanges();
 
-            var callout = _dbContext.callouts.ToList().Last();
-            
             var rooms = _dbContext.rooms;
             var list = Session["selected-check"] as List<int>;
 

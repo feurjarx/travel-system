@@ -164,7 +164,7 @@ namespace ControlTravelAgencySystem.Controllers
                         .ToList();
 
                     model.airports = _dbContext.airports.ToList();
-                    
+
                     break;
 
                 case "flights":
@@ -201,7 +201,7 @@ namespace ControlTravelAgencySystem.Controllers
                         .ToList();
 
                     model.countries = _dbContext.countries.ToList();
-                    
+
                     break;
 
                 case "hotels":
@@ -224,22 +224,21 @@ namespace ControlTravelAgencySystem.Controllers
                 case "rooms":
 
                     ViewBag.Title = "Управление номерами";
-                    
+
                     model.rooms = _dbContext
                         .rooms
                         .OrderByDescending(r => r.id)
                         .ToList();
 
                     model.hotels = _dbContext.hotels.Include("tour").ToList();
-                    
+
                     break;
 
                 default:
 
                     ViewBag.Title = "Панель управления";
-                    
-                    string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
 
+                    string calloutOrderStatusCriteria = Request.Params.Get("callout_order_status");
                     if (calloutOrderStatusCriteria != null && calloutOrderStatusCriteria != "")
                     {
                         // запрос на получение всех заявок по статусу их заказов (вкладка Заявки)
@@ -260,7 +259,7 @@ namespace ControlTravelAgencySystem.Controllers
                         else
                         {
                             model.callouts = (
-                                
+
                                 from c in _dbContext.callouts
                                 join co in _dbContext.callout_order on c.id equals co.callout_id
                                 where co.status == status
@@ -275,6 +274,12 @@ namespace ControlTravelAgencySystem.Controllers
                         model.callouts = _dbContext.callouts
                             .OrderByDescending(c => c.created_at)
                             .ToList();
+                    }
+
+                    string calloutIsPredefinedCriteria = Request.Params.Get("is_predefined");
+                    if (calloutIsPredefinedCriteria != null && calloutIsPredefinedCriteria == "1")
+                    {
+                        model.callouts = model.callouts.Where(c => c.is_predefined == 1).ToList();
                     }
 
                     break;

@@ -1,0 +1,46 @@
+﻿<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+
+        @{
+            switch (@Request.Params.Get("is_predefined"))
+            {
+                case "1":
+                    <span>Предопределенные</span>
+                    break;
+                    
+                default:
+                    <span>Все заявки</span>
+                    break;
+            }
+        }
+
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu">
+        <li class="@(Request.Params.Get("is_predefined") == null || Request.Params.Get("is_predefined") == "" ? "active" : "" )">
+            
+            @if (Request.Params.Get("callout_order_status") != null)
+            {
+                <a href="?callout_order_status=@Request.Params.Get("callout_order_status")&is_predefined=0">Все</a>
+            }
+            else
+            {
+                <a href="?is_predefined=0">Все</a>
+            }
+
+        </li>
+        <li class="@(Request.Params.Get("is_predefined") == "1" ? "active" : "" )">
+            
+            @if (Request.Params.Get("callout_order_status") != null)
+            {
+                <a href="?callout_order_status=@Request.Params.Get("callout_order_status")&is_predefined=1">Предопределенные</a>
+            }
+            else
+            {
+                <a href="?is_predefined=0">Предопределенные</a>
+            }
+
+        </li>
+    </ul>
+</div>

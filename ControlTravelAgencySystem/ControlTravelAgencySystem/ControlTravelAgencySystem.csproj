@@ -460,6 +460,7 @@
     <Content Include="Views\Rooms\GetExcursionsList.cshtml" />
     <Content Include="Views\Admin\Tabs\HotelServicesTab.cshtml" />
     <Content Include="Views\Admin\Modals\HotelServiceAddModal.cshtml" />
+    <Content Include="Views\Admin\PanelControls\CalloutsFilterByPredefined.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,7 +13,10 @@
     </div>
     <div class="panel-body">
         <div class="space-between">
-            @RenderPage("../PanelControls/CalloutsFilterByStatus.cshtml")
+            <div class="flexbox internal-interval-5">
+                @RenderPage("../PanelControls/CalloutsFilterByStatus.cshtml")
+                @RenderPage("../PanelControls/CalloutsFilterByPredefined.cshtml")
+            </div>
             @RenderPage("../PanelControls/ActionsBtnGroup.cshtml")
         </div>
     </div>
@@ -32,6 +35,7 @@
                         <th>Дата и время анулирования</th>
                         <th>Email</th>
                         <th>Телефон</th>
+                        <th>Готовый набор</th>
                     </tr>
                 </thead>
 
@@ -69,6 +73,7 @@
                             </td>
                             <td>@(c.email != null ? c.email : "-")</td>
                             <td>@(c.phone != null ? c.phone : "-")</td>
+                            <td>@(c.is_predefined == 1 ? "Да" : "Нет")</td>
                         </tr>
                     }
                 </tbody>

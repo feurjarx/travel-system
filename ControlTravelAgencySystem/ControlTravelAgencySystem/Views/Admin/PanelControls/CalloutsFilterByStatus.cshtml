@@ -35,19 +35,64 @@
 
     <ul class="dropdown-menu">
         <li class="@(Request.Params.Get("callout_order_status") == null || Request.Params.Get("callout_order_status") == "" ? "active" : "" )">
-            <a href="?callout_order_status=">Все</a>
+            
+            @if (Request.Params.Get("is_predefined") != null)
+            {
+                <a href="?is_predefined=@Request.Params.Get("is_predefined")">Все</a>
+            }
+            else
+            {
+                <a href="?callout_order_status=">Все</a>
+            }
+
         </li>
         <li class="@(Request.Params.Get("callout_order_status") == "paid" ? "active" : "" )">
-            <a href="?callout_order_status=paid">Оплаченые</a>
+
+            @if (Request.Params.Get("is_predefined") != null)
+            {
+                <a href="?callout_order_status=paid&is_predefined=@Request.Params.Get("is_predefined")">Оплаченые</a>
+            }
+            else
+            {
+                <a href="?callout_order_status=paid">Оплаченые</a>
+            }
+
         </li>
         <li class="@(Request.Params.Get("callout_order_status") == "canceled" ? "active" : "" )">
-            <a href="?callout_order_status=canceled">Отмененные</a>
+
+            @if (Request.Params.Get("is_predefined") != null)
+            {
+                <a href="?callout_order_status=canceled&is_predefined=@Request.Params.Get("is_predefined")">Отмененные</a>
+            }
+            else
+            {
+                <a href="?callout_order_status=canceled">Отмененные</a>
+            }
+
         </li>
         <li class="@(Request.Params.Get("callout_order_status") == "pending" ? "active" : "" )">
-            <a href="?callout_order_status=pending">В ожидании</a>
+            
+            @if (Request.Params.Get("is_predefined") != null)
+            {
+                <a href="?callout_order_status=pending&is_predefined=@Request.Params.Get("is_predefined")">В ожидании</a>
+            }
+            else
+            {
+                <a href="?callout_order_status=pending">В ожидании</a>
+            }
+
         </li>
         <li class="@(Request.Params.Get("callout_order_status") == "expired" ? "active" : "" )">
-            <a href="?callout_order_status=expired">Истекшие</a>
+
+            @if (Request.Params.Get("is_predefined") != null)
+            {
+                <a href="?callout_order_status=expired&is_predefined=@Request.Params.Get("is_predefined")">Истекшие</a>
+            }
+            else
+            {
+                <a href="?callout_order_status=expired">Истекшие</a>
+            }
+
         </li>
     </ul>
 </div>

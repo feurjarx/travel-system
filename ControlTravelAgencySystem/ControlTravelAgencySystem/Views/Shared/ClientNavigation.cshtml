@@ -43,7 +43,18 @@
             @if (@Request.Url.LocalPath.ToString() == @"/Rooms/FavoriteList")
             {
                 <li class="visible-xs">
-                    <button id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#callout-modal">Регистрация</button>
+                    @if (ViewBag.Session)
+                    {
+                        <form action="/Rooms/CalloutCreate" method="post">
+                            <input type="hidden" name="is_predefined" value="1"/>
+                            <button type="submit" id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg btn-block">Создать заявку</button>
+                        </form>    
+                    }
+                    else
+                    {
+                        <button id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#callout-modal">Регистрация</button>
+                    }
+
                 </li>
             }
             
@@ -62,7 +73,17 @@
             @if (@Request.Url.LocalPath.ToString() == @"/Rooms/FavoriteList")
             {
                 <li>
-                    <button id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg" data-toggle="modal" data-target="#callout-modal">Регистрация</button>
+                    @if (ViewBag.Session)
+                    {
+                        <form action="/Rooms/CalloutCreate" method="post">
+                            <input type="hidden" name="is_predefined" value="1" />
+                            <button id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg">Создать заявку</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button id="callout-end-signup-btn" class="hvr-icon-fade btn btn-primary btn-lg" data-toggle="modal" data-target="#callout-modal">Регистрация</button>
+                    }
                 </li>
             }
 
