@@ -34,6 +34,8 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public List<excursion> excursions { get; set; }
 
+        public List<hotel_service> hotel_services { get; set; }
+
         public string section = null;
     }
 }

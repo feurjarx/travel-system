@@ -9,6 +9,13 @@
         </div>
     }
 
+    @if (Model.section == "hotel_services")
+    {
+        <div id="hotel-services-tab">
+            @RenderPage("Tabs/HotelServicesTab.cshtml")
+        </div>
+    }
+
     @if (Model.section == "excursions")
     {
         <div id="excursions-tab">

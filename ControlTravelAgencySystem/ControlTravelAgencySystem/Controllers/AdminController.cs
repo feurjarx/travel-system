@@ -130,6 +130,19 @@ namespace ControlTravelAgencySystem.Controllers
         {
             switch (model.section)
             {
+                case "hotel_services":
+
+                    ViewBag.Title = "Управление платными услугами";
+
+                    model.hotel_services = _dbContext.hotel_service
+                        .OrderByDescending(hs => hs.id)
+                        .ToList();
+
+                    model.hotels = _dbContext.hotels.ToList();
+
+                    break;
+
+
                 case "excursions":
 
                     ViewBag.Title = "Управление экскурсиями";
