@@ -178,6 +178,37 @@ namespace ControlTravelAgencySystem.Controllers
             return PartialView(viewModel);
         }
 
+        public PartialViewResult GetExcursionsList(int id)
+        {
+            var viewModel = new ExcursionsView();
+
+            var excursions = _dbContext.excursions
+                .Include("city");
+
+            var list = Session["excursion-check"] as List<int>;
+
+            foreach (var excursion in excursions)
+            {
+                var isChecked = false;
+
+                // переписать говнокод
+                if (list != null)
+                    if (list.Any(x => x == excursion.id))
+                        isChecked = true;
+
+                viewModel.ExcursionsViewItems.Add(
+                    new ExcursionsView.ExcursionsViewItem
+                    {
+                        IsChecked = isChecked,
+                        ExcursionId = excursion.id,
+                        Name = excursion.name,
+                        Description = excursion.description,
+                        Duration = excursion.duration
+                    });
+            }
+
+            return PartialView(viewModel);
+        }
 
         /// <summary>
         /// Представление списка номеров выбранного отеля

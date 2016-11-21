@@ -1,0 +1,44 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.ExcursionsView
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Выберите экскурсию(-и)</h2>
+    </div>
+    <div class="panel-body">
+        <h3>Список доступных экскурсий</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Добавить</th>
+                    <th>Наименование</th>
+                    <th>Описание</th>
+                    <th>Продолжительность</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var viewItem in Model.ExcursionsViewItems)
+                {
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <input type="checkbox" class="excursion-checkbox" checked="@viewItem.IsChecked" value="@viewItem.ExcursionId" id="excursion-@(viewItem.ExcursionId)-checkbox" />
+                                <label for="excursion-@(viewItem.ExcursionId)-checkbox"></label>
+                            </div>
+                        </td>
+                        <td>
+                            @viewItem.Name
+                        </td>
+                        <td>
+                            @viewItem.Description
+                        </td>
+                        <td>
+                            @viewItem.Duration ч.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

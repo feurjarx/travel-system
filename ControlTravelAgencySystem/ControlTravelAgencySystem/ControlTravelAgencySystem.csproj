@@ -299,6 +299,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\ErrorView.cs" />
     <Compile Include="Models\ViewModels\FavotiteListView.cs" />
+    <Compile Include="Models\ViewModels\ExcursionsView.cs" />
     <Compile Include="Models\ViewModels\RouteView.cs" />
     <Compile Include="Models\ViewModels\RoomsView.cs" />
     <Compile Include="Models\ViewModels\AdminPanelPageView.cs" />
@@ -322,6 +323,8 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\bus-icon.png" />
+    <Content Include="Images\taxi-icon.png" />
     <Content Include="Images\star_9297.png" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -453,6 +456,7 @@
     <Content Include="Views\Admin\Tabs\RoutesTab.cshtml" />
     <Content Include="Views\Admin\Modals\ExcursionAddModal.cshtml" />
     <Content Include="Views\Admin\Tabs\ExcursionsTab.cshtml" />
+    <Content Include="Views\Rooms\GetExcursionsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
