@@ -386,8 +386,6 @@ namespace ControlTravelAgencySystem.Controllers
                         List<callout_room> calloutRoomList = room.callout_room.ToList();
                         foreach (callout_room cr in calloutRoomList)
                         {
-                            var a = Utils.dtToTimestamp(DateTime.Now);
-                            var b = cr.start_living_at + cr.duration;
                             if (Utils.dtToTimestamp(DateTime.Now) > (cr.start_living_at + cr.duration))
                             {
                                 _dbContext.callout_room.Remove(cr);

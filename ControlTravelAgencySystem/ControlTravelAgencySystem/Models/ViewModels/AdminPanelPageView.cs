@@ -32,6 +32,8 @@ namespace ControlTravelAgencySystem.Models.ViewModels
 
         public List<route> routes { get; set; }
 
+        public List<excursion> excursions { get; set; }
+
         public string section = null;
     }
 }

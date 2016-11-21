@@ -115,6 +115,12 @@ namespace ControlTravelAgencySystem
                 url: "{controller}/{action}",
                 defaults: new { controller = "Routes", action = "Create", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Excursions",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Excursions", action = "Create", id = UrlParameter.Optional }
+            );
         }
     }
 }

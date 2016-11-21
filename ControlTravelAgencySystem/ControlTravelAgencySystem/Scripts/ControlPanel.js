@@ -293,6 +293,7 @@ $(function () {
 
             switch (entityName) {
 
+                case 'excursion':
                 case 'route':
                 case 'flight':
                 case 'hotel':
@@ -419,7 +420,7 @@ $(function () {
 
                         break;
 
-                    case $modalClone.data('entity') === 'route':
+                    case ['route', 'excursion'].indexOf($modalClone.data('entity')) != -1:
 
                         $datetimepickerBlock = $('#edit-starting-time-datetimepicker');
                         if ($datetimepickerBlock.data('DateTimePicker')) {
