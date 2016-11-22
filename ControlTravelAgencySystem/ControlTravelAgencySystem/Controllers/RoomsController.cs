@@ -91,6 +91,48 @@ namespace ControlTravelAgencySystem.Controllers
             return Json("ok");
         }
 
+        [HttpPost]
+        public JsonResult ExcursionChecked(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json("fail");
+
+            var parId = int.Parse(id);
+
+            if (Session["excursion-check"] == null)
+                Session["excursion-check"] = new List<int>();
+
+            var list = Session["excursion-check"] as List<int>;
+
+            if (list.Any(x => x == parId))
+                list.Remove(parId);
+            else
+                list.Add(parId);
+
+            return Json("ok");
+        }
+
+        [HttpPost]
+        public JsonResult HotelServiceChecked(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json("fail");
+
+            var parId = int.Parse(id);
+
+            if (Session["hotelservice-check"] == null)
+                Session["hotelservice-check"] = new List<int>();
+
+            var list = Session["hotelservice-check"] as List<int>;
+
+            if (list.Any(x => x == parId))
+                list.Remove(parId);
+            else
+                list.Add(parId);
+
+            return Json("ok");
+        }
+
         /// <summary>
         /// GET: /
         /// </summary>
@@ -204,6 +246,37 @@ namespace ControlTravelAgencySystem.Controllers
                         Name = excursion.name,
                         Description = excursion.description,
                         Duration = excursion.duration
+                    });
+            }
+
+            return PartialView(viewModel);
+        }
+
+        public PartialViewResult GetHotelServicesList(int id)
+        {
+            var viewModel = new HotelServicesView();
+
+            var hotelservices = _dbContext.hotel_service;
+
+            var list = Session["hotelservice-check"] as List<int>;
+
+            foreach (var hotelservice in hotelservices)
+            {
+                var isChecked = false;
+
+                // переписать говнокод
+                if (list != null)
+                    if (list.Any(x => x == hotelservice.id))
+                        isChecked = true;
+
+                viewModel.HotelServicesViewItems.Add(
+                    new HotelServicesView.HotelServicesViewItem
+                    {
+                        IsChecked = isChecked,
+                        HotelServiceId = hotelservice.id,                        
+                        Description = hotelservice.description,
+                        CostPerMin = hotelservice.cost_per_min,
+                        StartingTime = hotelservice.starting_time
                     });
             }
 
@@ -333,6 +406,44 @@ namespace ControlTravelAgencySystem.Controllers
                 }
 
             Session["route-check"] = null;
+
+            var list4 = Session["excursion-check"] as List<int>;
+
+            if (list4 != null)
+                foreach (var item in list4)
+                {
+                    _dbContext.excursion_order.Add(
+                        new excursion_order
+                        {
+                            callout_id = callout.id,
+                            excursion_id = item,
+                            payment = 10,
+                            starting_at = Utils.dtToTimestamp(DateTime.Now),
+                            created_at = Utils.dtToTimestamp(DateTime.Now)
+                        });
+
+                    _dbContext.SaveChanges();
+                }
+
+            Session["excursion-check"] = null;
+
+            var list5 = Session["hotelservice-check"] as List<int>;
+
+            if (list5 != null)
+                foreach (var item in list5)
+                {
+                    _dbContext.hotel_service_order.Add(
+                        new hotel_service_order
+                        {
+                            callout_id = callout.id,
+                            hotel_service_id = item,
+                            created_at = Utils.dtToTimestamp(DateTime.Now)
+                        });
+
+                    _dbContext.SaveChanges();
+                }
+
+            Session["hotelservice-check"] = null;
 
             _dbContext.SaveChanges();
 
