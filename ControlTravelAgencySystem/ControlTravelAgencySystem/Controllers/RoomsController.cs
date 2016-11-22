@@ -417,8 +417,6 @@ namespace ControlTravelAgencySystem.Controllers
                         {
                             callout_id = callout.id,
                             excursion_id = item,
-                            payment = 10,
-                            starting_at = Utils.dtToTimestamp(DateTime.Now),
                             created_at = Utils.dtToTimestamp(DateTime.Now)
                         });
 
