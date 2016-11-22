@@ -33,6 +33,17 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 flight flight = airticket.flight;
 
+                double payment = flight.cost;
+                if (airticket.is_baggage == 1)
+                {
+                    payment += payment * 0.1;
+                }
+
+                if (airticket.is_baby == 1)
+                {
+                    payment = 0;
+                }
+
                 airticketsList.Add(new {
 
                     id = airticket.id,
@@ -48,7 +59,7 @@ namespace ControlTravelAgencySystem.Controllers
                         total_seats = flight.total_seats
                     },
 
-                    payment = airticket.payment,
+                    payment = airticket.payment == 0 ? payment : airticket.payment,
                     is_baggage = airticket.is_baggage,
                     is_baby = airticket.is_baby
                 });
@@ -61,15 +72,27 @@ namespace ControlTravelAgencySystem.Controllers
                 route route = transfer.route;
                 airport fromAirport = route.airport;
                 airport toAirport = route.airport1;
+
+                double payment = route.cost;
+                if (transfer.is_baggage == 1)
+                {
+                    payment += payment * 0.1;
+                }
+
+                if (transfer.is_baby == 1)
+                {
+                    payment = 0;
+                }
                 
                 transfersList.Add(new {
 
                     id = transfer.id,
                     starting_date = transfer.starting_date.ToString(Constants.ddMMMyyyy),
                     created_datetime = Utils.tsToDateTime(transfer.created_at).ToString(Constants.ddMMMyyyyHmmss),
-                    payment = transfer.payment,
                     is_baggage = transfer.is_baggage,
                     is_baby = transfer.is_baby,
+
+                    payment = transfer.payment == 0 ? payment : transfer.payment,
 
                     route = new {
 
@@ -113,12 +136,15 @@ namespace ControlTravelAgencySystem.Controllers
                 city city = hotel.city;
                 country country = city.country;
 
+                int numberNights = calloutRoom.duration / 24;
+                double payment = calloutRoom.room.cost_per_day * numberNights;
+                
                 roomsList.Add(new {
 
                     created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     start_living_datetime = Utils.tsToDateTime(calloutRoom.start_living_at).ToString(Constants.ddMMMyyyyHmmss),
                     duration = calloutRoom.duration,
-                    payment = calloutRoom.payment,
+                    payment = calloutRoom.payment == 0 ? payment : calloutRoom.payment,
 
                     room = new {
 
@@ -163,17 +189,30 @@ namespace ControlTravelAgencySystem.Controllers
             foreach (excursion_order excursionOrder in callout.excursion_order)
             {
                 excursion excursion = excursionOrder.excursion;
+
+                double payment = excursion.cost;
+
+                if (excursionOrder.is_privilege == 1)
+                {
+                    payment -= payment * 0.5;
+                }
+
+                if (excursionOrder.is_baby == 1)
+                {
+                    payment = 0;
+                }
+
                 excursionOrdersList.Add(new {
 
                     id = excursionOrder.id,
                     created_datetime = Utils.tsToDateTime(excursionOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
-                    payment = excursionOrder.payment,
                     starting_address = excursionOrder.starting_address,
                     starting_datetime = Utils.tsToDateTime(excursionOrder.starting_at).ToString(Constants.ddMMMyyyy),
                     is_baby = excursionOrder.is_baby,
                     is_privilege = excursionOrder.is_privilege,
                     is_custom = excursionOrder.is_custom,
                     bus_place_number = excursionOrder.bus_place_number,
+                    payment = excursionOrder.payment == 0 ? payment : excursionOrder.payment,
 
                     excursion = new {
 
@@ -192,13 +231,16 @@ namespace ControlTravelAgencySystem.Controllers
             foreach (hotel_service_order hotelServiceOrder in callout.hotel_service_order)
             {
                 hotel_service service = hotelServiceOrder.hotel_service;
+
+                double payment = service.cost_per_min * hotelServiceOrder.duration;
+                
                 hotelServiceOrdersList.Add(new {
 
                     id = hotelServiceOrder.id,
                     created_datetime = Utils.tsToDateTime(hotelServiceOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     provision_datetime = Utils.tsToDateTime(hotelServiceOrder.provision_at).ToString(Constants.ddMMMyyyyHmmss),
-                    payment = hotelServiceOrder.payment,
                     duration = hotelServiceOrder.duration,
+                    payment = hotelServiceOrder.payment == 0 ? payment : hotelServiceOrder.payment,
 
                     room = hotelServiceOrder.room != null ? new {
 
