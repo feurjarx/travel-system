@@ -15,7 +15,6 @@
 
 <div class="tab-content">
     <div class="tab-pane fade in active" id="custom-tour-tab">
-
         @if (Request.Cookies["welcome_alert_close"] == null)
         {
             <div class="alert alert-success fade in notification-alert">
@@ -29,13 +28,10 @@
                 </p>
             </div>
         }
-        
         <div id="tours-list">
             @Html.Action("GetToursList", "Tours")
         </div>
-
     </div>
-
     <div class="tab-pane fade" id="completed-tour-tab">
         @RenderPage("~/Views/Home/Tabs/PredefinedCalloutsTab.cshtml")
     </div>

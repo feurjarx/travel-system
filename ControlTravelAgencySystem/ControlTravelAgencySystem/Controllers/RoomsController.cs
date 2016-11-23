@@ -418,14 +418,15 @@ namespace ControlTravelAgencySystem.Controllers
             if (list4 != null)
                 foreach (var item in list4)
                 {
-                    _dbContext.excursion_order.Add(
-                        new excursion_order
+                    var eo = new excursion_order
                         {
                             callout_id = callout.id,
                             excursion_id = item,
-                            created_at = Utils.dtToTimestamp(DateTime.Now)
-                        });
+                            created_at = Utils.dtToTimestamp(DateTime.Now),
+                            starting_address = ""
+                        };
 
+                    _dbContext.excursion_order.Add(eo);
                     _dbContext.SaveChanges();
                 }
 
