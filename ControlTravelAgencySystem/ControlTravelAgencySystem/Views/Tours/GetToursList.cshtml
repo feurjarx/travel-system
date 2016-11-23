@@ -41,13 +41,33 @@
                         new { @class = "hotel-item" })
                         </td>
                         <td>
-                            @viewItem.CountryName
+                            @*вместо сервиса с отображением флага :)*@
+                            @switch (viewItem.CountryName)
+                            {
+                                case "Россия":
+                                    <img src="~/Images/russia-flag.png" width="32" />
+                                    break;
+                                case "Казахстан":
+                                    <img src="~/Images/kazakhstan-flag.png" width="32" />
+                                    break;
+                                default:
+                                    @viewItem.CountryName;
+                                    break;
+                            }
                         </td>
                         <td>
                             @viewItem.Cities
                         </td>
                         <td>
-                            @viewItem.Description
+                            @switch (viewItem.Description)
+                            {
+                                case "летний":
+                                    <img src="~/Images/sun.png" width="32" />
+                                    break;
+                                default:
+                                    @viewItem.Description;
+                                    break;
+                            }                            
                         </td>
                         <td>
                             @viewItem.MinCost руб.
