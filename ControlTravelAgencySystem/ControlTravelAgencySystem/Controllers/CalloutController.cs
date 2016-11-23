@@ -15,7 +15,7 @@ namespace ControlTravelAgencySystem.Controllers
         {
             _dbContext = dbContext;
         }
-        
+
         /// <summary>
         /// Получение данных о желаниях
         /// </summary>
@@ -25,8 +25,8 @@ namespace ControlTravelAgencySystem.Controllers
         public JsonResult Suggestions(int id)
         {
             // С вкладки Заявки Админки при клике на заявку сюда приходит id выбранной заявки
-            callout callout =  _dbContext.callouts.Where(c => c.id == id).FirstOrDefault();
-            
+            callout callout = _dbContext.callouts.Where(c => c.id == id).FirstOrDefault();
+
             // Сбор данных о авиабилетах
             List<object> airticketsList = new List<object>();
             foreach (airticket airticket in callout.airtickets)
@@ -44,12 +44,14 @@ namespace ControlTravelAgencySystem.Controllers
                     payment = 0;
                 }
 
-                airticketsList.Add(new {
+                airticketsList.Add(new
+                {
 
                     id = airticket.id,
                     created_datetime = Utils.tsToDateTime(airticket.created_at).ToString(Constants.ddMMMyyyyHmmss),
 
-                    flight = new {
+                    flight = new
+                    {
 
                         id = flight.id,
                         airline_name = flight.airline.name,
@@ -70,8 +72,14 @@ namespace ControlTravelAgencySystem.Controllers
             foreach (transfer transfer in callout.transfers)
             {
                 route route = transfer.route;
-                airport fromAirport = route.airport;
-                airport toAirport = route.airport1;
+
+                airport fromAirport = null;
+                airport toAirport = null;
+                if (route != null)
+                {
+                    fromAirport = route.airport;
+                    toAirport = route.airport1;
+                }
 
                 double payment = route.cost;
                 if (transfer.is_baggage == 1)
@@ -83,8 +91,9 @@ namespace ControlTravelAgencySystem.Controllers
                 {
                     payment = 0;
                 }
-                
-                transfersList.Add(new {
+
+                transfersList.Add(new
+                {
 
                     id = transfer.id,
                     starting_date = transfer.starting_date.ToString(Constants.ddMMMyyyy),
@@ -94,12 +103,13 @@ namespace ControlTravelAgencySystem.Controllers
 
                     payment = transfer.payment == 0 ? payment : transfer.payment,
 
-                    route = new {
-
+                    route = new
+                    {
                         id = route.id,
                         type = route.type,
 
-                        from_airport = fromAirport != null ? new {
+                        from_airport = fromAirport != null ? new
+                        {
 
                             id = fromAirport.id,
                             name = fromAirport.name,
@@ -107,11 +117,12 @@ namespace ControlTravelAgencySystem.Controllers
 
                         } : null,
 
-                        to_airport = toAirport != null ? new {
+                        to_airport = toAirport != null ? new
+                        {
 
                             id = toAirport.id,
                             name = toAirport.name,
-                            city_name = toAirport.city.name 
+                            city_name = toAirport.city.name
 
                         } : null,
 
@@ -138,30 +149,34 @@ namespace ControlTravelAgencySystem.Controllers
 
                 int numberNights = calloutRoom.duration / 24;
                 double payment = calloutRoom.room.cost_per_day * numberNights;
-                
-                roomsList.Add(new {
+
+                roomsList.Add(new
+                {
 
                     created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     start_living_datetime = Utils.tsToDateTime(calloutRoom.start_living_at).ToString(Constants.ddMMMyyyyHmmss),
                     duration = calloutRoom.duration,
                     payment = calloutRoom.payment == 0 ? payment : calloutRoom.payment,
 
-                    room = new {
+                    room = new
+                    {
 
-                        id = room.id,   
+                        id = room.id,
                         number = room.number,
                         @class = room.type,
                         seats_number = room.seats_number,
-                        room_size =  room.room_size,
+                        room_size = room.room_size,
                         description = room.description,
-                        hotel = new {
+                        hotel = new
+                        {
 
                             id = hotel.id,
                             name = hotel.name,
                             stars_number = hotel.stars_number,
                             distance_to_beach = hotel.distance_to_beach,
 
-                            food = food != null ? new {
+                            food = food != null ? new
+                            {
 
                                 id = food.id,
                                 type = food.type,
@@ -169,11 +184,13 @@ namespace ControlTravelAgencySystem.Controllers
 
                             } : null,
 
-                            city = new {
+                            city = new
+                            {
 
                                 id = city.id,
                                 name = city.name,
-                                country = new {
+                                country = new
+                                {
 
                                     id = country.id,
                                     name = country.name
@@ -202,7 +219,8 @@ namespace ControlTravelAgencySystem.Controllers
                     payment = 0;
                 }
 
-                excursionOrdersList.Add(new {
+                excursionOrdersList.Add(new
+                {
 
                     id = excursionOrder.id,
                     created_datetime = Utils.tsToDateTime(excursionOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
@@ -214,7 +232,8 @@ namespace ControlTravelAgencySystem.Controllers
                     bus_place_number = excursionOrder.bus_place_number,
                     payment = excursionOrder.payment == 0 ? payment : excursionOrder.payment,
 
-                    excursion = new {
+                    excursion = new
+                    {
 
                         id = excursion.id,
                         name = excursion.name,
@@ -233,8 +252,9 @@ namespace ControlTravelAgencySystem.Controllers
                 hotel_service service = hotelServiceOrder.hotel_service;
 
                 double payment = service.cost_per_min * hotelServiceOrder.duration;
-                
-                hotelServiceOrdersList.Add(new {
+
+                hotelServiceOrdersList.Add(new
+                {
 
                     id = hotelServiceOrder.id,
                     created_datetime = Utils.tsToDateTime(hotelServiceOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
@@ -242,14 +262,16 @@ namespace ControlTravelAgencySystem.Controllers
                     duration = hotelServiceOrder.duration,
                     payment = hotelServiceOrder.payment == 0 ? payment : hotelServiceOrder.payment,
 
-                    room = hotelServiceOrder.room != null ? new {
+                    room = hotelServiceOrder.room != null ? new
+                    {
 
                         id = hotelServiceOrder.room.id,
                         number = hotelServiceOrder.room.number
 
                     } : null,
 
-                    hotel_service = new {
+                    hotel_service = new
+                    {
 
                         id = service.id,
                         hotel_name = service.hotel.name,
@@ -258,10 +280,11 @@ namespace ControlTravelAgencySystem.Controllers
                     }
                 });
             }
-            
+
             // возврат данных на фронтэнд (клиенту)
-            return Json(new {
-                
+            return Json(new
+            {
+
                 airtickets = airticketsList,
                 transfers = transfersList,
                 rooms = roomsList,
@@ -269,7 +292,7 @@ namespace ControlTravelAgencySystem.Controllers
                 hotel_services = hotelServiceOrdersList,
 
                 // далее трубопровод =D P.S. веселые приключения программиста
-                is_services = 
+                is_services =
                     airticketsList.Count() > 0
                     ||
                     transfersList.Count() > 0
@@ -339,7 +362,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                         // остальные связи автоматически удаляться (т.к. остальные связи с заявкой CASKADE)
                         // после удаление крепких связей ранее удаление самой заявки 
-                        _dbContext.callouts.Remove(callout); 
+                        _dbContext.callouts.Remove(callout);
                     }
                     // осуществление транзакции 
                     _dbContext.SaveChanges();
@@ -356,6 +379,69 @@ namespace ControlTravelAgencySystem.Controllers
 
             // возврат результат операции
             return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+
+        private List<object> calloutProperties = new List<object>()
+        {
+            "id",
+            "created_at",
+            new
+            {
+                key = "airtickets",
+                type = "array",
+                properties = new List<object>()
+                {
+                    "id",
+                    "departure_at",
+                    "payment",
+                    new
+                    {
+                        key = "flight",
+                        properties = new List<object>
+                        {
+                            "id",
+                            "code",
+                            "flight_at",
+                            "duration"
+                        }
+                    }
+                }
+            }
+        };
+
+        [HttpGet]
+        public JsonResult PredefinedCallouts()
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            IQueryable<callout> qb = _dbContext.callouts
+                .Where(c => c.is_predefined == 1);
+            
+            if (Request["need"] == "total")
+            {
+                result.Add("total", qb.Count());
+            }
+            else
+            {
+                result.Add("callouts", new List<object>());
+
+                int pageSize = int.Parse(Request["pageSize"]);
+                int pageNumber = int.Parse(Request["pageNumber"]);
+                int offset = (pageNumber - 1) * pageSize;
+                
+                List<callout> callouts = qb
+                    .OrderByDescending(c => c.created_at)
+                    .Skip(offset)
+                    .ToList();
+
+                foreach (callout c in callouts)
+                {
+                    ((List<object>)result["callouts"]).Add(Utils.toJsonByCustomProperties(c, calloutProperties));
+                }
+            }
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

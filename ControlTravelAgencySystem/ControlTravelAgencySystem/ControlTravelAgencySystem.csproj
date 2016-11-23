@@ -462,6 +462,8 @@
     <Content Include="Views\Admin\Tabs\HotelServicesTab.cshtml" />
     <Content Include="Views\Admin\Modals\HotelServiceAddModal.cshtml" />
     <Content Include="Views\Admin\PanelControls\CalloutsFilterByPredefined.cshtml" />
+    <Content Include="Views\Home\Tabs\PredefinedCalloutsTab.cshtml" />
+    <Content Include="Views\Home\HbsTemplates\PredefinedCalloutsPaginationHbs.cshtml" />
     <Content Include="Views\Rooms\GetHotelServicesList.cshtml" />
   </ItemGroup>
   <ItemGroup>

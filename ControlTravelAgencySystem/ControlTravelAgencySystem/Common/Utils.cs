@@ -7,6 +7,8 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using System.Reflection;
+using System.Collections;
 
 namespace ControlTravelAgencySystem.Common
 {
@@ -97,28 +99,42 @@ namespace ControlTravelAgencySystem.Common
                 else
                 {
                     Type instance = property.GetType();
+
                     string key = (string)instance
                         .GetProperty("key")
                         .GetValue(property);
 
                     object childObject = obj.GetType()
-                        .GetProperty(key)
-                        .GetValue(obj);
+                            .GetProperty(key)
+                            .GetValue(obj);
 
                     List<object> childProperties = (List<object>)instance
-                        .GetProperty("properties")
-                        .GetValue(property);
-
+                            .GetProperty("properties")
+                            .GetValue(property);
+                    
                     if (childObject != null)
                     {
-                        result.Add(key, serializeToDictionary(childObject, childProperties));
+                        PropertyInfo propertyInfo = instance.GetProperty("type");
+                        string type = propertyInfo != null ? (string)propertyInfo.GetValue(property, null) : null;
+                        if (type == null || type == "object")
+                        {
+                            result.Add(key, serializeToDictionary(childObject, childProperties));
+                        }
+                        else
+                        {
+                            List<object> list = new List<object>();
+                            foreach (var item in (IEnumerable)childObject)
+                            {
+                                list.Add(serializeToDictionary(item, childProperties));
+                            }
+                            
+                            result.Add(key, list);
+                        }
                     }
                     else
                     {
                         result.Add(key, null);
                     }
-
-                    
                 }
             }
 

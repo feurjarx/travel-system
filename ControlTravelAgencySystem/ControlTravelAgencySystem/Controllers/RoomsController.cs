@@ -279,7 +279,7 @@ namespace ControlTravelAgencySystem.Controllers
                     new HotelServicesView.HotelServicesViewItem
                     {
                         IsChecked = isChecked,
-                        HotelServiceId = hotelservice.id,                        
+                        HotelServiceId = hotelservice.id,
                         Description = hotelservice.description,
                         CostPerMin = hotelservice.cost_per_min,
                         StartingTime = hotelservice.starting_time

@@ -106,3 +106,9 @@ th:empty {
 h2 {
     margin: 0;
 }
+
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px
+}
