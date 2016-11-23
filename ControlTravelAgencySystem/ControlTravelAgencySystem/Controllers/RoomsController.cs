@@ -155,7 +155,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                 var flight = _dbContext.flights
                     .Include("airport")
-                    .FirstOrDefault(x => x.airport.city_id == city.id);
+                    .FirstOrDefault(x => x.airport1.city_id == city.id);
                 
                 var isChecked = false;
 
@@ -225,7 +225,7 @@ namespace ControlTravelAgencySystem.Controllers
             var viewModel = new ExcursionsView();
 
             var excursions = _dbContext.excursions
-                .Include("city");
+                .Where(x => x.city_id == id);
 
             var list = Session["excursion-check"] as List<int>;
 
@@ -256,7 +256,8 @@ namespace ControlTravelAgencySystem.Controllers
         {
             var viewModel = new HotelServicesView();
 
-            var hotelservices = _dbContext.hotel_service;
+            var hotelservices = _dbContext.hotel_service
+                .Where(x => x.hotel_id == id);
 
             var list = Session["hotelservice-check"] as List<int>;
 
