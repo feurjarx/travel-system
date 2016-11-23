@@ -167,7 +167,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="tour_id" Type="int" />
           <Property Name="city_id" Type="int" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="stars_number" Type="int" Nullable="false" />
           <Property Name="distance_to_beach" Type="int" />
@@ -1015,7 +1015,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tour_id" Type="Int32" />
           <Property Name="city_id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stars_number" Type="Int32" Nullable="false" />
           <Property Name="distance_to_beach" Type="Int32" />

@@ -121,7 +121,7 @@ namespace ControlTravelAgencySystem.Controllers
                 if (list2 != null)
                     if (list2.Any(x => x == flight.id))
                         isChecked = true;
-
+                
                 viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
                 {
                     IsChecked = isChecked,

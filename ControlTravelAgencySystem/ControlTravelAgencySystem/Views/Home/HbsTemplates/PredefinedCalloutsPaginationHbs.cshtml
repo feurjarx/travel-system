@@ -1,0 +1,25 @@
+﻿<script id="predefined-callouts-pagination-hbs" type="text/x-handlebars-template">
+    
+    <div class="flexbox" style="flex-wrap: wrap">
+
+        {{#each callouts }}
+
+            <div class="list-group" style="width: 50%; padding: 5px">
+                <a href="#" class="list-group-item active">Готовый набор</a>
+                <a href="#" class="list-group-item list-group-item-action">Авиабилеты</a>
+                <a href="#" class="list-group-item list-group-item-action disabled">Трансфер</a>
+                <a href="#" class="list-group-item list-group-item-action">Проживание в отеле</a>
+                <a href="#" class="list-group-item list-group-item-action disabled">Экскурсии</a>
+                <a href="#" class="list-group-item list-group-item-action">Питание</a>
+                <a href="#" class="list-group-item list-group-item-action disabled">Дополнительный сервис</a>
+            </div>
+
+        {{ else }}
+
+            <div class="alert alert-warning margin-none">Заявки не найдены</div>
+
+        {{/each}}
+
+    </div>
+
+</script>

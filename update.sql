@@ -23,3 +23,6 @@ ALTER TABLE `callout_order` ADD CONSTRAINT `callout_order_ibfk_3` FOREIGN KEY (`
 
 -- 21.11.2016
 ALTER TABLE `callout` ADD `is_predefined` TINYINT NOT NULL DEFAULT '0' AFTER `phone`;
+
+-- 23.11.2016
+ALTER TABLE `hotel` CHANGE `name` `name` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

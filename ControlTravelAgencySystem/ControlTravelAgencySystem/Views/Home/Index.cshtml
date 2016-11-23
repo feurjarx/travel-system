@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section scripts {
+    <script src="@Href("~/Scripts/pagination.min.js")"></script>
+    <script src="@Href("~/Scripts/PredefinedCalloutsTab.js")"></script>
+}
+
+@section Styles {
+    <link href="@Href("~/Content/pagination.css")" rel="stylesheet" type="text/css" />
+}
+
 <div class="tab-content">
     <div class="tab-pane fade in active" id="custom-tour-tab">
 
@@ -28,6 +37,6 @@
     </div>
 
     <div class="tab-pane fade" id="completed-tour-tab">
-        TEST
+        @RenderPage("~/Views/Home/Tabs/PredefinedCalloutsTab.cshtml")
     </div>
 </div>

@@ -12,7 +12,17 @@
         "country_id",
         new
         {
+            type = "object",
             key = "country",
+            properties = new List<object>()
+            {
+                "name"
+            }
+        },
+        new
+        {
+            type = "array",
+            key = "hotels",
             properties = new List<object>()
             {
                 "name"
