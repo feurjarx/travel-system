@@ -11,12 +11,12 @@ namespace ControlTravelAgencySystem.Models.ViewModels
         {
             public bool IsChecked { get; set; }
             public room SelectedRoom { get; set; }
-            public int FlightId { get; set; }
+            public int? FlightId { get; set; }
             public string Code { get; set; }
             public airport FromAirport { get; set; }
             public airport ToAirport { get; set; }
-            public DateTime FlightAt { get; set; }
-            public int Duration { get; set; }
+            public DateTime? FlightAt { get; set; }
+            public int? Duration { get; set; }
             public string AirlineName { get; set; }
         }
 

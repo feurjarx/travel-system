@@ -164,17 +164,22 @@ namespace ControlTravelAgencySystem.Controllers
                     if (list2.Any(x => x == flight.id))
                         isChecked = true;
 
+                DateTime? flightAt = null;
+
+                if (flight != null)
+                    flightAt = Utils.tsToDateTime(flight.flight_at);
+
                 viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
                 {
                     IsChecked = isChecked,
                     SelectedRoom = room,
-                    FlightId = flight.id,
-                    Code = flight.code,
-                    FromAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.from_airport_id),
-                    ToAirport = _dbContext.airports.FirstOrDefault(x => x.id == flight.to_airport_id),
-                    FlightAt = Utils.tsToDateTime(flight.flight_at),
-                    Duration = flight.duration,
-                    AirlineName = flight.airline.name
+                    FlightId = flight?.id,
+                    Code = flight?.code,
+                    FromAirport = flight?.airport,
+                    ToAirport = flight?.airport1,
+                    FlightAt = flightAt,
+                    Duration = flight?.duration,
+                    AirlineName = flight?.airline.name
                 });
             }
 
