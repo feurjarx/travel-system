@@ -53,6 +53,7 @@
           <Property Name="email" Type="varchar" MaxLength="30" />
           <Property Name="phone" Type="varchar" MaxLength="15" />
           <Property Name="is_predefined" Type="tinyint" Nullable="false" />
+          <Property Name="details" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="callout_order">
           <Key>
@@ -878,6 +879,7 @@
           <NavigationProperty Name="hotel_service_order" Relationship="Self.hotel_service_order_ibfk_3" FromRole="callout" ToRole="hotel_service_order" />
           <NavigationProperty Name="transfers" Relationship="Self.transfer_ibfk_2" FromRole="callout" ToRole="transfer" />
           <Property Name="is_predefined" Type="SByte" Nullable="false" />
+          <Property Name="details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="callout_order">
           <Key>
@@ -1733,6 +1735,7 @@
           <EntitySetMapping Name="callouts">
             <EntityTypeMapping TypeName="TravelSystemDataModel.callout">
               <MappingFragment StoreEntitySet="callout">
+                <ScalarProperty Name="details" ColumnName="details" />
                 <ScalarProperty Name="is_predefined" ColumnName="is_predefined" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="created_at" ColumnName="created_at" />

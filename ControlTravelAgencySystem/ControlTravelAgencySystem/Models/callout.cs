@@ -32,6 +32,7 @@ namespace ControlTravelAgencySystem.Models
         public string email { get; set; }
         public string phone { get; set; }
         public sbyte is_predefined { get; set; }
+        public string details { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<airticket> airtickets { get; set; }

@@ -380,36 +380,7 @@ namespace ControlTravelAgencySystem.Controllers
             // возврат результат операции
             return Json(result, JsonRequestBehavior.DenyGet);
         }
-
-
-        private List<object> calloutProperties = new List<object>()
-        {
-            "id",
-            "created_at",
-            new
-            {
-                key = "airtickets",
-                type = "array",
-                properties = new List<object>()
-                {
-                    "id",
-                    "departure_at",
-                    "payment",
-                    new
-                    {
-                        key = "flight",
-                        properties = new List<object>
-                        {
-                            "id",
-                            "code",
-                            "flight_at",
-                            "duration"
-                        }
-                    }
-                }
-            }
-        };
-
+        
         [HttpGet]
         public JsonResult PredefinedCallouts()
         {
@@ -437,7 +408,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                 foreach (callout c in callouts)
                 {
-                    ((List<object>)result["callouts"]).Add(Utils.toJsonByCustomProperties(c, calloutProperties));
+                    ((List<object>)result["callouts"]).Add(Utils.toJsonByCustomProperties(c, Scheme.predefinedCallout));
                 }
             }
             

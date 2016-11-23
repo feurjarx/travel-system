@@ -5,13 +5,90 @@
         {{#each callouts }}
 
             <div class="list-group" style="width: 50%; padding: 5px">
-                <a href="#" class="list-group-item active">Готовый набор</a>
-                <a href="#" class="list-group-item list-group-item-action">Авиабилеты</a>
-                <a href="#" class="list-group-item list-group-item-action disabled">Трансфер</a>
-                <a href="#" class="list-group-item list-group-item-action">Проживание в отеле</a>
-                <a href="#" class="list-group-item list-group-item-action disabled">Экскурсии</a>
-                <a href="#" class="list-group-item list-group-item-action">Питание</a>
-                <a href="#" class="list-group-item list-group-item-action disabled">Дополнительный сервис</a>
+                <a href="#" class="list-group-item active">
+                    <span class="list-group-item-heading">{{ details }}</span>
+                    <span class="badge">42<i class="fa fa-rub"></i></span>
+                </a>
+                <a href="#" class="list-group-item {{#unless airtickets.length }}disabled{{/unless}}">
+                    <h4 class="list-group-item-heading">Авиаперелет</h4>
+                    <p class="list-group-item-text">
+                        {{#each airtickets}}
+                            {{#if flight}}
+                                <p>
+                                    <span class="fa fa-plane"></span>
+                                    <span>Рейс {{flight.code}} {{ flight.airport.city.name }} - {{ flight.airport1.city.name }}. </span>
+                                    {{#if flight.airline}}
+                                        <span>Авиаперевозчик <q>{{flight.airline.name}}</q>. </span>
+                                    {{else}}
+                                        <span>Частный рейс. </span>
+                                    {{/if}}
+                                    <span>Вылет запланирован {{ departure_at }} {{ flight_at }}. </span>
+                                </p>
+                            {{/if}}
+                        {{/each}}
+                    </p>
+                </a>
+                <a href="#" class="list-group-item {{#unless transfers.length }}disabled{{/unless}}">
+                    <h4 class="list-group-item-heading">Трансфер</h4>
+                    <p class="list-group-item-text">
+                        {{#each transfers}}
+                            {{#if route}}
+                                <p>
+                                    {{#ifCond route.type "===" "такси"}}
+                                        <span class="fa fa-car"></span>
+                                    {{else}}
+                                        <span class="fa fa-bus"></span>
+                                    {{/ifCond}}
+
+                                    <span>Поездка до {{route.final_address}}. </span>
+                                    <span>Начало отъезда в {{ route.starting_time }}. </span>
+                                </p>
+                            {{/if}}
+                        {{/each}}
+                    </p>
+                </a>
+                <a href="#" class="list-group-item {{#unless callout_room.length }}disabled{{/unless}}">
+                    <h4 class="list-group-item-heading">Проживание</h4>
+                    <p class="list-group-item-text">
+                        {{#each callout_room}}
+
+                            <p>
+                                <span class="fa fa-home"></span>
+                                <span>Отель <q>{{ room.hotel.name }}</q> (<i class="fa fa-star"></i>x{{ room.hotel.stars_number }}) в городе {{ room.hotel.city.name }}. </span>
+                                <span>Проживание номере класса <q>{{ room.type }}</q> с {{ start_living_at }} в течение {{ duration }} суток. </span>
+                                {{#if room.hotel.distance_to_beach }}
+                                    <span><i class="fa fa-support"></i> Расстояние до ближайшего пляжа {{ room.hotel.distance_to_beach }}м . </span>
+                                {{/if}}
+                                {{#if room.hotel.food }}
+                                    <span><i class="fa fa-cutlery"></i> Тип питания {{ room.hotel.food.type }} (x{{ room.hotel.food.how_many_in_day }} в сутки)</span>
+                                {{/if}}
+                            </p>
+                        
+                        {{/each}}
+                    </p>
+                </a>
+                <a href="#" class="list-group-item {{#unless excursion_order.length }}disabled{{/unless}}">
+                    <h4 class="list-group-item-heading">Экскурсии</h4>
+                    <p class="list-group-item-text">
+                        {{#each excursion_order}}
+                            <p>
+                                <span class="fa fa-ticket"></span>
+                                <span>Название <q>{{ excursion.name }}</q>. Время начала {{ excursion.starting_time }}. Продолжительность {{ excursion.duration }}</span>
+                            </p>
+                        {{/each}}
+                    </p>
+                </a>
+                <a href="#" class="list-group-item {{#unless hotel_service_order.length }}disabled{{/unless}}">
+                    <h4 class="list-group-item-heading">Дополнительный сервис</h4>
+                    <p class="list-group-item-text">
+                        {{#each hotel_service_order}}
+                            <p>
+                                <span class="fa fa-tag"></span>
+                                <span>{{ hotel_service.description }}</span>
+                            </p>
+                        {{/each}}
+                    </p>
+                </a>
             </div>
 
         {{ else }}

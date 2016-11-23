@@ -26,3 +26,4 @@ ALTER TABLE `callout` ADD `is_predefined` TINYINT NOT NULL DEFAULT '0' AFTER `ph
 
 -- 23.11.2016
 ALTER TABLE `hotel` CHANGE `name` `name` VARCHAR(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `callout` ADD `details` VARCHAR(100) NULL DEFAULT 'Готовый тур' AFTER `is_predefined`;
