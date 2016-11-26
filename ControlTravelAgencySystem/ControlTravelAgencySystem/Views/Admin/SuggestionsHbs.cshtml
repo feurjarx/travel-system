@@ -9,8 +9,8 @@
                      data-id="{{ id }}"
                      data-entity="airticket" 
                      data-json="{{json this}}"
-                     data-modal-target="airticket-modal"
-                     data-delete-url="suggestions/remove/{{ id }}">
+                     data-modal-target="#airticket-modal"
+                     data-delete-url="suggestions/delete/{{ id }}/?type=airticket">
 
                     <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
@@ -55,7 +55,14 @@
             {{/each}}
 
             {{#each transfers}}
-                <div class="panel panel-default">
+
+                <div class="panel panel-default"
+                     data-id="{{ id }}"
+                     data-entity="transfer" 
+                     data-json="{{json this}}"
+                     data-modal-target="#transfer-modal"
+                     data-delete-url="suggestions/delete/{{ id }}/?type=transfer">
+
                     <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-transfer" aria-controls="collapseOne" aria-expanded="false">
@@ -203,8 +210,15 @@
                 </div>
             {{/each}}
             
-            {{#each excursions }}
-                <div class="panel panel-default">
+            {{#each excursion_orders }}
+
+                <div class="panel panel-default"
+                     data-id="{{ id }}"
+                     data-entity="excursion_order" 
+                     data-json="{{json this}}"
+                     data-modal-target="#excursion-order-modal"
+                     data-delete-url="suggestions/delete/{{ id }}/?type=excursion_order">
+
                     <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-excursion" aria-controls="collapseOne" aria-expanded="false">
@@ -259,8 +273,15 @@
                 </div>
             {{/each}}
 
-            {{#each hotel_services }}
-                <div class="panel panel-default">
+            {{#each hotel_service_orders }}
+
+                <div class="panel panel-default"
+                     data-id="{{ id }}"
+                     data-entity="hotel_service_order" 
+                     data-json="{{json this}}"
+                     data-modal-target="#hotel-service-order-modal"
+                     data-delete-url="suggestions/delete/{{ id }}/?type=hotel_service_order">
+
                     <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-hotel-service" aria-controls="collapseOne" aria-expanded="false">

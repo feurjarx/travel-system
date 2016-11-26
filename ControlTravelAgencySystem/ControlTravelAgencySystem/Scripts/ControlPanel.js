@@ -8,6 +8,21 @@
     }
 };
 
+var monthConverter = {
+    "дек": 11,
+    "ноя": 10,
+    "окт": 9,
+    "сен": 8,
+    "авг": 7,
+    "июл": 6,
+    "июн": 5,
+    "май": 4,
+    "апр": 3,
+    "мар": 2,
+    "фев": 1,
+    "янв": 0
+};
+
 $(function () {
 
     var domControl = {
@@ -298,6 +313,8 @@ $(function () {
 
             switch (entityName) {
 
+                case 'transfer':
+                case 'airticket':
                 case 'callout_room':
                 case 'hotel_service':
                 case 'excursion':
@@ -400,6 +417,40 @@ $(function () {
 
                 var $datetimepickerBlock, ts, startingTime, startingDateTime, timeParts, dateParts;
                 switch (true) {
+
+                    case $modalClone.data('entity') === 'transfer':
+
+                        $datetimepickerBlock = $('#edit-starting-date-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        startingDateTime = $activeItem.data('json')['starting_date'];
+                        if (startingDateTime) {
+                            dateParts = startingDateTime.split(' ');
+                            $datetimepickerBlock.datetimepicker({
+                                defaultDate: new Date(dateParts[2], monthConverter[dateParts[1]], dateParts[0], 0, 0, 0),
+                                locale: 'ru',
+                                format: 'DD/MM/YYYY'
+                            });
+                        }
+
+                        break;
+
+                    case $modalClone.data('entity') === 'airticket':
+
+                        $datetimepickerBlock = $('#edit-departure-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        ts = $activeItem.data('json')['departure_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru'
+                        });
+
+                        break;
 
                     case $modalClone.data('entity') === 'callout_room':
 

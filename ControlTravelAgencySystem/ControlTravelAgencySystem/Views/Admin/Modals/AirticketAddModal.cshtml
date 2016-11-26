@@ -1,0 +1,82 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade modal-up" id="airticket-modal" tabindex="-1" role="dialog"
+      data-entity="airticket" 
+      data-create-url="/suggestions/create"
+      data-edit-url="/suggestions/edit">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление авиабилета
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Авиарейс:</span>
+                    <select class="form-control" id="flight-input" name="flight_id">
+                        @foreach (flight f in Model.flights)
+                        {
+                            <option value="@f.id">Рейс @f.code @f.airport.city.name - @f.airport1.city.name (@f.airline.name)</option>
+                        }
+                        <option value="">Частный</option>
+                    </select>
+                </div>
+
+                <div class="form-group input-group date" id="departure-at-datetimepicker">
+                    <span class="input-group-addon">Дата и время полета:</span>
+                    <input required id="departure-at-input" class="form-control" type="text" name="departure_at" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('#departure-at-datetimepicker').datetimepicker({
+                            locale: 'ru',
+                        });
+                    });
+                </script>
+
+                <!--HBS-->
+                <script class="hbs" type="text/x-handlebars-template">
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Авиарейс:</span>
+                        <select required class="form-control" id="flight-input" name="flight_id">
+                            @foreach (flight f in Model.flights)
+                            {
+                                <option {{#if flight}}{{#ifCond flight.id "==" @f.id }}selected{{/ifCond}}{{/if}} value="@f.id">Рейс @f.code @f.airport.city.name - @f.airport1.city.name (@f.airline.name)</option>
+                            }
+                            <option {{#unless flight }}selected{{/unless}} value="">Частный</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group date" id="edit-departure-at-datetimepicker">
+                        <span class="input-group-addon">Дата и время полета:</span>
+                        <input required id="departure-at-input" class="form-control" type="text" name="departure_at" value="" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    
+                </script>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

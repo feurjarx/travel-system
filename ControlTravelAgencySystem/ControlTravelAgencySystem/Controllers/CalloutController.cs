@@ -49,6 +49,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                     id = airticket.id,
                     created_datetime = Utils.tsToDateTime(airticket.created_at).ToString(Constants.ddMMMyyyyHmmss),
+                    departure_at = airticket.departure_at,
 
                     flight = new
                     {
@@ -292,8 +293,8 @@ namespace ControlTravelAgencySystem.Controllers
                 airtickets = airticketsList,
                 transfers = transfersList,
                 callout_rooms = calloutRoomsList,
-                excursions = excursionOrdersList,
-                hotel_services = hotelServiceOrdersList,
+                excursion_orders = excursionOrdersList,
+                hotel_service_orders = hotelServiceOrdersList,
 
                 // далее трубопровод =D P.S. веселые приключения программиста
                 is_services =

@@ -468,6 +468,8 @@
     <Content Include="Views\Rooms\GetHotelServicesList.cshtml" />
     <Content Include="Views\Blocks\ActionsBlock.cshtml" />
     <Content Include="Views\Admin\Modals\CalloutRoomAddModal.cshtml" />
+    <Content Include="Views\Admin\Modals\AirticketAddModal.cshtml" />
+    <Content Include="Views\Admin\Modals\TransferAddModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

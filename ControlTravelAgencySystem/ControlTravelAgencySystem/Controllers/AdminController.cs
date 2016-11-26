@@ -284,6 +284,8 @@ namespace ControlTravelAgencySystem.Controllers
 
 
                     model.rooms = _dbContext.rooms.ToList();
+                    model.flights = _dbContext.flights.ToList();
+                    model.routes = _dbContext.routes.ToList();
 
                     break;
             }

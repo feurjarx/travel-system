@@ -33,6 +33,22 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.SaveChanges();
                         break;
 
+                    case "airticket":
+
+                        airticket airticket = new airticket();
+                        serializeToAirticketModel(ref airticket);
+                        _dbContext.airtickets.Add(airticket);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    case "transfer":
+
+                        transfer transfer = new transfer();
+                        serializeToTransferModel(ref transfer);
+                        _dbContext.transfers.Add(transfer);
+                        _dbContext.SaveChanges();
+                        break;
+
                 }
                 
                 _dbContext.SaveChanges();
@@ -61,6 +77,22 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.SaveChanges();
                         break;
 
+                    case "airticket":
+
+                        airticket airticket = _dbContext.airtickets.Find(id);
+                        serializeToAirticketModel(ref airticket);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    case "transfer":
+
+                        transfer transfer = _dbContext.transfers.Find(id);
+                        serializeToTransferModel(ref transfer);
+                        _dbContext.SaveChanges();
+                        break;
+
+
+
                 }
 
                 _dbContext.SaveChanges();
@@ -85,6 +117,57 @@ namespace ControlTravelAgencySystem.Controllers
             calloutRoom.payment = room.cost_per_day * (calloutRoom.duration / 24);
         }
 
+        private void serializeToAirticketModel(ref airticket airticket)
+        {
+            flight flight = null;
+            if (Request.Form["flight_id"] != "")
+            {
+                airticket.flight_id = int.Parse(Request.Form["flight_id"]);
+                flight = _dbContext.flights.Find(airticket.flight_id);
+            }
+            else
+            {
+                airticket.flight_id = null;
+            }
+
+            airticket.departure_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["departure_at"]));
+            airticket.created_at = Utils.dtToTimestamp(DateTime.Now);
+
+            airticket.callout_id = int.Parse(Request.Form["callout_id"]);
+
+            airticket.payment = 0;
+            if (flight != null)
+            {
+                airticket.payment = flight.cost;
+            }
+        }
+
+        private void serializeToTransferModel(ref transfer transfer)
+        {
+            route route = null;
+            if (Request.Form["route_id"] != "")
+            {
+                transfer.route_id = int.Parse(Request.Form["route_id"]);
+                route = _dbContext.routes.Find(transfer.route_id);
+            }
+            else
+            {
+                transfer.route_id = null;
+            }
+
+            transfer.starting_date = DateTime.Parse(Request.Form["starting_date"]);
+            transfer.created_at = Utils.dtToTimestamp(DateTime.Now);
+            
+            transfer.callout_id = int.Parse(Request.Form["callout_id"]);
+
+            transfer.payment = 0;
+            if (route != null)
+            {
+                transfer.payment = route.cost;
+            }
+        }
+
+
         [HttpDelete]
         public JsonResult Delete(int id, string type)
         {
@@ -100,6 +183,20 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.callout_room.Remove(calloutRoom);
                         _dbContext.SaveChanges();
 
+                        break;
+
+                    case "airticket":
+
+                        airticket airticket = _dbContext.airtickets.Find(id);
+                        _dbContext.airtickets.Remove(airticket);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    case "transfer":
+
+                        transfer transfer = _dbContext.transfers.Find(id);
+                        _dbContext.transfers.Remove(transfer);
+                        _dbContext.SaveChanges();
                         break;
                 }
             }
