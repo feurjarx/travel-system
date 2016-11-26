@@ -313,6 +313,8 @@ $(function () {
 
             switch (entityName) {
 
+                case 'excursion_order':
+                case 'hotel_service_order':
                 case 'transfer':
                 case 'airticket':
                 case 'callout_room':
@@ -417,6 +419,36 @@ $(function () {
 
                 var $datetimepickerBlock, ts, startingTime, startingDateTime, timeParts, dateParts;
                 switch (true) {
+
+                    case $modalClone.data('entity') === 'excursion_order':
+
+                        $datetimepickerBlock = $('#edit-starting-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        ts = $activeItem.data('json')['starting_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru'
+                        });
+
+                        break;
+
+                    case $modalClone.data('entity') === 'hotel_service_order':
+
+                        $datetimepickerBlock = $('#edit-provision-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        ts = $activeItem.data('json')['provision_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru'
+                        });
+
+                        break;
 
                     case $modalClone.data('entity') === 'transfer':
 

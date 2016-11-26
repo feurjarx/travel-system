@@ -470,6 +470,8 @@
     <Content Include="Views\Admin\Modals\CalloutRoomAddModal.cshtml" />
     <Content Include="Views\Admin\Modals\AirticketAddModal.cshtml" />
     <Content Include="Views\Admin\Modals\TransferAddModal.cshtml" />
+    <Content Include="Views\Admin\Modals\HotelServiceOrderAddModal.cshtml" />
+    <Content Include="Views\Admin\Modals\ExcursionOrderAddModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

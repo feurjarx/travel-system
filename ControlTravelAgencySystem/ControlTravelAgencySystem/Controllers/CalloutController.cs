@@ -231,6 +231,7 @@ namespace ControlTravelAgencySystem.Controllers
                     created_datetime = Utils.tsToDateTime(excursionOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     starting_address = excursionOrder.starting_address,
                     starting_datetime = Utils.tsToDateTime(excursionOrder.starting_at).ToString(Constants.ddMMMyyyy),
+                    starting_at = excursionOrder.starting_at,
                     is_baby = excursionOrder.is_baby,
                     is_privilege = excursionOrder.is_privilege,
                     is_custom = excursionOrder.is_custom,
@@ -264,6 +265,7 @@ namespace ControlTravelAgencySystem.Controllers
                     id = hotelServiceOrder.id,
                     created_datetime = Utils.tsToDateTime(hotelServiceOrder.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     provision_datetime = Utils.tsToDateTime(hotelServiceOrder.provision_at).ToString(Constants.ddMMMyyyyHmmss),
+                    provision_at = hotelServiceOrder.provision_at,
                     duration = hotelServiceOrder.duration,
                     payment = hotelServiceOrder.payment == 0 ? payment : hotelServiceOrder.payment,
 

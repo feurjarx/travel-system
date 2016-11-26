@@ -286,6 +286,8 @@ namespace ControlTravelAgencySystem.Controllers
                     model.rooms = _dbContext.rooms.ToList();
                     model.flights = _dbContext.flights.ToList();
                     model.routes = _dbContext.routes.ToList();
+                    model.excursions = _dbContext.excursions.ToList();
+                    model.hotel_services = _dbContext.hotel_service.ToList();
 
                     break;
             }

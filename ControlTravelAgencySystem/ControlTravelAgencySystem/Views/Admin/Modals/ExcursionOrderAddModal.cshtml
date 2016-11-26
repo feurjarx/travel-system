@@ -1,0 +1,90 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade modal-up" id="excursion-order-modal" tabindex="-1" role="dialog"
+      data-entity="excursion_order" 
+      data-create-url="/suggestions/create"
+      data-edit-url="/suggestions/edit">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление билета на экскурсию
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Экскурсия:</span>
+                    <select required class="form-control" id="excursion-input" name="excursion_id">
+                        @foreach (excursion e in Model.excursions)
+                        {
+                            <option value="@e.id">@e.name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group input-group date" id="starting-at-datetimepicker">
+                    <span class="input-group-addon">Дата и время начала мероприятия:</span>
+                    <input required id="starting-at-input" class="form-control" type="text" name="starting_at" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('#starting-at-datetimepicker').datetimepicker({
+                            locale: 'ru',
+                        });
+                    });
+                </script>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Адрес сбора:</span>
+                    <input required type="text" class="form-control" id="starting-address-input" name="starting_address" />
+                </div>
+
+                <!--HBS-->
+                <script class="hbs" type="text/x-handlebars-template">
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Экскурсия:</span>
+                        <select required class="form-control" id="excursion-input" name="excursion_id">
+                            @foreach (excursion e in Model.excursions)
+                            {
+                                <option {{#ifCond excursion.id "==" @e.id }}selected{{/ifCond}} value="@e.id">@e.name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group date" id="edit-starting-at-datetimepicker">
+                        <span class="input-group-addon">Дата и время начала мероприятия:</span>
+                        <input required id="starting-at-input" class="form-control" type="text" name="starting_at" value="" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Адрес сбора:</span>
+                        <input required type="text" class="form-control" id="starting-address-input" name="starting_address" value="{{ starting_address }}"/>
+                    </div>
+                    
+                </script>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>

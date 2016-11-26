@@ -49,6 +49,24 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.SaveChanges();
                         break;
 
+                    case "excursion_order":
+
+                        excursion_order excursionOrder = new excursion_order();
+                        serializeToExcursionOrderModel(ref excursionOrder);
+                        _dbContext.excursion_order.Add(excursionOrder);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    case "hotel_service_order":
+
+                        hotel_service_order hotelServiceOrder = new hotel_service_order();
+                        serializeToHotelServiceOrderModel(ref hotelServiceOrder);
+                        _dbContext.hotel_service_order.Add(hotelServiceOrder);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    default:
+                        throw new Exception("Error! Unexcepted entity");
                 }
                 
                 _dbContext.SaveChanges();
@@ -91,8 +109,22 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.SaveChanges();
                         break;
 
+                    case "excursion_order":
 
+                        excursion_order excursionOrder = _dbContext.excursion_order.Find(id);
+                        serializeToExcursionOrderModel(ref excursionOrder);
+                        _dbContext.SaveChanges();
+                        break;
 
+                    case "hotel_service_order":
+
+                        hotel_service_order hotelServiceOrder = _dbContext.hotel_service_order.Find(id);
+                        serializeToHotelServiceOrderModel(ref hotelServiceOrder);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    default:
+                        throw new Exception("Error! Unexcepted entity");
                 }
 
                 _dbContext.SaveChanges();
@@ -167,6 +199,29 @@ namespace ControlTravelAgencySystem.Controllers
             }
         }
 
+        private void serializeToExcursionOrderModel(ref excursion_order excursionOrder)
+        {
+            excursionOrder.excursion_id = int.Parse(Request.Form["excursion_id"]);
+            excursionOrder.starting_address = Request.Form["starting_address"];
+            excursionOrder.starting_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["starting_at"]));
+            excursionOrder.created_at = Utils.dtToTimestamp(DateTime.Now);
+            excursionOrder.callout_id = int.Parse(Request.Form["callout_id"]);
+            
+            excursion excursion = _dbContext.excursions.Find(excursionOrder.excursion_id);
+            excursionOrder.payment = excursion.cost;
+        }
+
+        private void serializeToHotelServiceOrderModel(ref hotel_service_order hotelServiceOrder)
+        {
+            hotelServiceOrder.hotel_service_id = int.Parse(Request.Form["hotel_service_id"]);
+            hotelServiceOrder.duration = int.Parse(Request.Form["duration"]);
+            hotelServiceOrder.provision_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["provision_at"]));
+            hotelServiceOrder.created_at = Utils.dtToTimestamp(DateTime.Now);
+            hotelServiceOrder.callout_id = int.Parse(Request.Form["callout_id"]);
+
+            hotel_service hotelService = _dbContext.hotel_service.Find(hotelServiceOrder.hotel_service_id);
+            hotelServiceOrder.payment = hotelService.cost_per_min * hotelServiceOrder.duration;
+        }
 
         [HttpDelete]
         public JsonResult Delete(int id, string type)
@@ -198,6 +253,23 @@ namespace ControlTravelAgencySystem.Controllers
                         _dbContext.transfers.Remove(transfer);
                         _dbContext.SaveChanges();
                         break;
+
+                    case "excursion_order":
+
+                        excursion_order excursionOrder = _dbContext.excursion_order.Find(id);
+                        _dbContext.excursion_order.Remove(excursionOrder);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    case "hotel_service_order":
+
+                        hotel_service_order hotelServiceOrder = _dbContext.hotel_service_order.Find(id);
+                        _dbContext.hotel_service_order.Remove(hotelServiceOrder);
+                        _dbContext.SaveChanges();
+                        break;
+
+                    default:
+                        throw new Exception("Error! Unexcepted entity");
                 }
             }
             catch (Exception exc)

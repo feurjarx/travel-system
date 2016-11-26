@@ -1,0 +1,90 @@
+﻿@model ControlTravelAgencySystem.Models.ViewModels.AdminPanelPageView
+@using ControlTravelAgencySystem.Models
+
+<form class="modal add-entity-modal fade modal-up" id="hotel-service-order-modal" tabindex="-1" role="dialog"
+      data-entity="hotel_service_order" 
+      data-create-url="/suggestions/create"
+      data-edit-url="/suggestions/edit">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Добавление услуги сервиса
+                    <label class="error-label bg-danger"></label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Услуга:</span>
+                    <select required class="form-control" id="hotel-service-input" name="hotel_service_id">
+                        @foreach (hotel_service hs in Model.hotel_services)
+                        {
+                            <option value="@hs.id">@hs.description</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group input-group date" id="provision-at-datetimepicker">
+                    <span class="input-group-addon">Дата и время оказания:</span>
+                    <input required id="provision-at-input" class="form-control" type="text" name="provision_at" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('#provision-at-datetimepicker').datetimepicker({
+                            locale: 'ru',
+                        });
+                    });
+                </script>
+
+                <div class="input-group form-group">
+                    <span class="input-group-addon">Продолжительность услуги (мин):</span>
+                    <input required type="number" class="form-control" id="duration-input" name="duration" min="5" />
+                </div>
+
+                <!--HBS-->
+                <script class="hbs" type="text/x-handlebars-template">
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Услуга:</span>
+                        <select class="form-control" id="hotel-service-input" name="hotel_service_id">
+                            @foreach (hotel_service hs in Model.hotel_services)
+                            {
+                                <option {{#ifCond hotel_service.id "==" @hs.id }}selected{{/ifCond}} value="@hs.id">@hs.description</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group date" id="edit-provision-at-datetimepicker">
+                        <span class="input-group-addon">Дата и время оказания:</span>
+                        <input required id="provision-at-input" class="form-control" type="text" name="provision_at" value="" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">Продолжительность услуги (мин):</span>
+                        <input required type="number" class="form-control" id="duration-input" name="duration" min="5" value="{{ duration }}"/>
+                    </div>
+                    
+                </script>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>
