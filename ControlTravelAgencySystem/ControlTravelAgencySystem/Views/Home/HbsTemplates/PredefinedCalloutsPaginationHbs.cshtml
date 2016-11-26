@@ -7,7 +7,7 @@
             <div class="list-group" style="width: 50%; padding: 5px">
                 <a href="#" class="list-group-item active">
                     <span class="list-group-item-heading">{{ details }}</span>
-                    <span class="badge">42<i class="fa fa-rub"></i></span>
+                    <span class="badge">{{ _extra.total_payment }}<i class="fa fa-rub"></i></span>
                 </a>
                 <a href="#" class="list-group-item {{#unless airtickets.length }}disabled{{/unless}}">
                     <h4 class="list-group-item-heading">Авиаперелет</h4>

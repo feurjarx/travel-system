@@ -73,9 +73,14 @@ namespace ControlTravelAgencySystem.Common
         /// <param name="obj"></param>
         /// <param name="properties"></param>
         /// <returns></returns>
-        public static string toJsonByCustomProperties(object obj, List<object> properties)
+        public static string toJsonByCustomProperties(object obj, List<object> properties, object extra = null)
         {
-            return toJson(serializeToDictionary(obj, properties));
+            var result = serializeToDictionary(obj, properties);
+            if (extra != null)
+            {
+                result.Add("_extra", extra);   
+            }
+            return toJson(result);
         }
 
         /// <summary>

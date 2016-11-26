@@ -33,7 +33,12 @@ namespace ControlTravelAgencySystem.Controllers
             {
                 flight flight = airticket.flight;
 
-                double payment = flight.cost;
+                double payment = 0;
+                if (flight != null)
+                {
+                    payment = flight.cost;
+                }
+                
                 if (airticket.is_baggage == 1)
                 {
                     payment += payment * 0.1;
@@ -51,7 +56,7 @@ namespace ControlTravelAgencySystem.Controllers
                     created_datetime = Utils.tsToDateTime(airticket.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     departure_at = airticket.departure_at,
 
-                    flight = new
+                    flight = flight != null ? new
                     {
 
                         id = flight.id,
@@ -60,7 +65,8 @@ namespace ControlTravelAgencySystem.Controllers
                         duration = flight.duration,
                         cost = flight.cost,
                         total_seats = flight.total_seats
-                    },
+
+                    } : null,
 
                     payment = airticket.payment == 0 ? payment : airticket.payment,
                     is_baggage = airticket.is_baggage,
@@ -413,9 +419,107 @@ namespace ControlTravelAgencySystem.Controllers
                     .Skip(offset)
                     .ToList();
 
+                int sum = 0;
                 foreach (callout c in callouts)
                 {
-                    ((List<object>)result["callouts"]).Add(Utils.toJsonByCustomProperties(c, Scheme.predefinedCallout));
+                    int calloutRoomsSum = 0;
+                    foreach (callout_room cr in c.callout_room.ToList())
+                    {
+                        int calloutRoomSum = cr.payment;
+                        if (cr.payment == 0)
+                        {
+                            calloutRoomSum = cr.room.cost_per_day * cr.duration / 24;
+                        }
+
+                        calloutRoomsSum += calloutRoomSum;
+                    }
+
+                    int airticketsSum = 0;
+                    foreach (airticket a in c.airtickets.ToList())
+                    {
+                        int airticketSum = a.payment;
+                        if (a.payment == 0)
+                        {
+                            if (a.flight != null)
+                            {
+                                airticketSum = a.flight.cost;
+                                if (a.is_baggage == 1)
+                                {
+                                    airticketSum += a.flight.cost / 10;
+                                }
+
+                                if (a.is_baby == 1)
+                                {
+                                    airticketSum = 0;
+                                }
+                            }
+                        }
+
+                        airticketsSum += airticketSum;
+                    }
+
+                    int transfersSum = 0;
+                    foreach (transfer t in c.transfers.ToList())
+                    {
+                        int transferSum = t.payment;
+                        if (t.payment == 0)
+                        {
+                            if (t.route != null)
+                            {
+                                transferSum = t.route.cost;
+
+                                if (t.is_baggage == 1)
+                                {
+                                    transferSum += t.route.cost / 10;
+                                }
+
+                                if (t.is_baby == 1)
+                                {
+                                    transferSum = 0;
+                                }
+                            }
+                        }
+
+                        transfersSum += transferSum;
+                    }
+
+                    int excursionOrdersSum = 0;
+                    foreach (excursion_order eo in c.excursion_order.ToList())
+                    {
+                        int excursionOrderSum = eo.payment;
+                        if (eo.payment == 0)
+                        {
+                            excursionOrderSum = eo.excursion.cost;
+
+                            if (eo.is_privilege == 1)
+                            {
+                                excursionOrderSum -= excursionOrderSum / 2;
+                            }
+
+                            if (eo.is_baby == 1)
+                            {
+                                excursionOrderSum = 0;
+                            }
+                        }
+
+                        excursionOrdersSum += excursionOrderSum;
+                    }
+
+                    int hotelServiceOrdersSum = 0;
+                    foreach (hotel_service_order hso in c.hotel_service_order.ToList())
+                    {
+                        int hotelServiceOrderSum = hso.payment;
+                        if (hso.payment == 0)
+                        {
+                            hotelServiceOrderSum = hso.hotel_service.cost_per_min * hso.duration;
+                        }
+
+                        hotelServiceOrdersSum += hotelServiceOrderSum;
+                    }
+                    
+                    ((List<object>)result["callouts"]).Add(Utils.toJsonByCustomProperties(c, Scheme.predefinedCallout, new {
+                        total_payment = calloutRoomsSum + airticketsSum + transfersSum + excursionOrdersSum + hotelServiceOrdersSum
+                    }));
                 }
             }
             

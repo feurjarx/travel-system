@@ -167,10 +167,23 @@ namespace ControlTravelAgencySystem.Controllers
 
             airticket.callout_id = int.Parse(Request.Form["callout_id"]);
 
+            airticket.is_baby = Request.Form["is_baby"] == "on" ? 1 : 0;
+            airticket.is_baggage = Request.Form["is_baggage"] == "on" ? 1 : 0;
+
             airticket.payment = 0;
             if (flight != null)
             {
                 airticket.payment = flight.cost;
+            }
+
+            if (airticket.is_baggage == 1)
+            {
+                airticket.payment += airticket.payment / 10;
+            }
+
+            if (airticket.is_baby == 1)
+            {
+                airticket.payment = 0;
             }
         }
 
@@ -189,13 +202,26 @@ namespace ControlTravelAgencySystem.Controllers
 
             transfer.starting_date = DateTime.Parse(Request.Form["starting_date"]);
             transfer.created_at = Utils.dtToTimestamp(DateTime.Now);
-            
+
             transfer.callout_id = int.Parse(Request.Form["callout_id"]);
+
+            transfer.is_baby = Request.Form["is_baby"] == "on" ? 1 : 0;
+            transfer.is_baggage = Request.Form["is_baggage"] == "on" ? 1 : 0;
 
             transfer.payment = 0;
             if (route != null)
             {
                 transfer.payment = route.cost;
+            }
+
+            if (transfer.is_baggage == 1)
+            {
+                transfer.payment += transfer.payment / 10;
+            }
+
+            if (transfer.is_baby == 1)
+            {
+                transfer.payment = 0;
             }
         }
 
@@ -206,9 +232,13 @@ namespace ControlTravelAgencySystem.Controllers
             excursionOrder.starting_at = Utils.dtToTimestamp(Convert.ToDateTime(Request.Form["starting_at"]));
             excursionOrder.created_at = Utils.dtToTimestamp(DateTime.Now);
             excursionOrder.callout_id = int.Parse(Request.Form["callout_id"]);
-            
+
+            excursionOrder.is_baby = Request.Form["is_baby"] == "on" ? 1 : 0;
+            excursionOrder.is_privilege = Request.Form["is_privilege"] == "on" ? 1 : 0;
+
             excursion excursion = _dbContext.excursions.Find(excursionOrder.excursion_id);
-            excursionOrder.payment = excursion.cost;
+            excursionOrder.payment = excursionOrder.is_privilege == 1 ? (excursion.cost - excursion.cost / 2) : excursion.cost;
+            excursionOrder.payment = excursionOrder.is_baby == 1 ? 0 : excursionOrder.payment;
         }
 
         private void serializeToHotelServiceOrderModel(ref hotel_service_order hotelServiceOrder)

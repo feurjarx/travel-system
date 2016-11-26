@@ -48,6 +48,18 @@
                     });
                 </script>
 
+                <div class="input-group form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" id="transfer-is-baby-checkbox" name="is_baby" />
+                        <label for="transfer-is-baby-checkbox">Ребенок</label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="transfer-is-baggage-checkbox" name="is_baggage" />
+                        <label for="transfer-is-baggage-checkbox">Багаж</label>
+                    </div>
+                </div>
+
                 <!--HBS-->
                 <script class="hbs" type="text/x-handlebars-template">
 
@@ -58,7 +70,7 @@
                             {
                                 <option {{#if route}}{{#ifCond route.id "==" @r.id }}selected{{/ifCond}}{{/if}} value="@r.id">Маршрут до @r.final_address</option>
                             }
-                            <option {{#unless flight }}selected{{/unless}} value="">Отсутствует</option>
+                            <option {{#unless route }}selected{{/unless}} value="">Отсутствует</option>
                         </select>
                     </div>
 
@@ -68,6 +80,18 @@
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
+                    </div>
+
+                    <div class="input-group form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="transfer-is-baby-checkbox" name="is_baby" {{#if is_baby }} checked{{/if}} />
+                            <label for="transfer-is-baby-checkbox">Ребенок</label>
+                        </div>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="transfer-is-baggage-checkbox" name="is_baggage" {{#if is_baggage }} checked{{/if}} />
+                            <label for="transfer-is-baggage-checkbox">Багаж</label>
+                        </div>
                     </div>
                     
                 </script>

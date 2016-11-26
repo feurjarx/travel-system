@@ -47,6 +47,18 @@
                     });
                 </script>
 
+                <div class="input-group form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" id="airticket-is-baby-checkbox" name="is_baby" />
+                        <label for="airticket-is-baby-checkbox">Ребенок</label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="airticket-is-baggage-checkbox" name="is_baggage" />
+                        <label for="airticket-is-baggage-checkbox">Багаж</label>
+                    </div>
+                </div>
+
                 <!--HBS-->
                 <script class="hbs" type="text/x-handlebars-template">
 
@@ -69,6 +81,18 @@
                         </span>
                     </div>
                     
+                    <div class="input-group form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="airticket-is-baby-checkbox" name="is_baby" {{#if is_baby }} checked{{/if}} />
+                            <label for="airticket-is-baby-checkbox">Ребенок</label>
+                        </div>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="airticket-is-baggage-checkbox" name="is_baggage" {{#if is_baggage }} checked{{/if}} />
+                            <label for="airticket-is-baggage-checkbox">Багаж</label>
+                        </div>
+                    </div>
+
                 </script>
 
             </div>

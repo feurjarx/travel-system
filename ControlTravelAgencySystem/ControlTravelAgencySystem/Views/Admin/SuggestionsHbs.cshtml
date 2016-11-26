@@ -6,6 +6,7 @@
 
             {{#each airtickets}}
                 <div class="panel panel-default" 
+                     data-title="Авиабилет"
                      data-id="{{ id }}"
                      data-entity="airticket" 
                      data-json="{{json this}}"
@@ -57,6 +58,7 @@
             {{#each transfers}}
 
                 <div class="panel panel-default"
+                     data-title="Трансфер"
                      data-id="{{ id }}"
                      data-entity="transfer" 
                      data-json="{{json this}}"
@@ -141,7 +143,9 @@
             {{/each}}
 
             {{#each callout_rooms}}
+
                 <div class="panel panel-default" 
+                     data-title="Бронь номера в отеле"
                      data-id="{{ id }}"
                      data-entity="callout_room" 
                      data-json="{{json this}}"
@@ -213,6 +217,7 @@
             {{#each excursion_orders }}
 
                 <div class="panel panel-default"
+                     data-title="Заказ экскурсии"
                      data-id="{{ id }}"
                      data-entity="excursion_order" 
                      data-json="{{json this}}"
@@ -276,6 +281,7 @@
             {{#each hotel_service_orders }}
 
                 <div class="panel panel-default"
+                     data-title="Заказ доп. сервиса"
                      data-id="{{ id }}"
                      data-entity="hotel_service_order" 
                      data-json="{{json this}}"

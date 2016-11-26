@@ -51,6 +51,19 @@
                     <input required type="text" class="form-control" id="starting-address-input" name="starting_address" />
                 </div>
 
+                <div class="input-group form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" id="excursion-order-is-baby-checkbox" name="is_baby"/>
+                        <label for="excursion-order-is-baby-checkbox">Ребенок</label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="excursion-order-is-privilege-checkbox" name="is_privilege" />
+                        <label for="excursion-order-is-privilege-checkbox">По льготе</label>
+                    </div>
+                </div>
+
+
                 <!--HBS-->
                 <script class="hbs" type="text/x-handlebars-template">
 
@@ -77,6 +90,18 @@
                         <input required type="text" class="form-control" id="starting-address-input" name="starting_address" value="{{ starting_address }}"/>
                     </div>
                     
+                    <div class="input-group form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="excursion-order-is-baby-checkbox" name="is_baby" {{#if is_baby }}checked{{/if}}/>
+                            <label for="excursion-order-is-baby-checkbox">Ребенок</label>
+                        </div>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="excursion-order-is-privilege-checkbox" name="is_privilege" {{#if is_privilege }}checked{{/if}}/>
+                            <label for="excursion-order-is-privilege-checkbox">По льготе</label>
+                        </div>
+                    </div>
+
                 </script>
 
             </div>
