@@ -1,4 +1,4 @@
-﻿<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="suggestions-modal">
+﻿<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="suggestions-modal" data-callout-id="">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +9,33 @@
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
+                <div class="btn-group dropup pull-left">
+
+                    <div class="dropup">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Добавить
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="" data-toggle="modal" data-target="#callout-room-modal" class="add-entity-modal">Проживание в номере</a>
+                            </li>
+                            <li>
+                                <a href="" data-toggle="modal" data-target="#airticket-modal" class="add-entity-modal">Авиабилет</a>
+                            </li>
+                            <li>
+                                <a href="" data-toggle="modal" data-target="#transfer-modal" class="add-entity-modal">Поездку</a>
+                            </li>
+                            <li>
+                                <a href="" data-toggle="modal" data-target="#excursion-order-modal" class="add-entity-modal">Заказ экскурсии</a>
+                            </li>
+                            <li>
+                                <a href="" data-toggle="modal" data-target="#hotel-service-order-modal" class="add-entity-modal">Заказ доп.услуги</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 @*<button type="button" class="btn btn-primary">OK</button>*@
             </div>

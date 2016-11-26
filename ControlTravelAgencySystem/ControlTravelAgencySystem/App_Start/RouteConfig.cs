@@ -155,6 +155,12 @@ namespace ControlTravelAgencySystem
                 url: "{controller}/{action}",
                 defaults: new { controller = "HotelServices", action = "Create", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Suggestions",
+                url: "{controller}/{action}",
+                defaults: new { controller = "HotelServices", action = "Create", id = UrlParameter.Optional, type = UrlParameter.Optional }
+            );
         }
     }
 }

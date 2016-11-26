@@ -213,6 +213,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
+    <Compile Include="Controllers\SuggestionsController.cs" />
     <Compile Include="Controllers\ToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -465,6 +466,8 @@
     <Content Include="Views\Home\Tabs\PredefinedCalloutsTab.cshtml" />
     <Content Include="Views\Home\HbsTemplates\PredefinedCalloutsPaginationHbs.cshtml" />
     <Content Include="Views\Rooms\GetHotelServicesList.cshtml" />
+    <Content Include="Views\Blocks\ActionsBlock.cshtml" />
+    <Content Include="Views\Admin\Modals\CalloutRoomAddModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -474,6 +477,7 @@
     <Folder Include="Views\Excursions\" />
     <Folder Include="Views\Flights\" />
     <Folder Include="Views\HotelServices\" />
+    <Folder Include="Views\Suggestions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -5,14 +5,23 @@
         {{#if is_services }}
 
             {{#each airtickets}}
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+                <div class="panel panel-default" 
+                     data-id="{{ id }}"
+                     data-entity="airticket" 
+                     data-json="{{json this}}"
+                     data-modal-target="airticket-modal"
+                     data-delete-url="suggestions/remove/{{ id }}">
+
+                    <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-airticket" aria-controls="collapseOne" aria-expanded="false">
                                 Авиабилет №{{math @@index "+" 1}}
                             </a>
                             <span class="pull-right">от {{created_datetime}}</span>
                         </h4>
+
+                        @RenderPage("../Blocks/ActionsBlock.cshtml")
+
                     </div>
                     <div id="collapse-{{math @@index "+" 1}}-airticket" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
@@ -47,13 +56,16 @@
 
             {{#each transfers}}
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+                    <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-transfer" aria-controls="collapseOne" aria-expanded="false">
                                 Трансфер №{{math @@index "+" 1}} ({{ route.type }})
                             </a>
                             <span class="pull-right">от {{created_datetime}}</span>
                         </h4>
+
+                        @RenderPage("../Blocks/ActionsBlock.cshtml")
+
                     </div>
                     <div id="collapse-{{math @@index "+" 1}}-transfer" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
@@ -121,15 +133,23 @@
                 </div>
             {{/each}}
 
-            {{#each rooms}}
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+            {{#each callout_rooms}}
+                <div class="panel panel-default" 
+                     data-id="{{ id }}"
+                     data-entity="callout_room" 
+                     data-json="{{json this}}"
+                     data-modal-target="#callout-room-modal"
+                     data-delete-url="suggestions/delete/{{ id }}/?type=callout_room">
+
+                    <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-room" aria-controls="collapseOne" aria-expanded="false">
                                 Номер {{ room.number }} в отеле {{ room.hotel.name }} ({{ room.hotel.city.name }}, {{ room.hotel.city.country.name }})
                             </a>
                             <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
+
+                        @RenderPage("../Blocks/ActionsBlock.cshtml")
                     </div>
                     <div id="collapse-{{math @@index "+" 1}}-room" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
@@ -185,13 +205,15 @@
             
             {{#each excursions }}
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+                    <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-excursion" aria-controls="collapseOne" aria-expanded="false">
                                 Билет №{{math @@index "+" 1}} на эксурсию {{ excursion.name }}{{#if excursion.city_name }} ({{ excursion.city_name }}){{/if}}
                             </a>
                             <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
+
+                        @RenderPage("../Blocks/ActionsBlock.cshtml")
                     </div>
                     <div id="collapse-{{math @@index "+" 1}}-excursion" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
@@ -239,13 +261,15 @@
 
             {{#each hotel_services }}
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+                    <div class="panel-heading space-between" role="tab">
                         <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{math @@index "+" 1}}-hotel-service" aria-controls="collapseOne" aria-expanded="false">
                                 Заказ №{{math @@index "+" 1}} на платную услугу{{#if hotel_service.hotel_name}} от отеля {{ hotel_service.hotel_name }}{{/if}}
                             </a>
                             <span class="pull-right">от {{ created_datetime }}</span>
                         </h4>
+
+                        @RenderPage("../Blocks/ActionsBlock.cshtml")
                     </div>
                     <div id="collapse-{{math @@index "+" 1}}-hotel-service" class="panel-collapse collapse" role="tabpanel">
                         <div class="panel-body">
@@ -286,7 +310,6 @@
             <div class="alert alert-info margin-none">Данный клиент не выбрал услуг</div>
 
         {{/if}}
-
 
     </div>
 

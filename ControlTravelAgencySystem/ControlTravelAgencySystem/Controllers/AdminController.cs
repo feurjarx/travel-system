@@ -282,6 +282,9 @@ namespace ControlTravelAgencySystem.Controllers
                         model.callouts = model.callouts.Where(c => c.is_predefined == 1).ToList();
                     }
 
+
+                    model.rooms = _dbContext.rooms.ToList();
+
                     break;
             }
         }

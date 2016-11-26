@@ -30,6 +30,10 @@ Handlebars.registerHelper('slice', function (value, start, end) {
     return end && typeof end === "number" ? value.slice(start, end) : value.slice(start);
 });
 
+Handlebars.registerHelper('json', function (context) {
+    return JSON.stringify(context);
+});
+
 Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
     if (arguments.length < 4) {
         // Operator omitted, assuming "+"

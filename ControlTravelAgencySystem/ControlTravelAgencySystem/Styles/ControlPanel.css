@@ -26,3 +26,7 @@
 .internal-interval-5 > *:last-child {
     margin-right: 0;
 }
+
+#accordion .panel-heading > .panel-title{
+    flex-grow: 1;
+}

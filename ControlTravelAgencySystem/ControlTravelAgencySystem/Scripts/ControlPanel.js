@@ -86,6 +86,9 @@ $(function () {
             return;
         }
 
+        var $calloutItem = $(this);
+        var calloutId = $calloutItem.data('id');
+
         var successAction = function (params) {
 
             $('#suggestions-modal')
@@ -96,11 +99,10 @@ $(function () {
                 .text(params.fullname)
                 .end()
                 .modal()
+                .data('callout-id', calloutId)
             ;
         };
 
-        var $calloutItem = $(this);
-        var calloutId = $calloutItem.data('id');
         var fullname = $calloutItem.data('fullname');
 
         var responseFromCache = cache.get(calloutId);
@@ -208,6 +210,9 @@ $(function () {
     $(document).on('click', '.btn-entity-remove', function () {
 
         var $activeRow = $(this).closest('tr');
+        if (!$activeRow.length) {
+            $activeRow = $(this).closest('.panel');
+        }
 
         var warningText =  $activeRow.data('warning-text') || '';
         if (warningText) {
@@ -293,6 +298,7 @@ $(function () {
 
             switch (entityName) {
 
+                case 'callout_room':
                 case 'hotel_service':
                 case 'excursion':
                 case 'route':
@@ -375,20 +381,41 @@ $(function () {
 
         return result;
     }
-    // START EDIT ZONE
+    // START EDIT
     $(document).on('click', '.btn-modal-edit', function () {
-        var $activeRow = $(this).closest('tr');
-        var $modalClone = $($activeRow.data('modal-target')).clone();
+
+        var $activeItem = $(this).closest('tr');
+        if (!$activeItem.length) {
+            $activeItem = $(this).closest('.panel');
+        }
+
+        var $modalClone = $($activeItem.data('modal-target')).clone();
         var $template = $modalClone.find('.hbs');
-        var modalBodyHtml = render.getPainterFor($template)($activeRow.data('json'));
+        var modalBodyHtml = render.getPainterFor($template)($activeItem.data('json'));
         $modalClone.find('.modal-title').text('Редактирование объекта');
         $modalClone.find('.modal-body').html(modalBodyHtml);
 
         $modalClone
             .on('shown.bs.modal', function (e) {
 
-                var $datetimepickerBlock, ts;
+                var $datetimepickerBlock, ts, startingTime, startingDateTime, timeParts, dateParts;
                 switch (true) {
+
+                    case $modalClone.data('entity') === 'callout_room':
+
+                        $datetimepickerBlock = $('#edit-start-living-at-datetimepicker');
+                        if ($datetimepickerBlock.data('DateTimePicker')) {
+                            $datetimepickerBlock.data('DateTimePicker').destroy();
+                        }
+
+                        ts = $activeItem.data('json')['start_living_at'];
+                        $datetimepickerBlock.datetimepicker({
+                            defaultDate: new Date(ts * 1000),
+                            locale: 'ru'
+                        });
+
+                        break;
+
                     case $modalClone.data('entity') === 'employee':
 
                         $datetimepickerBlock = $('#edit-birthday-at-datetimepicker');
@@ -396,7 +423,7 @@ $(function () {
                             $datetimepickerBlock.data('DateTimePicker').destroy();
                         }
 
-                        ts = $activeRow.data('json')['person']['birthday_at'];
+                        ts = $activeItem.data('json')['person']['birthday_at'];
                         $datetimepickerBlock.datetimepicker({
                             defaultDate: new Date(ts * 1000),
                             locale: 'ru',
@@ -412,7 +439,7 @@ $(function () {
                             $datetimepickerBlock.data('DateTimePicker').destroy();
                         }
 
-                        ts = $activeRow.data('json')['flight_at'];
+                        ts = $activeItem.data('json')['flight_at'];
                         $datetimepickerBlock.datetimepicker({
                             defaultDate: new Date(ts * 1000),
                             locale: 'ru',
@@ -428,9 +455,9 @@ $(function () {
                             $datetimepickerBlock.data('DateTimePicker').destroy();
                         }
 
-                        var startingTime = $activeRow.data('json')['starting_time'];
+                        startingTime = $activeItem.data('json')['starting_time'];
                         if (startingTime) {
-                            var timeParts = $activeRow.data('json')['starting_time'].split(':');
+                            timeParts = $activeItem.data('json')['starting_time'].split(':');
                             $datetimepickerBlock.datetimepicker({
                                 defaultDate: new Date(0, 0, 0, timeParts[0], timeParts[1], timeParts[2]),
                                 locale: 'ru',
@@ -455,11 +482,24 @@ $(function () {
 
                 var paramsList = preSubmit($form);
                 if (paramsList) {
+
                     $form.find('.modal-title').mask();
+
+                    // for suggestions
+                    paramsList.push({
+                        name: 'entity',
+                        value: $form.data('entity')
+                    });
+
+                    // for suggestions
+                    paramsList.push({
+                        name: 'callout_id',
+                        value: $('#suggestions-modal').data('callout-id')
+                    });
 
                     $.ajax({
                         method: 'post',
-                        url: $form.data('edit-url') + '/' + $activeRow.data('id'),
+                        url: $form.data('edit-url') + '/' + $activeItem.data('id'),
                         data: paramsList,
                         success: function (response) {
 
@@ -499,7 +539,6 @@ $(function () {
                         }
                     });
                 }
-
             });
 
         $modalClone.modal('show');
@@ -515,6 +554,18 @@ $(function () {
         var paramsList = preSubmit($form);
         if (paramsList) {
             $form.find('.modal-title').mask();
+
+            // for suggestions
+            paramsList.push({
+                name: 'entity',
+                value: $form.data('entity')
+            });
+
+            // for suggestions
+            paramsList.push({
+                name: 'callout_id',
+                value: $('#suggestions-modal').data('callout-id')
+            });
 
             $.ajax({
                 method: 'post',

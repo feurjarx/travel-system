@@ -75,13 +75,16 @@ namespace ControlTravelAgencySystem.Controllers
 
                 airport fromAirport = null;
                 airport toAirport = null;
+
+                double payment = 0;
+
                 if (route != null)
                 {
                     fromAirport = route.airport;
                     toAirport = route.airport1;
+                    payment = route.cost;
                 }
-
-                double payment = route.cost;
+                
                 if (transfer.is_baggage == 1)
                 {
                     payment += payment * 0.1;
@@ -103,7 +106,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                     payment = transfer.payment == 0 ? payment : transfer.payment,
 
-                    route = new
+                    route = route != null ? new
                     {
                         id = route.id,
                         type = route.type,
@@ -133,12 +136,12 @@ namespace ControlTravelAgencySystem.Controllers
                         total_seats = route.total_seats,
                         distance = route.distance,
                         cost = route.cost,
-                    }
+                    } : null
                 });
             }
 
             // Сбор данных о желаемых комнатах
-            List<object> roomsList = new List<object>();
+            List<object> calloutRoomsList = new List<object>();
             foreach (callout_room calloutRoom in callout.callout_room)
             {
                 room room = calloutRoom.room;
@@ -150,11 +153,12 @@ namespace ControlTravelAgencySystem.Controllers
                 int numberNights = calloutRoom.duration / 24;
                 double payment = calloutRoom.room.cost_per_day * numberNights;
 
-                roomsList.Add(new
+                calloutRoomsList.Add(new
                 {
-
+                    id = calloutRoom.id,
                     created_datetime = Utils.tsToDateTime(calloutRoom.created_at).ToString(Constants.ddMMMyyyyHmmss),
                     start_living_datetime = Utils.tsToDateTime(calloutRoom.start_living_at).ToString(Constants.ddMMMyyyyHmmss),
+                    start_living_at = calloutRoom.start_living_at,
                     duration = calloutRoom.duration,
                     payment = calloutRoom.payment == 0 ? payment : calloutRoom.payment,
 
@@ -287,7 +291,7 @@ namespace ControlTravelAgencySystem.Controllers
 
                 airtickets = airticketsList,
                 transfers = transfersList,
-                rooms = roomsList,
+                callout_rooms = calloutRoomsList,
                 excursions = excursionOrdersList,
                 hotel_services = hotelServiceOrdersList,
 
@@ -297,7 +301,7 @@ namespace ControlTravelAgencySystem.Controllers
                     ||
                     transfersList.Count() > 0
                     ||
-                    roomsList.Count() > 0
+                    calloutRoomsList.Count() > 0
                     ||
                     excursionOrdersList.Count() > 0
                     ||
