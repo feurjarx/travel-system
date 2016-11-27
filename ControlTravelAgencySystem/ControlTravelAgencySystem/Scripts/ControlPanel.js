@@ -186,14 +186,17 @@ $(function () {
                             } else {
 
                                 notification({
-                                    text: 'Успешно! Объект(-ы) удален(-ы)' + reloadText,
+                                    text: 'Успешно! Объект(-ы) удален(-ы)',
                                     type: 'success'
                                 }, 5000);
 
-                                $form.modal('hide').get(0).reset();
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 3000);
+
+                                $calloutsTable.find('input[type="checkbox"]:checked').each(function (_, elem) {
+
+                                    $(elem).closest('tr').fadeOut(300, function () {
+                                        $(this).remove();
+                                    });
+                                });
                             }
                         },
                         error: function (err) {
@@ -274,7 +277,9 @@ $(function () {
                                     type: 'success'
                                 }, 5000);
 
-                                $activeRow.fadeOut();
+                                $activeRow.fadeOut(300, function () {
+                                    $(this).remove();
+                                });
                             }
                         },
                         error: function (err) {

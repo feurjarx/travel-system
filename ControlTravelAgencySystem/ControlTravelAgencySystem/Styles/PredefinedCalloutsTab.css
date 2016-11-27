@@ -1,0 +1,12 @@
+#predefined-callouts-container > div.flexbox {
+    flex-wrap: wrap
+}
+
+#predefined-callouts-container > div > .list-group {
+    width: 50%;
+    padding: 5px;
+}
+
+#predefined-callouts-container > div > .list-group > a {
+    cursor: text;
+}

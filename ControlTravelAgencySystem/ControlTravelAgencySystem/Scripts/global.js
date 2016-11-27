@@ -34,6 +34,16 @@ Handlebars.registerHelper('json', function (context) {
     return JSON.stringify(context);
 });
 
+Handlebars.registerHelper('moment', function (ts, format) {
+    
+    return ts ? moment.unix(ts).locale('ru').format(format) : '';
+});
+
+Handlebars.registerHelper('ago', function (ts) {
+
+    return ts ? moment(ts * 1000, "x").locale('ru').fromNow() : '';
+});
+
 Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
     if (arguments.length < 4) {
         // Operator omitted, assuming "+"
