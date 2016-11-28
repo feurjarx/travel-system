@@ -110,8 +110,11 @@ $(function () {
                 .find('.modal-body')
                 .html(render.getPainterFor('#suggestions-box')(params))
                 .end()
-                .find('.modal-title .fullname')
-                .text(params.fullname)
+                .find('.modal-title')
+                .html(
+                    '<span>Пожелания клиента ' + params.fullname +'</span> ' +
+                    '<span id="suggestions-total-payment" class="badge progress-bar-success">' + params.total_payment + ' <i class="fa fa-rub"></i></span>'
+                )
                 .end()
                 .modal()
                 .data('callout-id', calloutId)
@@ -278,6 +281,12 @@ $(function () {
                                 }, 5000);
 
                                 $activeRow.fadeOut(300, function () {
+
+                                    var $suggestionsTotalPayment = $('#suggestions-total-payment');
+                                    $suggestionsTotalPayment.text(
+                                            (+$suggestionsTotalPayment.text())
+                                        -
+                                            (+$activeRow.data('payment')));
                                     $(this).remove();
                                 });
                             }
@@ -611,7 +620,7 @@ $(function () {
 
                                 setTimeout(function () {
                                     location.reload();
-                                }, 3000);
+                                }, 1000);
                             }
                         },
                         error: function (err) {
@@ -680,7 +689,7 @@ $(function () {
                         $form.modal('hide').get(0).reset();
                         setTimeout(function () {
                             location.reload();
-                        }, 3000);
+                        }, 1000);
                     }
                 },
                 error: function (err) {

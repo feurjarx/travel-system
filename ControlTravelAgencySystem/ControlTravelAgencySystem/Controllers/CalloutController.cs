@@ -24,6 +24,7 @@ namespace ControlTravelAgencySystem.Controllers
         [HttpPost]
         public JsonResult Suggestions(int id)
         {
+            double totalPayment = 0;
             // С вкладки Заявки Админки при клике на заявку сюда приходит id выбранной заявки
             callout callout = _dbContext.callouts.Where(c => c.id == id).FirstOrDefault();
 
@@ -48,6 +49,8 @@ namespace ControlTravelAgencySystem.Controllers
                 {
                     payment = 0;
                 }
+
+                totalPayment += payment;
 
                 airticketsList.Add(new
                 {
@@ -101,6 +104,8 @@ namespace ControlTravelAgencySystem.Controllers
                 {
                     payment = 0;
                 }
+
+                totalPayment += payment;
 
                 transfersList.Add(new
                 {
@@ -159,6 +164,8 @@ namespace ControlTravelAgencySystem.Controllers
 
                 int numberNights = calloutRoom.duration / 24;
                 double payment = calloutRoom.room.cost_per_day * numberNights;
+
+                totalPayment += payment;
 
                 calloutRoomsList.Add(new
                 {
@@ -219,7 +226,7 @@ namespace ControlTravelAgencySystem.Controllers
                 excursion excursion = excursionOrder.excursion;
 
                 double payment = excursion.cost;
-
+                
                 if (excursionOrder.is_privilege == 1)
                 {
                     payment -= payment * 0.5;
@@ -229,6 +236,8 @@ namespace ControlTravelAgencySystem.Controllers
                 {
                     payment = 0;
                 }
+
+                totalPayment += payment;
 
                 excursionOrdersList.Add(new
                 {
@@ -265,6 +274,8 @@ namespace ControlTravelAgencySystem.Controllers
 
                 double payment = service.cost_per_min * hotelServiceOrder.duration;
 
+                totalPayment += payment;
+
                 hotelServiceOrdersList.Add(new
                 {
 
@@ -297,14 +308,13 @@ namespace ControlTravelAgencySystem.Controllers
             // возврат данных на фронтэнд (клиенту)
             return Json(new
             {
-
                 airtickets = airticketsList,
                 transfers = transfersList,
                 callout_rooms = calloutRoomsList,
                 excursion_orders = excursionOrdersList,
                 hotel_service_orders = hotelServiceOrdersList,
 
-                // далее трубопровод =D P.S. веселые приключения программиста
+                total_payment = totalPayment,
                 is_services =
                     airticketsList.Count() > 0
                     ||
