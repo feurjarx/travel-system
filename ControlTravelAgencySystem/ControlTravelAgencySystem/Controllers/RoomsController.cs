@@ -153,33 +153,45 @@ namespace ControlTravelAgencySystem.Controllers
 
                 var city = room.hotel.city;
 
-                var flight = _dbContext.flights
+                var flights = _dbContext.flights
                     .Include("airport")
-                    .FirstOrDefault(x => x.airport1.city_id == city.id);
-                
-                var isChecked = false;
+                    .Where(x => x.airport1.city_id == city.id)
+                    .ToList();
 
-                // переписать говнокод
-                if (list2 != null)
-                    if (list2.Any(x => x == flight.id))
-                        isChecked = true;
+                var flightsList = new List<FavotiteListView.FavotiteListViewItem.FlightsItem>();
 
-                DateTime? flightAt = null;
+                foreach (var flight in flights)
+                {
+                    var isChecked = false;
 
-                if (flight != null)
-                    flightAt = Utils.tsToDateTime(flight.flight_at);
+                    // переписать говнокод
+                    if (list2 != null)
+                        if (list2.Any(x => x == flight.id))
+                            isChecked = true;
+
+                    DateTime? flightAt = null;
+
+                    if (flight != null)
+                        flightAt = Utils.tsToDateTime(flight.flight_at);
+
+                    flightsList.Add(new FavotiteListView.FavotiteListViewItem.FlightsItem
+                    {
+                        IsChecked = isChecked,
+                        FlightId = flight?.id,
+                        Code = flight?.code,
+                        FromAirport = flight?.airport,
+                        ToAirport = flight?.airport1,
+                        FlightAt = flightAt,
+                        Duration = flight?.duration,
+                        AirlineName = flight?.airline.name
+                    });
+                }
 
                 viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
                 {
-                    IsChecked = isChecked,
                     SelectedRoom = room,
-                    FlightId = flight?.id,
-                    Code = flight?.code,
-                    FromAirport = flight?.airport,
-                    ToAirport = flight?.airport1,
-                    FlightAt = flightAt,
-                    Duration = flight?.duration,
-                    AirlineName = flight?.airline.name
+                    FlightId = flights[0].id,
+                    FlightsItems = flightsList
                 });
             }
 

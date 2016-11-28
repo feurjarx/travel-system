@@ -56,12 +56,11 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2>Авиакомпания @viewItem.AirlineName</h2>
+                    @*<h2>Авиакомпания @viewItem.AirlineName</h2>*@
                 </div>
                 <div class="panel-body">
                     @*<h3>...</h3>*@
                 </div>
-
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -94,38 +93,41 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" class="flight-checkbox" checked="@viewItem.IsChecked" value="@viewItem.FlightId" id="flight-@(viewItem.FlightId)-checkbox" />
-                                                        <label for="flight-@(viewItem.FlightId)-checkbox"></label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    @viewItem.Code
-                                                </td>
-                                                <td>
-                                                    @viewItem.AirlineName
-                                                </td>
-                                                <td>
-                                                    @viewItem.FromAirport.city.name
-                                                </td>
-                                                <td>
-                                                    @viewItem.FromAirport.name
-                                                </td>
-                                                <td>
-                                                    @viewItem.ToAirport.city.name
-                                                </td>
-                                                <td>
-                                                    @viewItem.ToAirport.name
-                                                </td>
-                                                <td>
-                                                    @viewItem.FlightAt
-                                                </td>
-                                                <td>
-                                                    @viewItem.Duration ч.
-                                                </td>
-                                            </tr>
+                                            @foreach (var flightItem in viewItem.FlightsItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" class="flight-checkbox" checked="@flightItem.IsChecked" value="@flightItem.FlightId" id="flight-@(flightItem.FlightId)-checkbox" />
+                                                            <label for="flight-@(flightItem.FlightId)-checkbox"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.Code
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.AirlineName
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.FromAirport.city.name
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.FromAirport.name
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.ToAirport.city.name
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.ToAirport.name
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.FlightAt
+                                                    </td>
+                                                    <td>
+                                                        @flightItem.Duration ч.
+                                                    </td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </td>

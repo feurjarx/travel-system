@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ControlTravelAgencySystem.Models.ViewModels
 {
@@ -9,15 +7,27 @@ namespace ControlTravelAgencySystem.Models.ViewModels
     {
         public class FavotiteListViewItem
         {
-            public bool IsChecked { get; set; }
+            public class FlightsItem
+            {
+                public bool IsChecked { get; set; }
+                public int? FlightId { get; set; }
+                public string Code { get; set; }
+                public airport FromAirport { get; set; }
+                public airport ToAirport { get; set; }
+                public DateTime? FlightAt { get; set; }
+                public int? Duration { get; set; }
+                public string AirlineName { get; set; }
+            }
+
             public room SelectedRoom { get; set; }
             public int? FlightId { get; set; }
-            public string Code { get; set; }
-            public airport FromAirport { get; set; }
-            public airport ToAirport { get; set; }
-            public DateTime? FlightAt { get; set; }
-            public int? Duration { get; set; }
-            public string AirlineName { get; set; }
+
+            public List<FlightsItem> FlightsItems { get; set; }
+
+            public FavotiteListViewItem()
+            {
+                FlightsItems = new List<FlightsItem>();
+            }
         }
 
         public List<FavotiteListViewItem> FavotiteListViewItems { get; set; }
@@ -26,7 +36,6 @@ namespace ControlTravelAgencySystem.Models.ViewModels
         {
             FavotiteListViewItems = new List<FavotiteListViewItem>();
         }
-
 
         public string Fullname { get; set; }
         public string Email { get; set; }
