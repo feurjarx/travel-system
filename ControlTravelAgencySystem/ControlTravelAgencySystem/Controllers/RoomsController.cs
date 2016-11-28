@@ -187,10 +187,15 @@ namespace ControlTravelAgencySystem.Controllers
                     });
                 }
 
+                var flightId = 0;
+
+                if (flights.Count > 0)
+                    flightId = flights[0].id;
+
                 viewModel.FavotiteListViewItems.Add(new FavotiteListView.FavotiteListViewItem
                 {
                     SelectedRoom = room,
-                    FlightId = flights[0].id,
+                    FlightId = flightId,
                     FlightsItems = flightsList
                 });
             }
